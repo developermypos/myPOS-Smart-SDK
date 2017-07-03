@@ -64,7 +64,7 @@ dependencies {
 
 If your project uses git for version control, run the following command in the project's root:
 ``` bash
-git submodule add https://github.com/developermypos/... smartsdk
+git submodule add https://github.com/developermypos/myPOS-Smart-SDK.git smartsdk
 ```
 __Note:__ Older versions of Git might need ``git submodule update --init --recursive`` to be called
 
