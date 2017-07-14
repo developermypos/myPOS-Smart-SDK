@@ -25,5 +25,9 @@ public class TransactionProcessingResult {
      * Some needed data was missing. Mainly used when a Void transaction is requested when there is no previous transaction data present
      */
     public static final int NO_DATA_FOUND        = 5;
+    /**
+     * When a currency different than the device's currency is set when calling the payment app
+     */
+    public static final int INVALID_CURRENCY     = 6;
 
 }

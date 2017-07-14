@@ -24,6 +24,7 @@ No sensitive card data is ever passed through to or stored on the merchant&#39;s
 
   * [Print a custom receipt](*print-a-custom-receipt)
 
+* [Response](#response)
 
 ## Installation
 
@@ -105,8 +106,9 @@ Once the SDK is added to your project, using the Payment API can be done with th
 ```java
 // Build the payment call
  MyPOSPayment payment = MyPOSPayment.builder()
-         // Mandatory parameter
+         // Mandatory parameters
          .productAmount(13.37)
+         .currency(Currency.EUR)
          // Foreign transaction ID. Maximum length: 128 characters
          .foreignTransactionId(UUID.randomUUID().toString())
          .build();
@@ -173,6 +175,7 @@ if (transaction_approved) {
 // Build the refund request
 MyPOSRefund refund = MyPOSRefund.builder()
         .refundAmount(1.23)
+        .currency(Currency.EUR)
         .foreignTransactionId(UUID.randomUUID().toString())
         .build();
 
@@ -345,3 +348,40 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
 }
 
 ```
+
+
+### Response
+
+When a transaction has finished, an Intent with the following data is returned to the calling Activity:
+
+* reference_number - Internal myPOS reference number for the transaction
+* cardholder_name - Emboss name on the card
+* date_time - Date and time of the transaction formatted as YYMMDDHHmmss
+* pan - Obfuscated PAN, e.g. "XXXX-XXXX-XXXX-8008"
+* pan_hash - a hash of the PAN
+* status (int) - one of the constants in the [TransactionProcessingResult](mypossmartsdk/src/main/java/com/mypos/smartsdk/TransactionProcessingResult.java) class
+* status_text - a textual representation of the status
+* card_brand - MASTERCARD, MAESTRO, VISA, PAYPASS, etc.
+* card_entry_mode - ENTRY_MODE_MAGSTR, ENTRY_MODE_EMV, ENTRY_MODE_CONTACTLESS, etc.
+* response_code
+* authorization_code
+* signature_required (boolean)
+* TSI
+* TVR
+* AID
+* STAN
+* CVM
+* application_name
+* transaction_approved (boolean)
+* merchant_data - Bundle with data from your myPOS profile used for printing the receipts. It contains:
+  * billing_descriptor
+  * address_line1
+  * address_line2
+  * MID
+  * custom_receipt_row1
+  * custom_receipt_row2
+
+
+Note 1: Unless noted, extras in the bundle are Strings.
+
+Note 2: Depending on the card and transaction type, some of the extras are not always present.
