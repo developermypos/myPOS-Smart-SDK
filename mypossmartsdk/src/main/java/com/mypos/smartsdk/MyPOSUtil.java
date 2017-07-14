@@ -31,6 +31,18 @@ public class MyPOSUtil {
      */
     public static final String INTENT_TRANSACTION_REQUEST_CODE        = "request_code";
     /**
+     * For setting the transaction currency
+     */
+    public static final String INTENT_TRANSACTION_CURRENCY        = "currency";
+    /**
+     * If true the payment app won't show the confirmation screen
+     */
+    public static final String INTENT_SKIP_CONFIRMATION_SCREEN = "skip_confirmation_screen";
+    /**
+     * Tells the payment app if receipts should be printed
+     */
+    public static final String INTENT_TRANSACTION_RECEIPT_PRINT_MODE = "receipt_print_mode";
+    /**
      * Used for passing the foreign transaction ID parameter to the payment activity
      */
     public static final String INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID = "foreign_transaction_id";

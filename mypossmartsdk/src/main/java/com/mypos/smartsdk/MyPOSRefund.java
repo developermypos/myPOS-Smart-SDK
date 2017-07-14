@@ -5,17 +5,19 @@ package com.mypos.smartsdk;
  * Describes a refund
  */
 public class MyPOSRefund {
-    private double refundAmount;
-    private String foreignTransactionId;
+    private double   refundAmount;
+    private String   foreignTransactionId;
+    private Currency currency;
 
     private MyPOSRefund(Builder builder) {
         this.refundAmount = builder.refundAmount;
         this.foreignTransactionId = builder.foreignTransactionId;
+        this.currency = builder.currency;
     }
 
 
-    public static MyPOSRefund.Builder builder() {
-        return new MyPOSRefund.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     public double getRefundAmount() {
@@ -36,12 +38,27 @@ public class MyPOSRefund {
         return this;
     }
 
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public MyPOSRefund setCurrency(Currency currency) {
+        this.currency = currency;
+        return this;
+    }
+
     public static final class Builder {
-        private Double refundAmount;
-        private String foreignTransactionId;
+        private Double   refundAmount;
+        private String   foreignTransactionId;
+        private Currency currency;
 
         public Builder refundAmount(Double productAmount) {
             this.refundAmount = productAmount;
+            return this;
+        }
+
+        public Builder currency(Currency currency) {
+            this.currency = currency;
             return this;
         }
 
@@ -51,7 +68,8 @@ public class MyPOSRefund {
         }
 
         public MyPOSRefund build() {
-            if (this.refundAmount != null && this.refundAmount != 0.0D) {
+            if (this.refundAmount != null && this.refundAmount != 0.0D
+                    && this.currency != null) {
                 return new MyPOSRefund(this);
             } else {
                 throw new IllegalArgumentException("Invalid amount");
