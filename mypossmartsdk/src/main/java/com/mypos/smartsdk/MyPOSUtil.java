@@ -6,6 +6,10 @@ public class MyPOSUtil {
      */
     public static final String PAYMENT_CORE_ENTRY_POINT_INTENT           = "com.mypos.transaction.START_TRANSACTION";
     /**
+     * Used for starting a MOTO transaction
+     */
+    public static final String PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT             = "com.mypos.transaction.START_MOTO_TRANSACTION";
+    /**
      * Start a void transaction
      */
     public static final String PAYMENT_CORE_VOID_INTENT                  = "com.mypos.transaction.VOID";
@@ -46,15 +50,40 @@ public class MyPOSUtil {
      */
     public static final String INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID = "foreign_transaction_id";
     /**
+     * Whether or not tips should be enabled
+     */
+    public static final String INTENT_TRANSFER_TIPS_ENABLED              = "tips_enabled";
+    /**
+     * Amount of the tip
+     */
+    public static final String INTENT_TRANSACTION_TIP_AMOUNT             = "tip_amount";
+    /**
+     * Code used for completing a preauthorization transaction
+     */
+    public static final String INTENT_TRANSFER_PREAUTH_CODE              = "preauth_code";
+
+    /**
      * Request code for a Payment
      */
-    public static final int    TRANSACTION_TYPE_PAYMENT                  = 101;
+    public static final int TRANSACTION_TYPE_PAYMENT = 101;
     /**
      * Request code for Void
      */
-    public static final int    TRANSACTION_TYPE_VOID                     = 102;
+    public static final int TRANSACTION_TYPE_VOID    = 102;
     /**
      * Request code for a Refund
      */
-    public static final int    TRANSACTION_TYPE_REFUND                   = 103;
+    public static final int TRANSACTION_TYPE_REFUND  = 103;
+    /**
+     * Request code for creating a preauthorization request
+     */
+    public static final int TRANSACTION_TYPE_PREAUTH = 104;
+    /**
+     * Request code for completing a preauthorization request
+     */
+    public static final int TRANSACTION_TYPE_PREAUTH_COMPLETION = 105;
+    /**
+     * Request code for cancelling a preauthorization request
+     */
+    public static final int TRANSACTION_TYPE_PREAUTH_CANCELLATION = 106;
 }

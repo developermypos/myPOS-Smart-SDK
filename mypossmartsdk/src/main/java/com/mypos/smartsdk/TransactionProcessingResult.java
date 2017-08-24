@@ -29,5 +29,8 @@ public class TransactionProcessingResult {
      * When a currency different than the device's currency is set when calling the payment app
      */
     public static final int INVALID_CURRENCY     = 6;
-
+    /**
+     * When the amount is greater than the allowed maximum or less than the allowed minimum.
+     */
+    public static final int INVALID_AMOUNT       = 7;
 }
