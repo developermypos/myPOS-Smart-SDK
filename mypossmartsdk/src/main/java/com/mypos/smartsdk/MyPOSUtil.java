@@ -8,11 +8,14 @@ public class MyPOSUtil {
     /**
      * Used for starting a MOTO transaction
      */
-    public static final String PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT             = "com.mypos.transaction.START_MOTO_TRANSACTION";
+    public static final String PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT      = "com.mypos.transaction.START_MOTO_TRANSACTION";
     /**
      * Start a void transaction
      */
     public static final String PAYMENT_CORE_VOID_INTENT                  = "com.mypos.transaction.VOID";
+
+    public static final String PAYMENT_CORE_ENTRY_PAYMENT_REQUEST        = "com.mypos.transaction.PAYMENT_REQUEST";
+
     /**
      * Reprint the last transaction receipt
      */
@@ -62,6 +65,12 @@ public class MyPOSUtil {
      */
     public static final String INTENT_TRANSFER_PREAUTH_CODE              = "preauth_code";
 
+    public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_GSM      = "recipient_gsm";
+    public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_EMAIL    = "recipient_email";
+    public static final String INTENT_PAYMENT_REQUEST_EXPIRY_DAYS        = "expiry_days";
+    public static final String INTENT_PAYMENT_REQUEST_REASON             = "reason";
+    public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_NAME     = "recipient_name";
+
     /**
      * Request code for a Payment
      */
@@ -86,4 +95,17 @@ public class MyPOSUtil {
      * Request code for cancelling a preauthorization request
      */
     public static final int TRANSACTION_TYPE_PREAUTH_CANCELLATION = 106;
+
+    // SAM Card
+    public static final String INTENT_SAM_CARD                      = "com.mypos.action.SAM_CARD";
+    public static final String INTENT_SAM_CARD_COMMAND              = "command";
+    public static final String INTENT_SAM_CARD_SLOT                 = "slot";
+    public static final String INTENT_SAM_CARD_REQUEST              = "request";
+    public static final String INTENT_SAM_CARD_RESPONSE             = "response";
+
+    public static final String INTENT_SAM_CARD_COMMAND_DETECT       = "detect";
+    public static final String INTENT_SAM_CARD_COMMAND_OPEN         = "open";
+    public static final String INTENT_SAM_CARD_COMMAND_CLOSE        = "close";
+    public static final String INTENT_SAM_CARD_COMMAND_ISOCOMMAND   = "isoCommand";
+
 }

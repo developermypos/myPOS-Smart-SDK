@@ -1,5 +1,11 @@
 package com.mypos.smartsdk.print;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  *
  */
@@ -13,7 +19,8 @@ public class PrinterCommand {
         HEADER,
         LOGO,
         TEXT,
-        FOOTER
+        FOOTER,
+        IMAGE
     }
 
     /**
@@ -37,6 +44,10 @@ public class PrinterCommand {
      * The encoding
      */
     private String  encoding;
+    /**
+     * Image to be printed
+     */
+    private String imageEncoded;
 
     public PrinterCommand(CommandType type) {
         this.type = type;
@@ -68,6 +79,11 @@ public class PrinterCommand {
         this.text = text;
         this.doubleWidth = doubleWidth;
         this.doubleHeight = doubleHeight;
+    }
+
+    public PrinterCommand(CommandType type, Bitmap image) {
+        this.type = type;
+        setImage(image);
     }
 
     public String getText() {
@@ -112,6 +128,23 @@ public class PrinterCommand {
 
     public PrinterCommand setType(CommandType type) {
         this.type = type;
+        return this;
+    }
+
+    public Bitmap getImage() {
+        byte[] decodedString = Base64.decode(this.imageEncoded, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
+
+    public PrinterCommand setImage(Bitmap image) {
+        final int COMPRESSION_QUALITY = 100;
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+
+        image.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY, byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        this.imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
         return this;
     }
 }

@@ -12,4 +12,11 @@ public enum Currency {
     USD,
     RON,
     HRK,
+    CZK,
+    DKK,
+    HUF,
+    ISK,
+    NOK,
+    SEK,
+    PLN,
 }

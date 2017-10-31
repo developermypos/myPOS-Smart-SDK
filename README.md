@@ -1,8 +1,8 @@
 # myPOS-Smart-SDK
 
-This repository provides a guidance how to build your own app on Android myPOS Smart POS device and communicate with the core module of the device, to accept card payments (including but not limited to VISA, Mastercard, UnionPay International, JCB, Bancontact). To process checkout SDK provides management of the terminal to complete all the steps for transaction processing, refund funds to the customer card account, using printer of the device to print your own bill slip.
+This repository provides a guidance on integrating an Android app with a myPOS Smart device. Once integrated, the app will be able to communicate with the core device components in order to accept card payments (including but not limited to VISA, Mastercard, UnionPay International, JCB, Bancontact). myPOS-Smart-SDK complеments a Smart POS terminal in order to initiate transaction, complete all steps for processing payment, make refund to the customer card account and print a custom bill slip using the device printer. The built-in functionalities of myPOS-Smart-SDK allow you to send Payment Requests, manage operations for the first and second SAM component the myPOS Smart device has and print bitmap image integrated to the receipt (e.g. QR Code).
 
-No sensitive card data is ever passed through to or stored on the merchant&#39;s phone. All data is encrypted by the core card terminal module, which has been fully certified to the highest industry standards (PCI, EMV I &amp; II, Visa, MasterCard &amp; Amex).
+No sensitive card data is ever passed through or stored on myPOS Smart device. All data is encrypted by the core card terminal module, which has been fully certified to the highest industry standards (PCI, EMV I and II, Visa, MasterCard, Amex).
 
 ### Table of Contents
 
@@ -16,19 +16,23 @@ No sensitive card data is ever passed through to or stored on the merchant&#39;s
 
 * [Usage](#Usage)
 
-  * [Process checkout](*process-checkout)
+  * [Process checkout](#process-checkout)
 
-  * [Refund request](*refund-request)
+  * [Refund request](#refund-request)
+  
+  * [Payment Request](#payment-request)
+  
+  * [SAM Module operation](#sam-module-operation)
 
-  * [Print the last transaction receipt](*print-the-last-transaction-receipt)
+  * [Print the last transaction receipt](#print-the-last-transaction-receipt)
 
-  * [Print a custom receipt](*print-a-custom-receipt)
-
+  * [Print a custom receipt](#print-a-custom-receipt)
+  
 * [Response](#response)
 
 ## Installation
 
-Using the SDK can be done by adding it as a git submodule to your project or building the .aar and using it.
+myPOS-Smart-SDK can be used by adding it as a git submodule to your project or building the .aar and using it.
 
 ### Build the library and add it as a dependency
 
@@ -92,6 +96,12 @@ dependencies {
     compile project(path: ':mypossmartsdk')
 }
 ```
+### Additional functions:
+-	Payment Requests, 
+-	Managing operations of first and second SAM component of myPOS Smart device
+-	Print bitmap image integrated to the receipt (e.g. QR Code)
+*In order to use additional functions listed above you need to have installed myPOS OS version 0.0.7. myPOS OS Version can be checked Only when device is in “Debug Mode” under “About” submenu in myPOS Terminal App.
+ 
 
 # Usage
 
@@ -216,7 +226,130 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ```
 
+### Payment request
+This functionality allows a merchant to create payment request and send it as a SMS directly from a myPOS Smart device. 
+##### 1. Perform Payment Request
 
+ ```java
+ // Build the payment request transaction
+ private static final int PAYMENT_REQUEST_REQUEST_CODE = 4;
+    private void startPaymentRequest() {
+        // Build the payment request
+        MyPOSPaymentRequest paymentRequest = MyPOSPaymentRequest.builder()
+                .productAmount(3.55)
+                .currency(Currency.EUR)
+                .expiryDays(60)
+                .recipientName("John Doe")
+                .GSM("0899070087")
+                .eMail("")
+                .reason("System test")
+                .build();
+				
+// Start the payment request transaction
+MyPOSAPI.createPaymentRequest(MainActivity.this, paymentRequest, PAYMENT_REQUEST_REQUEST_CODE);
+    }
+```
+
+##### 2.  Handle the result
+
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the Payment request:
+
+```java
+@Override
+	void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == PAYMENT_REQUEST_REQUEST_CODE) {
+			// The transaction was processed, handle the response
+			if (resultCode == RESULT_OK) {
+				// Something went wrong in the Payment core app and the result couldn't be returned properly
+				if (data == null) {
+					Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+
+				Toast.makeText(this, "Payment request transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+
+				// TODO: handle each transaction response accordingly
+				if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+					// Transaction is successful
+				}
+			} else {
+				// The user cancelled the transaction
+				Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+			}
+		}
+    }
+```
+
+### SAM Module operation
+
+This functionality defines operations of built-in SAM 1 and SAM 2 modules.
+##### 1. SAM Module operation build
+
+ ```java
+ //Build SAM module operation
+	private static final int SAM_SLOT_1 = 1;
+	private static final int SAM_SLOT_2 = 2;
+	private static final int SAM_DETECT_REQUEST_CODE = 1001;
+	private static final int SAM_INIT_REQUEST_CODE = 1002;
+	private static final int SAM_COMMAND_REQUEST_CODE = 1003;
+	private static final int SAM_CLOSE_REQUEST_CODE = 1004;
+
+// Start the SAM module operation	
+    private void startSAMTest() {
+        SAMCard.detect(this, SAM_DETECT_REQUEST_CODE, SAM_SLOT_1);
+    }
+    private void initSAMCard() {
+        SAMCard.open(this, SAM_INIT_REQUEST_CODE, SAM_SLOT_1);
+    }
+    private void sendSAMCommand() {
+        // SELECT command for file 0x3F00 (GSM card master file)
+        byte[] cmd = new byte[] {(byte)0x00,(byte)0xA4,(byte)0x00,(byte)0x00,(byte)0x02, (byte) 0x3f, (byte) 0x00};
+        SAMCard.isoCommand(this, SAM_COMMAND_REQUEST_CODE, SAM_SLOT_1, cmd);
+    }
+    private void closeSAMmodule() {
+        SAMCard.close(this, SAM_CLOSE_REQUEST_CODE, SAM_SLOT_1);
+    }
+ ```
+##### 2. Handle the result
+
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the SAM module operation:
+
+ ```java
+ @Override
+ void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Distinguish between command types
+        if (requestCode == SAM_DETECT_REQUEST_CODE) {
+            boolean b = data.getBooleanExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE, false);
+            if (b) {
+                Toast.makeText(this, "SAM card detected in slot 1. Initializing", Toast.LENGTH_SHORT).show();
+                initSAMCard();
+            } else {
+                Toast.makeText(this, "No SAM card detected in slot 1", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == SAM_INIT_REQUEST_CODE) {
+            byte[] resp = data.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
+            if (resp != null) {
+                Toast.makeText(this, "Initializing SAM successful. Sending command", Toast.LENGTH_SHORT).show();
+                sendSAMCommand();
+            } else {
+                Toast.makeText(this, "Initializing SAM failed.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == SAM_COMMAND_REQUEST_CODE) {
+            byte[] resp = data.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
+            if (resp != null) {
+                Toast.makeText(this, "Response to SAM command received. Closing SAM", Toast.LENGTH_SHORT).show();
+                closeSAMmodule();
+            } else {
+                Toast.makeText(this, "No response received from SAM", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == SAM_CLOSE_REQUEST_CODE) {
+            Toast.makeText(this, "SAM module closed", Toast.LENGTH_SHORT).show();
+        }
+    }
+ 
+  ```
+	
 ### Print the last transaction receipt
 
 Printing the last transaction receipt is done by sending a broadcast.
@@ -279,6 +412,7 @@ A PrinterCommand can be one of the following types:
 * LOGO – prints the device’s logo.
 * TEXT – prints arbitrary text. Double width and height are available as parameters
 * FOOTER – prints a footer with a “Thank you” message
+* IMAGE - prints a custom bitmap image – e.g. QR Code
 
 If you decide to use Gson, add it to your project’s `build.gradle` file:
 `compile 'com.google.code.gson:gson:2.8.0'`
@@ -296,6 +430,9 @@ commands.add(new PrinterCommand(PrinterCommand.CommandType.TEXT, "Normal row 1\n
 commands.add(new PrinterCommand(PrinterCommand.CommandType.TEXT, "Double height\n\n\n", false, true));
 // [...]
 commands.add(new PrinterCommand(PrinterCommand.CommandType.FOOTER));
+//[...]
+Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample);
+commands.add(new PrinterCommand(PrinterCommand.CommandType.IMAGE, bitmap));
 
 // Serialize the command list
 Gson gson = new Gson();
