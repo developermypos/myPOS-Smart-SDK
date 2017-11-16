@@ -284,72 +284,65 @@ The same as with the payment, in your calling Activity, override the ``onActivit
 ### SAM Module operation
 
 This functionality defines operations of built-in SAM 1 and SAM 2 modules.
-##### 1. SAM Module operation build
+<br>*In order to use the functions listed above you need to have installed myPOS OS version 0.0.8. myPOS OS Version can be checked Only when device is in “Debug Mode” under “About” submenu in myPOS Terminal App.
+
+##### 1. SAM Module operation
 
  ```java
- //Build SAM module operation
-	private static final int SAM_SLOT_1 = 1;
-	private static final int SAM_SLOT_2 = 2;
-	private static final int SAM_DETECT_REQUEST_CODE = 1001;
-	private static final int SAM_INIT_REQUEST_CODE = 1002;
-	private static final int SAM_COMMAND_REQUEST_CODE = 1003;
-	private static final int SAM_CLOSE_REQUEST_CODE = 1004;
 
-// Start the SAM module operation	
+    //Build SAM module operation
+    private static final int SAM_SLOT_1 = 1;
+    private static final int SAM_SLOT_2 = 2;
+
     private void startSAMTest() {
-        SAMCard.detect(this, SAM_DETECT_REQUEST_CODE, SAM_SLOT_1);
+        final Context context = this;
+        Thread r = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    int slotNumber = SAM_SLOT_1;
+                    int timeoutMs = 1000;
+
+                    boolean hasCard;
+                    byte[] resp;
+                    byte[] cmd = new byte[] {(byte)0x00,(byte)0xA4,(byte)0x00,(byte)0x00,(byte)0x02, (byte) 0x3f, (byte) 0x00}; // SELECT command for file 0x3F00 (GSM card master file)
+
+                    hasCard = SAMCard.detect(context, slotNumber, timeoutMs);
+                    if (!hasCard) {
+                        showToast("No SAM card detected in slot " + slotNumber);
+                        return;
+                    }
+                    showToast("SAM card detected in slot " + slotNumber + ". Initializing");
+
+                    resp = SAMCard.open(context, slotNumber, timeoutMs);
+                    showToast("Initializing SAM successful. Sending command");
+
+                    resp = SAMCard.isoCommand(context, slotNumber, timeoutMs, cmd);
+                    showToast("Response to SAM command received. Closing SAM");
+
+                    SAMCard.close(context, slotNumber, timeoutMs);
+                    showToast("SAM module closed");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast(e.getMessage());
+                }
+            }
+        });
+        r.start();
     }
-    private void initSAMCard() {
-        SAMCard.open(this, SAM_INIT_REQUEST_CODE, SAM_SLOT_1);
-    }
-    private void sendSAMCommand() {
-        // SELECT command for file 0x3F00 (GSM card master file)
-        byte[] cmd = new byte[] {(byte)0x00,(byte)0xA4,(byte)0x00,(byte)0x00,(byte)0x02, (byte) 0x3f, (byte) 0x00};
-        SAMCard.isoCommand(this, SAM_COMMAND_REQUEST_CODE, SAM_SLOT_1, cmd);
-    }
-    private void closeSAMmodule() {
-        SAMCard.close(this, SAM_CLOSE_REQUEST_CODE, SAM_SLOT_1);
+
+    public void showToast(final String toast)
+    {
+        runOnUiThread(new Runnable() {
+            public void run()
+            {
+                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
  ```
-##### 2. Handle the result
 
-The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the SAM module operation:
-
- ```java
- @Override
- void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Distinguish between command types
-        if (requestCode == SAM_DETECT_REQUEST_CODE) {
-            boolean b = data.getBooleanExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE, false);
-            if (b) {
-                Toast.makeText(this, "SAM card detected in slot 1. Initializing", Toast.LENGTH_SHORT).show();
-                initSAMCard();
-            } else {
-                Toast.makeText(this, "No SAM card detected in slot 1", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == SAM_INIT_REQUEST_CODE) {
-            byte[] resp = data.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
-            if (resp != null) {
-                Toast.makeText(this, "Initializing SAM successful. Sending command", Toast.LENGTH_SHORT).show();
-                sendSAMCommand();
-            } else {
-                Toast.makeText(this, "Initializing SAM failed.", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == SAM_COMMAND_REQUEST_CODE) {
-            byte[] resp = data.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
-            if (resp != null) {
-                Toast.makeText(this, "Response to SAM command received. Closing SAM", Toast.LENGTH_SHORT).show();
-                closeSAMmodule();
-            } else {
-                Toast.makeText(this, "No response received from SAM", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == SAM_CLOSE_REQUEST_CODE) {
-            Toast.makeText(this, "SAM module closed", Toast.LENGTH_SHORT).show();
-        }
-    }
- 
-  ```
-	
 ### Print the last transaction receipt
 
 Printing the last transaction receipt is done by sending a broadcast.

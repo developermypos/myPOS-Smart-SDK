@@ -98,6 +98,7 @@ public class MyPOSUtil {
 
     // SAM Card
     public static final String INTENT_SAM_CARD                      = "com.mypos.action.SAM_CARD";
+    public static final String SAM_CARD_RESPONSE_BROADCAST          = "com.mypos.broadcast.SAM_CARD";
     public static final String INTENT_SAM_CARD_COMMAND              = "command";
     public static final String INTENT_SAM_CARD_SLOT                 = "slot";
     public static final String INTENT_SAM_CARD_REQUEST              = "request";
