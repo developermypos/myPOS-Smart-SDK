@@ -491,25 +491,31 @@ When a transaction has finished, an Intent with the following data is returned t
 * pan_hash - a hash of the PAN
 * status (int) - one of the constants in the [TransactionProcessingResult](mypossmartsdk/src/main/java/com/mypos/smartsdk/TransactionProcessingResult.java) class
 * status_text - a textual representation of the status
-* card_brand - MASTERCARD, MAESTRO, VISA, PAYPASS, etc.
-* card_entry_mode - ENTRY_MODE_MAGSTR, ENTRY_MODE_EMV, ENTRY_MODE_CONTACTLESS, etc.
-* response_code
-* authorization_code
-* signature_required (boolean)
-* TSI
-* TVR
-* AID
-* STAN
-* CVM
-* application_name
-* transaction_approved (boolean)
+* card_brand - MASTERCARD, MAESTRO, VISA, VISA ELECTRON, VPAY, JCB, PAYPASS, PAYWAVE, UNIONPAY, BANCONTACT
+* card_entry_mode – method of presenting the card:
+	-	ENTRY_MODE_MAGSTR – mag stripe transaction
+	-	ENTRY_MODE_EMV – chip transaction
+	-	ENTRY_MODE_CONTACTLESS – contactless mag stripe transaction
+	-	ENTRY_MODE_CONTACTLESS_MCHIP – contactless chip transaction
+	-	ENTRY_MODE_MANUAL – Manual Key Entry (MO/TO) transaction
+
+* response_code - response code returned by issuer. Values, different from "00", represent the reason for a declined transaction
+* authorization_code - authorization code returned by issuer
+* signature_required (boolean) - true : signature row must be present on receipt , false : signature row must not be present on receipt
+* TSI - Transaction Status Indicator
+* TVR - Terminal Verification Result
+* AID - Application Identifier (card)
+* STAN - System Trace Audit Number (unique number of transaction by TID)
+* CVM - Cardholder Verification Method (P – PIN, S – Signature , N – NO CVM)
+* application_name - Application Label, read from the card chip
+* transaction_approved (boolean) - – true : approved, false : declined
 * merchant_data - Bundle with data from your myPOS profile used for printing the receipts. It contains:
-  * billing_descriptor
-  * address_line1
-  * address_line2
-  * MID
-  * custom_receipt_row1
-  * custom_receipt_row2
+  * billing_descriptor - merchant billing descriptor
+  * address_line1 - merchant address line 1
+  * address_line2 - merchant address line 2
+  * MID - Merchant ID
+  * custom_receipt_row1 - custom receipt footer row 1
+  * custom_receipt_row2 - custom receipt footer row 2
 
 
 Note 1: Unless noted, extras in the bundle are Strings.
