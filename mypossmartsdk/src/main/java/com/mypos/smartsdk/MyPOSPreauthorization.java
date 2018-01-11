@@ -6,10 +6,12 @@ package com.mypos.smartsdk;
 
 public class MyPOSPreauthorization {
 
-    private boolean  motoTransaction;
-    private double   productAmount;
-    private String   foreignTransactionId;
-    private Currency currency;
+    private boolean     motoTransaction;
+    private double      productAmount;
+    private String      foreignTransactionId;
+    private Currency    currency;
+    private int         printMerchantReceipt;
+    private int         printCustomerReceipt;
 
 
     MyPOSPreauthorization(MyPOSPreauthorization.Builder builder) {
@@ -17,6 +19,8 @@ public class MyPOSPreauthorization {
         this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.motoTransaction = builder.motoTransaction;
+        this.printMerchantReceipt = builder.printMerchantReceipt;
+        this.printCustomerReceipt = builder.printCustomerReceipt;
     }
 
 
@@ -60,11 +64,31 @@ public class MyPOSPreauthorization {
         return this;
     }
 
+    public int getPrintMerchantReceipt() {
+        return printMerchantReceipt;
+    }
+
+    public MyPOSPreauthorization setPrintMerchantReceipt(int printMerchantReceipt) {
+        this.printMerchantReceipt = printMerchantReceipt;
+        return this;
+    }
+
+    public int getPrintCustomerReceipt() {
+        return printCustomerReceipt;
+    }
+
+    public MyPOSPreauthorization setPrintCustomerReceipt(int printCustomerReceipt) {
+        this.printCustomerReceipt = printCustomerReceipt;
+        return this;
+    }
+
     public static class Builder {
-        private boolean  motoTransaction;
-        private Double   productAmount;
-        private String   foreignTransactionId;
-        private Currency currency;
+        private boolean     motoTransaction;
+        private Double      productAmount;
+        private String      foreignTransactionId;
+        private Currency    currency;
+        private int         printMerchantReceipt;
+        private int         printCustomerReceipt;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -86,6 +110,15 @@ public class MyPOSPreauthorization {
             return this;
         }
 
+        public MyPOSPreauthorization.Builder printMerchantReceipt(int printMerchantReceipt) {
+            this.printMerchantReceipt = printMerchantReceipt;
+            return this;
+        }
+
+        public MyPOSPreauthorization.Builder printCustomerReceipt(int printCustomerReceipt) {
+            this.printCustomerReceipt = printCustomerReceipt;
+            return this;
+        }
 
         public MyPOSPreauthorization build() {
             if (this.productAmount == null || this.productAmount <= 0.0D) {

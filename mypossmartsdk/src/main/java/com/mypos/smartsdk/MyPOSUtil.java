@@ -20,6 +20,13 @@ public class MyPOSUtil {
      * Reprint the last transaction receipt
      */
     public static final String PRINT_LAST_RECEIPT_BROADCAST              = "com.mypos.action.PRINT_LAST_TRANSACTION_RECEIPT";
+
+    public static final String INTENT_PRINT_MERCHANT_RECEIPT             = "print_merchant_receipt";
+    public static final String INTENT_PRINT_CUSTOMER_RECEIPT             = "print_customer_receipt";
+    public static final int RECEIPT_ON = 1;
+    public static final int RECEIPT_OFF = 2;
+    public static final int RECEIPT_AFTER_CONFIRMATION = 3;
+
     /**
      * Returned by the printing broadcasts
      */

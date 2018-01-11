@@ -12,6 +12,8 @@ public class MyPOSPayment {
     private double      tipAmount;
     private String      foreignTransactionId;
     private Currency    currency;
+    private int         printMerchantReceipt;
+    private int         printCustomerReceipt;
 
 
     MyPOSPayment(Builder builder) {
@@ -21,6 +23,8 @@ public class MyPOSPayment {
         this.tippingModeEnabled = builder.tippingModeEnabled;
         this.tipAmount = builder.tipAmount;
         this.motoTransaction = builder.motoTransaction;
+        this.printMerchantReceipt = builder.printMerchantReceipt;
+        this.printCustomerReceipt = builder.printCustomerReceipt;
     }
 
 
@@ -82,6 +86,24 @@ public class MyPOSPayment {
         return this;
     }
 
+    public int getPrintMerchantReceipt() {
+        return printMerchantReceipt;
+    }
+
+    public MyPOSPayment setPrintMerchantReceipt(int printMerchantReceipt) {
+        this.printMerchantReceipt = printMerchantReceipt;
+        return this;
+    }
+
+    public int getPrintCustomerReceipt() {
+        return printCustomerReceipt;
+    }
+
+    public MyPOSPayment setPrintCustomerReceipt(int printCustomerReceipt) {
+        this.printCustomerReceipt = printCustomerReceipt;
+        return this;
+    }
+
     public static class Builder {
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
@@ -89,6 +111,8 @@ public class MyPOSPayment {
         private Double      productAmount;
         private String      foreignTransactionId;
         private Currency    currency;
+        private int         printMerchantReceipt;
+        private int         printCustomerReceipt;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -120,6 +144,15 @@ public class MyPOSPayment {
             return this;
         }
 
+        public Builder printMerchantReceipt(int printMerchantReceipt) {
+            this.printMerchantReceipt = printMerchantReceipt;
+            return this;
+        }
+
+        public Builder printCustomerReceipt(int printCustomerReceipt) {
+            this.printCustomerReceipt = printCustomerReceipt;
+            return this;
+        }
 
         public MyPOSPayment build() {
             if (this.productAmount == null || this.productAmount <= 0.0D) {

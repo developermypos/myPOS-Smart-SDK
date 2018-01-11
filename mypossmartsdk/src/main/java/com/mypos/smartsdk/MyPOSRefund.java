@@ -6,16 +6,20 @@ package com.mypos.smartsdk;
  */
 public class MyPOSRefund {
 
-    private double               refundAmount;
-    private boolean              motoTransaction;
-    private String               foreignTransactionId;
-    private Currency             currency;
+    private double              refundAmount;
+    private boolean             motoTransaction;
+    private String              foreignTransactionId;
+    private Currency            currency;
+    private int                 printMerchantReceipt;
+    private int                 printCustomerReceipt;
 
     private MyPOSRefund(Builder builder) {
         this.refundAmount = builder.refundAmount;
         this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.motoTransaction = builder.motoTransaction;
+        this.printMerchantReceipt = builder.printMerchantReceipt;
+        this.printCustomerReceipt = builder.printCustomerReceipt;
     }
 
 
@@ -59,12 +63,31 @@ public class MyPOSRefund {
         return this;
     }
 
+    public int getPrintMerchantReceipt() {
+        return printMerchantReceipt;
+    }
+
+    public MyPOSRefund setPrintMerchantReceipt(int printMerchantReceipt) {
+        this.printMerchantReceipt = printMerchantReceipt;
+        return this;
+    }
+
+    public int getPrintCustomerReceipt() {
+        return printCustomerReceipt;
+    }
+
+    public MyPOSRefund setPrintCustomerReceipt(int printCustomerReceipt) {
+        this.printCustomerReceipt = printCustomerReceipt;
+        return this;
+    }
+
     public static final class Builder {
-        private boolean              motoTransaction;
-        private Double               refundAmount;
-        private String               foreignTransactionId;
-        private Currency             currency;
-        private String               preauthorizationCode;
+        private boolean         motoTransaction;
+        private Double          refundAmount;
+        private String          foreignTransactionId;
+        private Currency        currency;
+        private int             printMerchantReceipt;
+        private int             printCustomerReceipt;
 
         public Builder refundAmount(Double productAmount) {
             this.refundAmount = productAmount;
@@ -83,6 +106,16 @@ public class MyPOSRefund {
 
         public Builder motoTransaction(boolean motoTransaction) {
             this.motoTransaction = motoTransaction;
+            return this;
+        }
+
+        public Builder printMerchantReceipt(int printMerchantReceipt) {
+            this.printMerchantReceipt = printMerchantReceipt;
+            return this;
+        }
+
+        public Builder printCustomerReceipt(int printCustomerReceipt) {
+            this.printCustomerReceipt = printCustomerReceipt;
             return this;
         }
 
