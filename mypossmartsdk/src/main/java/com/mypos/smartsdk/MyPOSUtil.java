@@ -75,6 +75,7 @@ public class MyPOSUtil {
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_GSM      = "recipient_gsm";
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_EMAIL    = "recipient_email";
     public static final String INTENT_PAYMENT_REQUEST_EXPIRY_DAYS        = "expiry_days";
+    public static final String INTENT_PAYMENT_REQUEST_CODE              = "requestCode";
     public static final String INTENT_PAYMENT_REQUEST_REASON             = "reason";
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_NAME     = "recipient_name";
 

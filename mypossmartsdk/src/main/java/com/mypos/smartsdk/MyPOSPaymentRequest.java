@@ -11,6 +11,7 @@ public class MyPOSPaymentRequest {
     private String eMail;
     private String reason;
     private String recipientName;
+    private String requestCode;
     private Integer expiryDays;
 
     MyPOSPaymentRequest(MyPOSPaymentRequest.Builder builder) {
@@ -20,6 +21,7 @@ public class MyPOSPaymentRequest {
         this.eMail = builder.eMail;
         this.reason = builder.reason;
         this.recipientName = builder.recipientName;
+        this.requestCode = builder.requestCode;
         this.expiryDays = builder.expiryDays;
     }
 
@@ -81,6 +83,15 @@ public class MyPOSPaymentRequest {
         return this;
     }
 
+    public String getRequestCode() {
+        return this.requestCode;
+    }
+
+    public MyPOSPaymentRequest setRequestCode(String requestCode) {
+        this.requestCode = requestCode;
+        return this;
+    }
+
     public Integer getExpiryDays() {
         return this.expiryDays;
     }
@@ -97,6 +108,7 @@ public class MyPOSPaymentRequest {
         private String eMail;
         private String reason;
         private String recipientName;
+        private String requestCode;
         private Integer expiryDays;
 
         public Builder() {
@@ -129,6 +141,11 @@ public class MyPOSPaymentRequest {
 
         public MyPOSPaymentRequest.Builder recipientName(String recipientName) {
             this.recipientName = recipientName;
+            return this;
+        }
+
+        public MyPOSPaymentRequest.Builder requestCode(String requestCode) {
+            this.requestCode = requestCode;
             return this;
         }
 
