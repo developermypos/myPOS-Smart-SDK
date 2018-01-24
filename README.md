@@ -433,7 +433,7 @@ json = gson.toJson(commands);
 
 System.out.println("Sending print broadcast: " + json);
 
-Intent intent = new Intent(Util.PRINT_BROADCAST);
+Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
 
 // Add the commands
 intent.putExtra("commands", json);
