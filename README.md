@@ -22,6 +22,8 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
   
   * [Payment Request](#payment-request)
   
+  * [Void Request](#void-request)
+  
   * [SAM Module operation](#sam-module-operation)
 
   * [Print the last transaction receipt](#print-the-last-transaction-receipt)
@@ -281,7 +283,7 @@ The same as with the payment, in your calling Activity, override the ``onActivit
     }
 ```
 
-### Void Transaction
+### Void Request
 
 
 ##### 1. Perform void transaction
