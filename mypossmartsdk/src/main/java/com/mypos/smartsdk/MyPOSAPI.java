@@ -109,6 +109,30 @@ public class MyPOSAPI {
 
         activity.startActivityForResult(myposIntent, requestCode);
     }
+    /**
+     * Takes care of building the intent and opening the payment activity for a void transaction
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param voidEx                 a {@link MyPOSPayment} object with payment-related data, pass null to void the last transaction
+     * @param requestCode            the request code used later to distinguish the type of transaction that has completed
+     * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
+     */
+    public static void openVoidActivity(Activity activity, MyPOSVoidEx voidEx, int requestCode, boolean skipConfirmationScreen) {
+        Intent myposIntent;
+        if(voidEx == null) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_VOID_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_VOID_INTENT_EX);
+
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_STAN, voidEx.getSTAN());
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_AUTH_CODE, voidEx.getAuthCode());
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_DATE_TIME, voidEx.getDateTime());
+        }
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_VOID);
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+
+        activity.startActivityForResult(myposIntent,requestCode);
+    }
 
 
     /**

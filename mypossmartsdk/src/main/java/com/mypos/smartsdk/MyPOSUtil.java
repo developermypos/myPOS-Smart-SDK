@@ -14,6 +14,8 @@ public class MyPOSUtil {
      */
     public static final String PAYMENT_CORE_VOID_INTENT                  = "com.mypos.transaction.VOID";
 
+    public static final String PAYMENT_CORE_VOID_INTENT_EX               = "com.mypos.transaction.VOID_EX";
+
     public static final String PAYMENT_CORE_ENTRY_PAYMENT_REQUEST        = "com.mypos.transaction.PAYMENT_REQUEST";
 
     /**
@@ -75,9 +77,13 @@ public class MyPOSUtil {
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_GSM      = "recipient_gsm";
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_EMAIL    = "recipient_email";
     public static final String INTENT_PAYMENT_REQUEST_EXPIRY_DAYS        = "expiry_days";
-    public static final String INTENT_PAYMENT_REQUEST_CODE              = "requestCode";
+    public static final String INTENT_PAYMENT_REQUEST_CODE               = "requestCode";
     public static final String INTENT_PAYMENT_REQUEST_REASON             = "reason";
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_NAME     = "recipient_name";
+
+    public static final String INTENT_VOID_STAN                            = "STAN";
+    public static final String INTENT_VOID_AUTH_CODE                       = "authorization_code";
+    public static final String INTENT_VOID_DATE_TIME                       = "date_time";
 
     /**
      * Request code for a Payment
