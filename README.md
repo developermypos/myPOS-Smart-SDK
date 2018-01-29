@@ -281,6 +281,58 @@ The same as with the payment, in your calling Activity, override the ``onActivit
     }
 ```
 
+### Void Transaction
+
+
+##### 1. Perform void transaction
+
+ ```java
+ // Build the void transaction
+ private static final int VOID_REQUEST_CODE = 4;
+    private void startVoid() {
+        // Build the void request
+        MyPOSVoidEx voidEx = MyPOSVoidEx.builder()
+                .STAN(27)
+                .authCode("VISSIM")
+                .dateTime("180129123753")
+                .build();
+				
+		// Start the void transaction, pass null instead voidEx to void last transaction initialized by this terminal
+		MyPOSAPI.openVoidActivity(MainActivity.this, voidEx, VOID_REQUEST_CODE, true);
+    }
+```
+
+##### 2.  Handle the result
+
+The same as with the payment, in your calling Activity, override the ``onActivityResult`` method to handle the result of the void request:
+
+```java
+@Override
+	void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == VOID_REQUEST_CODE) {
+			// The transaction was processed, handle the response
+			if (resultCode == RESULT_OK) {
+				// Something went wrong in the Payment core app and the result couldn't be returned properly
+				if (data == null) {
+					Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+
+				Toast.makeText(this, "Void transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+
+				// TODO: handle each transaction response accordingly
+				if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+					// Transaction is successful
+				}
+			} else {
+				// The user cancelled the transaction
+				Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+			}
+		}
+    }
+```
+
 ### SAM Module operation
 
 This functionality defines operations of built-in SAM 1 and SAM 2 modules.
