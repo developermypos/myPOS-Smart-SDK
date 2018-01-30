@@ -23,6 +23,9 @@ public class MyPOSUtil {
      */
     public static final String PRINT_LAST_RECEIPT_BROADCAST              = "com.mypos.action.PRINT_LAST_TRANSACTION_RECEIPT";
 
+    public static final String GET_SIMPLE_POS_INFO                       = "com.mypos.action.GET_SIMPLE_POS_INFO";
+    public static final String GET_SIMPLE_POS_INFO_RESPONSE              = "com.mypos.broadcast.exported.SIMPLE_POS_INFO_RESPONSE";
+
     public static final String INTENT_PRINT_MERCHANT_RECEIPT             = "print_merchant_receipt";
     public static final String INTENT_PRINT_CUSTOMER_RECEIPT             = "print_customer_receipt";
     public static final int RECEIPT_ON = 1;

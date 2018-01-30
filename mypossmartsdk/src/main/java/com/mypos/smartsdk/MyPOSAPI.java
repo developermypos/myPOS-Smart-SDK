@@ -1,10 +1,42 @@
 package com.mypos.smartsdk;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+
+import com.mypos.smartsdk.data.POSInfo;
 
 
 public class MyPOSAPI {
+
+    /**
+     * Takes care of send and receive broadcast receivers to/from the system
+     * AVAILABLE IN VERSION: 1.0.2
+     *
+     * @param context       this context will be used to for broadcast communication with the system
+     * @param listener     a callback listener for received POS info
+     */
+    public static void registerPOSInfo(Context context, final OnPOSInfoListener listener) {
+
+        if (context == null)
+            return;
+
+        context.sendBroadcast(new Intent(MyPOSUtil.GET_SIMPLE_POS_INFO));
+
+        context.registerReceiver(
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        if (listener != null) {
+                            POSInfo inf = new POSInfo();
+                            inf.parseFromBundle(intent.getExtras());
+                            listener.onReceive(inf);
+                        }
+                    }
+                },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
+    }
 
     /**
      * Takes care of building the intent and opening the payment activity
