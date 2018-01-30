@@ -18,7 +18,7 @@ public class MyPOSAPI {
      * @param context       this context will be used to for broadcast communication with the system
      * @param listener     a callback listener for received POS info
      */
-    public static void registerPOSInfo(Context context, final OnPOSInfoListener listener) {
+    public static void registerPOSInfo(final Context context, final OnPOSInfoListener listener) {
 
         if (context == null)
             return;
@@ -28,12 +28,15 @@ public class MyPOSAPI {
         context.registerReceiver(
                 new BroadcastReceiver() {
                     @Override
-                    public void onReceive(Context context, Intent intent) {
+                    public void onReceive(Context cx, Intent intent) {
+
                         if (listener != null) {
                             POSInfo inf = new POSInfo();
                             inf.parseFromBundle(intent.getExtras());
                             listener.onReceive(inf);
                         }
+
+                        context.unregisterReceiver(this);
                     }
                 },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
     }
