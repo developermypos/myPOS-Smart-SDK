@@ -14,7 +14,7 @@ public class PrinterCommand {
 
     public enum CommandType {
         /**
-         * If type is header, the text should contain the receipt date in format "DD/MM/YY;HH:mm:ss".
+         * If type is header, the text should contain the receipt date in format "DD/MM/YY;HH:mm:ss"!
          */
         HEADER,
         LOGO,
@@ -23,15 +23,20 @@ public class PrinterCommand {
         IMAGE
     }
 
+    public enum Alignment {
+        ALIGN_LEFT,
+        ALIGN_CENTER,
+        ALIGN_RIGHT,
+    }
+
     /**
      * The command's type
      */
     private CommandType type;
-
     /**
      * The text to be printed
      */
-    private String  text;
+    private String text;
     /**
      * Should the text be printed with double width?
      */
@@ -48,6 +53,15 @@ public class PrinterCommand {
      * Image to be printed
      */
     private String imageEncoded;
+    /**
+     * Font size
+     */
+    private int fontSize;
+    /**
+     * Alignment of the text.
+     */
+    private Alignment alignment = Alignment.ALIGN_LEFT;
+
 
     public PrinterCommand(CommandType type) {
         this.type = type;
@@ -63,17 +77,20 @@ public class PrinterCommand {
         this.text = text;
     }
 
+    @Deprecated
     public PrinterCommand(String text, String encoding) {
         this.text = text;
         this.encoding = encoding;
     }
 
+    @Deprecated
     public PrinterCommand(String text, boolean doubleWidth, boolean doubleHeight) {
         this.text = text;
         this.doubleWidth = doubleWidth;
         this.doubleHeight = doubleHeight;
     }
 
+    @Deprecated
     public PrinterCommand(CommandType type, String text, boolean doubleWidth, boolean doubleHeight) {
         this.type = type;
         this.text = text;
@@ -86,6 +103,44 @@ public class PrinterCommand {
         setImage(image);
     }
 
+    public PrinterCommand(String text, int fontSize) {
+        this.type = CommandType.TEXT;
+        this.text = text;
+        this.fontSize = fontSize;
+    }
+
+    public PrinterCommand(CommandType type, String text, int fontSize) {
+        this.type = type;
+        this.text = text;
+        this.fontSize = fontSize;
+    }
+
+    public PrinterCommand(String text, Alignment alignment) {
+        this.type = CommandType.TEXT;
+        this.text = text;
+        this.alignment = alignment;
+    }
+
+    public PrinterCommand(CommandType type, String text, Alignment alignment) {
+        this.type = type;
+        this.text = text;
+        this.alignment = alignment;
+    }
+
+    public PrinterCommand(String text, int fontSize, Alignment alignment) {
+        this.type = CommandType.TEXT;
+        this.text = text;
+        this.fontSize = fontSize;
+        this.alignment = alignment;
+    }
+
+    public PrinterCommand(CommandType type, String text, int fontSize, Alignment alignment) {
+        this.type = type;
+        this.text = text;
+        this.fontSize = fontSize;
+        this.alignment = alignment;
+    }
+
     public String getText() {
         return text;
     }
@@ -95,10 +150,12 @@ public class PrinterCommand {
         return this;
     }
 
+    @Deprecated
     public boolean isDoubleWidth() {
         return doubleWidth;
     }
 
+    @Deprecated
     public PrinterCommand setDoubleWidth(boolean doubleWidth) {
         this.doubleWidth = doubleWidth;
         return this;
@@ -113,10 +170,12 @@ public class PrinterCommand {
         return this;
     }
 
+    @Deprecated
     public String getEncoding() {
         return encoding;
     }
 
+    @Deprecated
     public PrinterCommand setEncoding(String encoding) {
         this.encoding = encoding;
         return this;
@@ -128,6 +187,24 @@ public class PrinterCommand {
 
     public PrinterCommand setType(CommandType type) {
         this.type = type;
+        return this;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public PrinterCommand setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+        return this;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    public PrinterCommand setAlignment(Alignment alignment) {
+        this.alignment = alignment;
         return this;
     }
 
