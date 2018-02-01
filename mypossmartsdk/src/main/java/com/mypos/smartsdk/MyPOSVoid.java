@@ -1,0 +1,137 @@
+package com.mypos.smartsdk;
+
+
+/**
+ * Describes a refund
+ */
+public class MyPOSVoid {
+
+    private int                 STAN;
+    private String              authCode;
+    private String              dateTime;
+    private boolean voidLastTransactionFlag;
+    private int                 printMerchantReceipt;
+    private int                 printCustomerReceipt;
+
+    private MyPOSVoid(Builder builder) {
+        this.STAN = builder.STAN;
+        this.authCode = builder.authCode;
+        this.dateTime = builder.dateTime;
+        this.voidLastTransactionFlag = builder.voidLastTransactionFlag;
+        this.printMerchantReceipt = builder.printMerchantReceipt;
+        this.printCustomerReceipt = builder.printCustomerReceipt;
+    }
+
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public int getSTAN() {
+        return STAN;
+    }
+
+    public MyPOSVoid setSTAN(int STAN) {
+        this.STAN = STAN;
+        return this;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public MyPOSVoid setAuthCode(String authCode) {
+        this.authCode = authCode;
+        return this;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public MyPOSVoid setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+        return this;
+    }
+
+    public boolean getVoidLastTransactionFlag() {
+        return voidLastTransactionFlag;
+    }
+
+    public MyPOSVoid setVoidLastTransactionFlag(boolean voidLastTransactionFlag) {
+        this.voidLastTransactionFlag = voidLastTransactionFlag;
+        return this;
+    }
+
+    public int getPrintMerchantReceipt() {
+        return printMerchantReceipt;
+    }
+
+    public MyPOSVoid setPrintMerchantReceipt(int printMerchantReceipt) {
+        this.printMerchantReceipt = printMerchantReceipt;
+        return this;
+    }
+
+    public int getPrintCustomerReceipt() {
+        return printCustomerReceipt;
+    }
+
+    public MyPOSVoid setPrintCustomerReceipt(int printCustomerReceipt) {
+        this.printCustomerReceipt = printCustomerReceipt;
+        return this;
+    }
+
+    public static final class Builder {
+        private int                 STAN;
+        private String              authCode;
+        private String              dateTime;
+        private boolean             voidLastTransactionFlag;
+        private int                 printMerchantReceipt;
+        private int                 printCustomerReceipt;
+
+        public Builder STAN(int STAN) {
+            this.STAN = STAN;
+            return this;
+        }
+
+        public Builder authCode(String authCode) {
+            this.authCode = authCode;
+            return this;
+        }
+
+        public Builder dateTime(String dateTime) {
+            this.dateTime = dateTime;
+            return this;
+        }
+
+        public Builder voidLastTransactionFlag(boolean voidLastTransactionFlag) {
+            this.voidLastTransactionFlag = voidLastTransactionFlag;
+            return this;
+        }
+
+        public Builder printMerchantReceipt(int printMerchantReceipt) {
+            this.printMerchantReceipt = printMerchantReceipt;
+            return this;
+        }
+
+        public Builder printCustomerReceipt(int printCustomerReceipt) {
+            this.printCustomerReceipt = printCustomerReceipt;
+            return this;
+        }
+
+        public MyPOSVoid build() {
+            if(!voidLastTransactionFlag) {
+                if (STAN == 0) {
+                    throw new IllegalArgumentException("Invalid STAN");
+                }
+                if (authCode == null) {
+                    throw new IllegalArgumentException("missing or invalid auth code");
+                }
+                if (dateTime == null) {
+                    throw new IllegalArgumentException("missing or invalid date time");
+                }
+            }
+            return new MyPOSVoid(this);
+        }
+    }
+}

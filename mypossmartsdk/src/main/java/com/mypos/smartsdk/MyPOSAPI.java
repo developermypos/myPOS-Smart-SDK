@@ -49,7 +49,7 @@ public class MyPOSAPI {
      * @param requestCode the request code used later to distinguish
      */
     public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode) {
-        openPaymentActivity(activity, payment, requestCode, false, ReceiptPrintMode.AUTOMATICALLY);
+        openPaymentActivity(activity, payment, requestCode, false);
     }
 
     /**
@@ -61,11 +61,30 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
     public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen) {
-        openPaymentActivity(activity, payment, requestCode, skipConfirmationScreen, ReceiptPrintMode.AUTOMATICALLY);
+        Intent myposIntent;
+        if (payment.isMotoTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
+        }
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PAYMENT);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, payment.getProductAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_TIP_AMOUNT, payment.getTipAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSFER_TIPS_ENABLED, payment.isTippingModeEnabled());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, payment.getCurrency().toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, payment.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, payment.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, payment.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     /**
      * Takes care of building the intent and opening the payment activity
+     * @deprecated  printMode param.
+     *              {will be removed in 1.0.3 version}
+     *              use {@link #openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen)} and printMerchantReceipt / printCustomerReceipt properties in MyPOSPayment Builder.
      *
      * @param activity               the activity whose context will be used to start the payment activity
      * @param payment                a {@link MyPOSPayment} object with payment-related data
@@ -102,7 +121,7 @@ public class MyPOSAPI {
      * @param requestCode the request code used later to distinguish the type of transaction that has completed
      */
     public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode) {
-        openRefundActivity(activity, refund, requestCode, false, ReceiptPrintMode.AUTOMATICALLY);
+        openRefundActivity(activity, refund, requestCode, false);
     }
 
     /**
@@ -114,11 +133,28 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
     public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen) {
-        openRefundActivity(activity, refund, requestCode, skipConfirmationScreen, ReceiptPrintMode.AUTOMATICALLY);
+        Intent myposIntent;
+        if (refund.isMotoTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
+        }
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_REFUND);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, refund.getRefundAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, refund.getCurrency().toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, refund.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, refund.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     /**
      * Takes care of building the intent and opening the payment activity for a refund transaction
+     * @deprecated  printMode param.
+     *              {will be removed in 1.0.3 version}
+     *              use {@link #openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen)} and printMerchantReceipt / printCustomerReceipt properties in MyPOSRefund Builder.
      *
      * @param activity               the activity whose context will be used to start the payment activity
      * @param refund                 a {@link MyPOSPayment} object with payment-related data
@@ -144,27 +180,30 @@ public class MyPOSAPI {
 
         activity.startActivityForResult(myposIntent, requestCode);
     }
+
     /**
      * Takes care of building the intent and opening the payment activity for a void transaction
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param voidEx                 a {@link MyPOSPayment} object with payment-related data, pass null to void the last transaction
+     * @param voidTr                 a {@link MyPOSPayment} object with payment-related data
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void openVoidActivity(Activity activity, MyPOSVoidEx voidEx, int requestCode, boolean skipConfirmationScreen) {
+    public static void openVoidActivity(Activity activity, MyPOSVoid voidTr, int requestCode, boolean skipConfirmationScreen) {
         Intent myposIntent;
-        if(voidEx == null) {
+        if(voidTr.getVoidLastTransactionFlag()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_VOID_INTENT);
         } else {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_VOID_INTENT_EX);
 
-            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_STAN, voidEx.getSTAN());
-            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_AUTH_CODE, voidEx.getAuthCode());
-            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_DATE_TIME, voidEx.getDateTime());
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_STAN, voidTr.getSTAN());
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_AUTH_CODE, voidTr.getAuthCode());
+            myposIntent.putExtra(MyPOSUtil.INTENT_VOID_DATE_TIME, voidTr.getDateTime());
         }
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_VOID);
         myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, voidTr.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, voidTr.getPrintCustomerReceipt());
 
         activity.startActivityForResult(myposIntent,requestCode);
     }
@@ -178,7 +217,7 @@ public class MyPOSAPI {
      * @param requestCode the request code used later to distinguish the type of transaction that has completed
      */
     public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode) {
-        createPreauthorization(activity, preauth, requestCode, false, ReceiptPrintMode.AUTOMATICALLY);
+        createPreauthorization(activity, preauth, requestCode, false);
     }
 
     /**
@@ -190,11 +229,30 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
     public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen) {
-        createPreauthorization(activity, preauth, requestCode, skipConfirmationScreen, ReceiptPrintMode.AUTOMATICALLY);
+        Intent myposIntent;
+        if (preauth.isMotoTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
+        }
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, preauth.getProductAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, preauth.getCurrency().toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, preauth.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     /**
      * Create a preauthorization request
+     *
+     * @deprecated  printMode param.
+     *              {will be removed in 1.0.3 version}
+     *              use {@link #createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen)} and printMerchantReceipt / printCustomerReceipt properties in MyPOSPreauthorization Builder.
      *
      * @param activity               the activity whose context will be used to start the payment activity
      * @param preauth                a {@link MyPOSPreauthorization} with transaction-related data
@@ -230,7 +288,7 @@ public class MyPOSAPI {
      * @param requestCode the request code used later to distinguish the type of transaction that has completed
      */
     public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode) {
-        completePreauthorization(activity, preauth, requestCode, false, ReceiptPrintMode.AUTOMATICALLY);
+        completePreauthorization(activity, preauth, requestCode, false);
     }
 
     /**
@@ -242,11 +300,30 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
     public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen) {
-        completePreauthorization(activity, preauth, requestCode, skipConfirmationScreen, ReceiptPrintMode.AUTOMATICALLY);
+        Intent myposIntent;
+        if (preauth.isMotoTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
+        }
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_COMPLETION);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSFER_PREAUTH_CODE, preauth.getPreauthorizationCode());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, preauth.getProductAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, preauth.getCurrency().toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, preauth.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     /**
      * Complete a preauthorization
+     * @deprecated  printMode param.
+     *              {will be removed in 1.0.3 version}
+     *              use {@link #completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen)} and printMerchantReceipt / printCustomerReceipt properties in MyPOSPreauthorizationCompletion Builder.
      *
      * @param activity               the activity whose context will be used to start the payment activity
      * @param preauth                a {@link MyPOSPreauthorizationCompletion} object with transaction-related data
@@ -284,7 +361,7 @@ public class MyPOSAPI {
      * @param requestCode the request code used later to distinguish the type of transaction that has completed
      */
     public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode) {
-        cancelPreauthorization(activity, preauth, requestCode, false, ReceiptPrintMode.AUTOMATICALLY);
+        cancelPreauthorization(activity, preauth, requestCode, false);
     }
 
     /**
@@ -296,11 +373,28 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
     public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen) {
-        cancelPreauthorization(activity, preauth, requestCode, skipConfirmationScreen, ReceiptPrintMode.AUTOMATICALLY);
+        Intent myposIntent;
+        if (preauth.isMotoTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
+        }
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_CANCELLATION);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSFER_PREAUTH_CODE, preauth.getPreauthorizationCode());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, preauth.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     /**
      * Cancel a preauthorization
+     *@deprecated  printMode param.
+     *              {will be removed in 1.0.3 version}
+     *              use {@link #cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen)} and printMerchantReceipt / printCustomerReceipt properties in MyPOSPreauthorizationCancellation Builder.
      *
      * @param activity               the activity whose context will be used to start the payment activity
      * @param preauth                a {@link MyPOSPreauthorizationCancellation} object with transaction-related data
