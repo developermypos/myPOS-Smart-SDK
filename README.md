@@ -293,13 +293,14 @@ The same as with the payment, in your calling Activity, override the ``onActivit
  private static final int VOID_REQUEST_CODE = 4;
     private void startVoid() {
         // Build the void request
-        MyPOSVoidEx voidEx = MyPOSVoidEx.builder()
+        MyPOSVoid voidEx = MyPOSVoid.builder()
                 .STAN(27)
                 .authCode("VISSIM")
                 .dateTime("180129123753")
+				//.voidLastTransactionFlag(true) // this may void last transaction initialized by this terminal
                 .build();
 				
-		// Start the void transaction, pass null instead voidEx to void last transaction initialized by this terminal
+		// Start the void transaction
 		MyPOSAPI.openVoidActivity(MainActivity.this, voidEx, VOID_REQUEST_CODE, true);
     }
 ```
