@@ -321,6 +321,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_RECEIPT_PRINT_MODE, printMode.getValue());
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, preauth.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
 
         activity.startActivityForResult(myposIntent, requestCode);
 
