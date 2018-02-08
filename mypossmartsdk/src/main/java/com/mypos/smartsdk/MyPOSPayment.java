@@ -14,6 +14,9 @@ public class MyPOSPayment {
     private Currency    currency;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
+    private int         operatorCode = -1;
+    private String      referenceNumber;
+    private int         referenceType;
 
 
     MyPOSPayment(Builder builder) {
@@ -25,6 +28,9 @@ public class MyPOSPayment {
         this.motoTransaction = builder.motoTransaction;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
+        this.operatorCode = builder.operatorCode;
+        this.referenceNumber = builder.referenceNumber;
+        this.referenceType = builder.referenceType;
     }
 
 
@@ -104,6 +110,29 @@ public class MyPOSPayment {
         return this;
     }
 
+    public int getOperatorCode() {
+        return operatorCode;
+    }
+
+    public MyPOSPayment setOperatorCode(int operatorCode) {
+        this.operatorCode = operatorCode;
+        return this;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public int getReferenceType() {
+        return referenceType;
+    }
+
+    public MyPOSPayment setReference(String referenceNumber, int referenceType) {
+        this.referenceNumber = referenceNumber;
+        this.referenceType = referenceType;
+        return this;
+    }
+
     public static class Builder {
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
@@ -113,6 +142,9 @@ public class MyPOSPayment {
         private Currency    currency;
         private int         printMerchantReceipt;
         private int         printCustomerReceipt;
+        private int         operatorCode = -1;
+        private String      referenceNumber;
+        private int         referenceType;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -154,6 +186,17 @@ public class MyPOSPayment {
             return this;
         }
 
+        public Builder operatorCode(int operatorCode) {
+            this.operatorCode = operatorCode;
+            return this;
+        }
+
+        public Builder reference(String referenceNumber, int referenceType) {
+            this.referenceNumber = referenceNumber;
+            this.referenceType = referenceType;
+            return this;
+        }
+
         public MyPOSPayment build() {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new IllegalArgumentException("Invalid or missing amount");
@@ -164,6 +207,17 @@ public class MyPOSPayment {
 
             if (this.tippingModeEnabled && this.tipAmount <= 0.0D) {
                 throw new IllegalArgumentException("Invalid tip amount");
+            }
+
+            if (operatorCode < -1 || String.valueOf(operatorCode).length() > 3) {
+                throw new IllegalArgumentException("incorrect operator code");
+            }
+
+            if(!ReferenceType.isInBound(referenceType)) {
+                throw new IllegalArgumentException("reference type out of bound");
+            }
+            if(ReferenceType.isEnabled(referenceType) && (referenceNumber == null || referenceNumber.length() > 20 || referenceNumber.isEmpty())) {
+                throw new IllegalArgumentException("incorrect reference number");
             }
 
             return new MyPOSPayment(this);

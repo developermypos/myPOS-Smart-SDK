@@ -12,6 +12,8 @@ public class MyPOSPreauthorization {
     private Currency    currency;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
+    private String      referenceNumber;
+    private int         referenceType;
 
 
     MyPOSPreauthorization(MyPOSPreauthorization.Builder builder) {
@@ -21,6 +23,8 @@ public class MyPOSPreauthorization {
         this.motoTransaction = builder.motoTransaction;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
+        this.referenceNumber = builder.referenceNumber;
+        this.referenceType = builder.referenceType;
     }
 
 
@@ -82,6 +86,20 @@ public class MyPOSPreauthorization {
         return this;
     }
 
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public int getReferenceType() {
+        return referenceType;
+    }
+
+    public MyPOSPreauthorization setReference(String referenceNumber, int referenceType) {
+        this.referenceNumber = referenceNumber;
+        this.referenceType = referenceType;
+        return this;
+    }
+
     public static class Builder {
         private boolean     motoTransaction;
         private Double      productAmount;
@@ -89,6 +107,8 @@ public class MyPOSPreauthorization {
         private Currency    currency;
         private int         printMerchantReceipt;
         private int         printCustomerReceipt;
+        private String      referenceNumber;
+        private int         referenceType;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -120,12 +140,24 @@ public class MyPOSPreauthorization {
             return this;
         }
 
+        public MyPOSPreauthorization.Builder reference(String referenceNumber, int referenceType) {
+            this.referenceNumber = referenceNumber;
+            this.referenceType = referenceType;
+            return this;
+        }
+
         public MyPOSPreauthorization build() {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new IllegalArgumentException("Invalid or missing amount");
             }
             if (this.currency == null) {
                 throw new IllegalArgumentException("Missing currency");
+            }
+            if(!ReferenceType.isInBound(referenceType)) {
+                throw new IllegalArgumentException("reference type out of bound");
+            }
+            if(ReferenceType.isEnabled(referenceType) && (referenceNumber == null || referenceNumber.length() > 20 || referenceNumber.isEmpty())) {
+                throw new IllegalArgumentException("incorrect reference number");
             }
 
             return new MyPOSPreauthorization(this);

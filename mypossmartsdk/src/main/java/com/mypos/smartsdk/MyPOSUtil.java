@@ -72,6 +72,11 @@ public class MyPOSUtil {
      * Amount of the tip
      */
     public static final String INTENT_TRANSACTION_TIP_AMOUNT             = "tip_amount";
+
+    public static final String INTENT_OPERATOR_CODE              = "operator_code";
+    public static final String INTENT_REFERENCE_NUMBER           = "reference_number";
+    public static final String INTENT_REFERENCE_NUMBER_TYPE      = "reference_number_type";
+
     /**
      * Code used for completing a preauthorization transaction
      */
