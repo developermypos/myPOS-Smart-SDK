@@ -16,6 +16,8 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 * [Usage](#Usage)
 
+  * [Receive POS info](#receive-pos-info)
+
   * [Process checkout](#process-checkout)
 
   * [Refund request](#refund-request)
@@ -109,6 +111,18 @@ dependencies {
 
 Once the SDK is added to your project, using the Payment API can be done with the provided helper classes.
 
+
+### Receive POS info
+
+Here you can find simple info about myPOS terminal like	TID, currency name, currency code, merchant info, etc.
+
+```java
+MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
+            @Override
+            public void onReceive(POSInfo info) {
+                //info is received
+            }
+        });
 
 ### Process a checkout
 
