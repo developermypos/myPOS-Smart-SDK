@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -16,50 +18,66 @@ public class PrinterCommand {
         /**
          * If type is header, the text should contain the receipt date in format "DD/MM/YY;HH:mm:ss"!
          */
+        @SerializedName("HEADER")
         HEADER,
+        @SerializedName("LOGO")
         LOGO,
+        @SerializedName("TEXT")
         TEXT,
+        @SerializedName("FOOTER")
         FOOTER,
+        @SerializedName("IMAGE")
         IMAGE
     }
 
     public enum Alignment {
+        @SerializedName("ALIGN_LEFT")
         ALIGN_LEFT,
+        @SerializedName("ALIGN_CENTER")
         ALIGN_CENTER,
+        @SerializedName("ALIGN_RIGHT")
         ALIGN_RIGHT,
     }
 
     /**
      * The command's type
      */
+    @SerializedName("type")
     private CommandType type;
     /**
      * The text to be printed
      */
+    @SerializedName("text")
     private String text;
     /**
      * Should the text be printed with double width?
      */
+    @SerializedName("doubleWidth")
     private boolean doubleWidth;
     /**
      * Should the text be printed with double height?
      */
+    @SerializedName("doubleHeight")
     private boolean doubleHeight;
     /**
      * The encoding
      */
+    @SerializedName("encoding")
     private String  encoding;
     /**
      * Image to be printed
      */
+    @SerializedName("imageEncoded")
     private String imageEncoded;
     /**
      * Font size
      */
+    @SerializedName("fontSize")
     private int fontSize;
     /**
      * Alignment of the text.
      */
+    @SerializedName("alignment")
     private Alignment alignment = Alignment.ALIGN_LEFT;
 
 
