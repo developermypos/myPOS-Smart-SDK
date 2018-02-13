@@ -209,7 +209,7 @@ public class MyPOSPayment {
                 throw new IllegalArgumentException("Invalid tip amount");
             }
 
-            if (operatorCode < -1 || String.valueOf(operatorCode).length() > 3) {
+            if (operatorCode < -1 || String.valueOf(operatorCode).length() > 4) {
                 throw new IllegalArgumentException("incorrect operator code");
             }
 
