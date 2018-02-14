@@ -5,7 +5,6 @@ package com.mypos.smartsdk;
  */
 public class MyPOSPreauthorizationCancellation {
 
-    private boolean             motoTransaction;
     private String              foreignTransactionId;
     private String              preauthorizationCode;
     private int                 printMerchantReceipt;
@@ -16,7 +15,6 @@ public class MyPOSPreauthorizationCancellation {
 
     MyPOSPreauthorizationCancellation(MyPOSPreauthorizationCancellation.Builder builder) {
         this.foreignTransactionId = builder.foreignTransactionId;
-        this.motoTransaction = builder.motoTransaction;
         this.preauthorizationCode = builder.preauthorizationCode;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
@@ -35,15 +33,6 @@ public class MyPOSPreauthorizationCancellation {
 
     public MyPOSPreauthorizationCancellation setForeignTransactionId(String foreignTransactionId) {
         this.foreignTransactionId = foreignTransactionId;
-        return this;
-    }
-
-    public boolean isMotoTransaction() {
-        return motoTransaction;
-    }
-
-    public MyPOSPreauthorizationCancellation setMotoTransaction(boolean motoTransaction) {
-        this.motoTransaction = motoTransaction;
         return this;
     }
 
@@ -89,7 +78,6 @@ public class MyPOSPreauthorizationCancellation {
     }
 
     public static class Builder {
-        private boolean             motoTransaction;
         private String              foreignTransactionId;
         private String              preauthorizationCode;
         private int                 printMerchantReceipt;
@@ -99,11 +87,6 @@ public class MyPOSPreauthorizationCancellation {
 
         public MyPOSPreauthorizationCancellation.Builder foreignTransactionId(String foreignTransactionId) {
             this.foreignTransactionId = foreignTransactionId;
-            return this;
-        }
-
-        public MyPOSPreauthorizationCancellation.Builder motoTransaction(boolean motoTransaction) {
-            this.motoTransaction = motoTransaction;
             return this;
         }
 
