@@ -17,6 +17,7 @@ public class MyPOSPayment {
     private int         operatorCode = -1;
     private String      referenceNumber;
     private int         referenceType;
+    private String      motoPassword;
 
 
     MyPOSPayment(Builder builder) {
@@ -31,6 +32,7 @@ public class MyPOSPayment {
         this.operatorCode = builder.operatorCode;
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
+        this.motoPassword = builder.motoPassword;
     }
 
 
@@ -119,6 +121,15 @@ public class MyPOSPayment {
         return this;
     }
 
+    public String getMotoPassword() {
+        return motoPassword;
+    }
+
+    public MyPOSPayment setMotoPassword(String motoPassword) {
+        this.motoPassword = motoPassword;
+        return this;
+    }
+
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -145,6 +156,7 @@ public class MyPOSPayment {
         private int         operatorCode = -1;
         private String      referenceNumber;
         private int         referenceType;
+        private String      motoPassword;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -188,6 +200,11 @@ public class MyPOSPayment {
 
         public Builder operatorCode(int operatorCode) {
             this.operatorCode = operatorCode;
+            return this;
+        }
+
+        public Builder motoPassword(String motoPassword) {
+            this.motoPassword = motoPassword;
             return this;
         }
 

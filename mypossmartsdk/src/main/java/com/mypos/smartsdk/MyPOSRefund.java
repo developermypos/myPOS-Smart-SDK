@@ -12,6 +12,7 @@ public class MyPOSRefund {
     private Currency            currency;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
+    private String              motoPassword;
 
     private MyPOSRefund(Builder builder) {
         this.refundAmount = builder.refundAmount;
@@ -20,6 +21,7 @@ public class MyPOSRefund {
         this.motoTransaction = builder.motoTransaction;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
+        this.motoPassword = builder.motoPassword;
     }
 
 
@@ -63,6 +65,15 @@ public class MyPOSRefund {
         return this;
     }
 
+    public String getMotoPassword() {
+        return motoPassword;
+    }
+
+    public MyPOSRefund setMotoPassword(String motoPassword) {
+        this.motoPassword = motoPassword;
+        return this;
+    }
+
     public int getPrintMerchantReceipt() {
         return printMerchantReceipt;
     }
@@ -88,6 +99,7 @@ public class MyPOSRefund {
         private Currency        currency;
         private int             printMerchantReceipt;
         private int             printCustomerReceipt;
+        private String          motoPassword;
 
         public Builder refundAmount(Double productAmount) {
             this.refundAmount = productAmount;
@@ -106,6 +118,11 @@ public class MyPOSRefund {
 
         public Builder motoTransaction(boolean motoTransaction) {
             this.motoTransaction = motoTransaction;
+            return this;
+        }
+
+        public Builder motoPassword(String motoPassword) {
+            this.motoPassword = motoPassword;
             return this;
         }
 

@@ -14,7 +14,7 @@ public class MyPOSPreauthorization {
     private int         printCustomerReceipt;
     private String      referenceNumber;
     private int         referenceType;
-
+    private String      motoPassword;
 
     MyPOSPreauthorization(MyPOSPreauthorization.Builder builder) {
         this.productAmount = builder.productAmount;
@@ -25,6 +25,7 @@ public class MyPOSPreauthorization {
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
+        this.motoPassword = builder.motoPassword;
     }
 
 
@@ -65,6 +66,15 @@ public class MyPOSPreauthorization {
 
     public MyPOSPreauthorization setMotoTransaction(boolean motoTransaction) {
         this.motoTransaction = motoTransaction;
+        return this;
+    }
+
+    public String getMotoPassword() {
+        return motoPassword;
+    }
+
+    public MyPOSPreauthorization setMotoPassword(String motoPassword) {
+        this.motoPassword = motoPassword;
         return this;
     }
 
@@ -109,6 +119,7 @@ public class MyPOSPreauthorization {
         private int         printCustomerReceipt;
         private String      referenceNumber;
         private int         referenceType;
+        private String      motoPassword;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -137,6 +148,11 @@ public class MyPOSPreauthorization {
 
         public MyPOSPreauthorization.Builder printCustomerReceipt(int printCustomerReceipt) {
             this.printCustomerReceipt = printCustomerReceipt;
+            return this;
+        }
+
+        public MyPOSPreauthorization.Builder motoPassword(String motoPassword) {
+            this.motoPassword = motoPassword;
             return this;
         }
 

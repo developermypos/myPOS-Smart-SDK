@@ -76,6 +76,7 @@ public class MyPOSUtil {
     public static final String INTENT_OPERATOR_CODE              = "operator_code";
     public static final String INTENT_REFERENCE_NUMBER           = "reference_number";
     public static final String INTENT_REFERENCE_NUMBER_TYPE      = "reference_number_type";
+    public static final String INTENT_MOTO_PASSWORD              = "moto_password";
 
     /**
      * Code used for completing a preauthorization transaction
