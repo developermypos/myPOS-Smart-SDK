@@ -14,7 +14,7 @@ public class MyPOSPayment {
     private Currency    currency;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
-    private int         operatorCode = -1;
+    private String      operatorCode;
     private String      referenceNumber;
     private int         referenceType;
     private String      motoPassword;
@@ -112,11 +112,11 @@ public class MyPOSPayment {
         return this;
     }
 
-    public int getOperatorCode() {
+    public String getOperatorCode() {
         return operatorCode;
     }
 
-    public MyPOSPayment setOperatorCode(int operatorCode) {
+    public MyPOSPayment setOperatorCode(String operatorCode) {
         this.operatorCode = operatorCode;
         return this;
     }
@@ -153,7 +153,7 @@ public class MyPOSPayment {
         private Currency    currency;
         private int         printMerchantReceipt;
         private int         printCustomerReceipt;
-        private int         operatorCode = -1;
+        private String      operatorCode;
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
@@ -198,7 +198,7 @@ public class MyPOSPayment {
             return this;
         }
 
-        public Builder operatorCode(int operatorCode) {
+        public Builder operatorCode(String operatorCode) {
             this.operatorCode = operatorCode;
             return this;
         }
@@ -226,8 +226,26 @@ public class MyPOSPayment {
                 throw new IllegalArgumentException("Invalid tip amount");
             }
 
-            if (operatorCode < -1 || String.valueOf(operatorCode).length() > 4) {
-                throw new IllegalArgumentException("incorrect operator code");
+            if (operatorCode != null ) {
+
+                boolean valid = true;
+
+                if (operatorCode.length() > 4 || operatorCode.isEmpty()) {
+                    valid = false;
+                }
+                else {
+                    try {
+                        if(Integer.parseInt(operatorCode) < 0) {
+                            valid = false;
+                        }
+                    } catch (NumberFormatException e) {
+                        valid = false;
+                    }
+                }
+
+                if(!valid) {
+                    throw new IllegalArgumentException("incorrect operator code");
+                }
             }
 
             if(!ReferenceType.isInBound(referenceType)) {
