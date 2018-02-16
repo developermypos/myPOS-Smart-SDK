@@ -1,5 +1,9 @@
 package com.mypos.smartsdk;
 
+import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
+import com.mypos.smartsdk.exceptions.InvalidReferenceTypeException;
+import com.mypos.smartsdk.exceptions.MissingPreauthCodeException;
+
 /**
  * Cancel a preauthorization
  */
@@ -111,15 +115,15 @@ public class MyPOSPreauthorizationCancellation {
             return this;
         }
 
-        public MyPOSPreauthorizationCancellation build() {
+        public MyPOSPreauthorizationCancellation build() throws MissingPreauthCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.preauthorizationCode == null || preauthorizationCode.isEmpty()) {
-                throw new IllegalArgumentException("Missing preauthorization code");
+                throw new MissingPreauthCodeException("Missing preauthorization code");
             }
             if(!ReferenceType.isInBound(referenceType)) {
-                throw new IllegalArgumentException("reference type out of bound");
+                throw new InvalidReferenceTypeException("reference type out of bound");
             }
             if(ReferenceType.isEnabled(referenceType) && (referenceNumber == null || referenceNumber.length() > 20 || referenceNumber.isEmpty()) || !referenceNumber.matches("[\\p{Punct}\\p{Digit}\\p{Space}\\p{Latin}]+$")) {
-                throw new IllegalArgumentException("incorrect reference number");
+                throw new InvalidReferenceNumberException("incorrect reference number");
             }
 
             return new MyPOSPreauthorizationCancellation(this);

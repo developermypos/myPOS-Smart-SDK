@@ -1,6 +1,10 @@
 package com.mypos.smartsdk;
 
 
+import com.mypos.smartsdk.exceptions.MissingAuthCodeException;
+import com.mypos.smartsdk.exceptions.MissingDateTimeException;
+import com.mypos.smartsdk.exceptions.MissingSTANException;
+
 /**
  * Describes a refund
  */
@@ -119,16 +123,16 @@ public class MyPOSVoid {
             return this;
         }
 
-        public MyPOSVoid build() {
+        public MyPOSVoid build() throws MissingSTANException, MissingAuthCodeException, MissingDateTimeException{
             if(!voidLastTransactionFlag) {
                 if (STAN == 0) {
-                    throw new IllegalArgumentException("Invalid STAN");
+                    throw new MissingSTANException("Invalid STAN");
                 }
                 if (authCode == null) {
-                    throw new IllegalArgumentException("missing or invalid auth code");
+                    throw new MissingAuthCodeException("missing or invalid auth code");
                 }
                 if (dateTime == null) {
-                    throw new IllegalArgumentException("missing or invalid date time");
+                    throw new MissingDateTimeException("missing or invalid date time");
                 }
             }
             return new MyPOSVoid(this);

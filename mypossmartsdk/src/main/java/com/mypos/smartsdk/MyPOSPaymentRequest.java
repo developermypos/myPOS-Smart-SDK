@@ -1,5 +1,9 @@
 package com.mypos.smartsdk;
 
+import com.mypos.smartsdk.exceptions.InvalidAmountException;
+import com.mypos.smartsdk.exceptions.MissingCurrencyException;
+import com.mypos.smartsdk.exceptions.MissingRecipientException;
+
 /**
  * Created by rumen.ivanov on 24.10.2017 г..
  */
@@ -154,17 +158,17 @@ public class MyPOSPaymentRequest {
             return this;
         }
 
-        public MyPOSPaymentRequest build() {
+        public MyPOSPaymentRequest build() throws MissingCurrencyException, InvalidAmountException, MissingRecipientException {
             if(this.productAmount != null && this.productAmount.doubleValue() > 0.0D) {
                 if(this.currency == null) {
-                    throw new IllegalArgumentException("Missing currency");
+                    throw new MissingCurrencyException("Missing currency");
                 } else if(this.GSM != null && !this.GSM.isEmpty() || this.eMail != null && !this.eMail.isEmpty()) {
                     return new MyPOSPaymentRequest(this);
                 } else {
-                    throw new IllegalArgumentException("Missing recipient");
+                    throw new MissingRecipientException("Missing recipient");
                 }
             } else {
-                throw new IllegalArgumentException("Invalid or missing amount");
+                throw new InvalidAmountException("Invalid or missing amount");
             }
         }
     }

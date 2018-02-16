@@ -1,6 +1,9 @@
 package com.mypos.smartsdk;
 
 
+import com.mypos.smartsdk.exceptions.InvalidAmountException;
+import com.mypos.smartsdk.exceptions.MissingCurrencyException;
+
 /**
  * Describes a refund
  */
@@ -136,12 +139,12 @@ public class MyPOSRefund {
             return this;
         }
 
-        public MyPOSRefund build() {
+        public MyPOSRefund build() throws InvalidAmountException, MissingCurrencyException {
             if (this.refundAmount == null || this.refundAmount <= 0.0D) {
-                throw new IllegalArgumentException("Invalid amount");
+                throw new InvalidAmountException("Invalid amount");
             }
             if (this.currency == null) {
-                throw new IllegalArgumentException("Invalid currency");
+                throw new MissingCurrencyException("Invalid currency");
             }
 
             return new MyPOSRefund(this);
