@@ -177,7 +177,7 @@ public class MyPOSPreauthorization {
             if(!ReferenceType.isInBound(referenceType)) {
                 throw new InvalidReferenceTypeException("reference type out of bound");
             }
-            if(ReferenceType.isEnabled(referenceType) && (referenceNumber == null || referenceNumber.length() > 20 || referenceNumber.isEmpty() || !referenceNumber.matches("[\\p{Punct}\\p{Digit}\\p{Space}\\p{Latin}]+$"))) {
+            if(ReferenceType.isEnabled(referenceType) && !MyPOSUtil.isReferenceNumberValid(referenceNumber)) {
                 throw new InvalidReferenceNumberException("incorrect reference number");
             }
 
