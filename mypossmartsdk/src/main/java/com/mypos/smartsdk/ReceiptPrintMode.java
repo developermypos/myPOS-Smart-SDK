@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 /**
+ * @deprecated
  * Describes how the receipts are printed
  */
 public enum ReceiptPrintMode {
