@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 
+import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.InvalidOperatorCodeExcepton;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
@@ -15,6 +16,7 @@ public class MyPOSPayment {
 
     private boolean     tippingModeEnabled;
     private boolean     motoTransaction;
+    private boolean     giftCardTransaction;
     private double      productAmount;
     private double      tipAmount;
     private String      foreignTransactionId;
@@ -34,6 +36,7 @@ public class MyPOSPayment {
         this.tippingModeEnabled = builder.tippingModeEnabled;
         this.tipAmount = builder.tipAmount;
         this.motoTransaction = builder.motoTransaction;
+        this.giftCardTransaction = builder.giftCardTransaction;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.operatorCode = builder.operatorCode;
@@ -101,6 +104,15 @@ public class MyPOSPayment {
         return this;
     }
 
+    public boolean isGiftCardTransaction() {
+        return giftCardTransaction;
+    }
+
+    public MyPOSPayment setGiftCardTransaction(boolean giftCardTransaction) {
+        this.giftCardTransaction = giftCardTransaction;
+        return this;
+    }
+
     public int getPrintMerchantReceipt() {
         return printMerchantReceipt;
     }
@@ -154,6 +166,7 @@ public class MyPOSPayment {
     public static class Builder {
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
+        private boolean     giftCardTransaction;
         private double      tipAmount;
         private Double      productAmount;
         private String      foreignTransactionId;
@@ -187,6 +200,11 @@ public class MyPOSPayment {
 
         public Builder tippingModeEnabled(boolean tippingModeEnabled) {
             this.tippingModeEnabled = tippingModeEnabled;
+            return this;
+        }
+
+        public Builder giftCardTransaction(boolean giftCardTransaction) {
+            this.giftCardTransaction = giftCardTransaction;
             return this;
         }
 
@@ -231,6 +249,10 @@ public class MyPOSPayment {
 
             if (this.tippingModeEnabled && this.tipAmount <= 0.0D) {
                 throw new InvalidTipAmountException("Invalid tip amount");
+            }
+
+            if(motoTransaction && giftCardTransaction) {
+                throw new GiftCardUnsupportedParamsException("GIFT CARD does not support MO/TO transactions");
             }
 
             if (operatorCode != null ) {

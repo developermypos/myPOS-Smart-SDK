@@ -10,6 +10,10 @@ public class MyPOSUtil {
      */
     public static final String PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT      = "com.mypos.transaction.START_MOTO_TRANSACTION";
     /**
+     * Used for starting a MOTO transaction
+     */
+    public static final String PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT  = "com.mypos.transaction.GIFTCARD_PAYMENT";
+    /**
      * Start a void transaction
      */
     public static final String PAYMENT_CORE_VOID_INTENT                  = "com.mypos.transaction.VOID";
@@ -118,6 +122,18 @@ public class MyPOSUtil {
      * Request code for cancelling a preauthorization request
      */
     public static final int TRANSACTION_TYPE_PREAUTH_CANCELLATION = 106;
+    /**
+     * Request code for giftcard activation
+     */
+    public static final int TRANSACTION_TYPE_GIFTCARD_ACTIVATION        = 107;
+    /**
+     * Request code for giftcard deactivation
+     */
+    public static final int TRANSACTION_TYPE_GIFTCARD_DEACTIVATION      = 108;
+    /**
+     * Request code for giftcard balance check
+     */
+    public static final int TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK     = 109;
 
     // SAM Card
     public static final String INTENT_SAM_CARD                      = "com.mypos.action.SAM_CARD";

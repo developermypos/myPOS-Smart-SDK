@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 
+import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 
@@ -11,6 +12,7 @@ public class MyPOSRefund {
 
     private double              refundAmount;
     private boolean             motoTransaction;
+    private boolean             giftCardTransaction;
     private String              foreignTransactionId;
     private Currency            currency;
     private int                 printMerchantReceipt;
@@ -22,6 +24,7 @@ public class MyPOSRefund {
         this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.motoTransaction = builder.motoTransaction;
+        this.giftCardTransaction = builder.giftCardTransaction;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.motoPassword = builder.motoPassword;
@@ -56,6 +59,15 @@ public class MyPOSRefund {
 
     public MyPOSRefund setCurrency(Currency currency) {
         this.currency = currency;
+        return this;
+    }
+
+    public boolean isGiftCardTransaction() {
+        return giftCardTransaction;
+    }
+
+    public MyPOSRefund setGiftCardTransaction(boolean giftCardTransaction) {
+        this.giftCardTransaction = giftCardTransaction;
         return this;
     }
 
@@ -97,6 +109,7 @@ public class MyPOSRefund {
 
     public static final class Builder {
         private boolean         motoTransaction;
+        private boolean         giftCardTransaction;
         private Double          refundAmount;
         private String          foreignTransactionId;
         private Currency        currency;
@@ -116,6 +129,11 @@ public class MyPOSRefund {
 
         public Builder foreignTransactionId(String foreignTransactionId) {
             this.foreignTransactionId = foreignTransactionId;
+            return this;
+        }
+
+        public Builder giftCardTransaction(boolean giftCardTransaction) {
+            this.giftCardTransaction = giftCardTransaction;
             return this;
         }
 
@@ -145,6 +163,10 @@ public class MyPOSRefund {
             }
             if (this.currency == null) {
                 throw new MissingCurrencyException("Invalid currency");
+            }
+
+            if(motoTransaction && giftCardTransaction) {
+                throw new GiftCardUnsupportedParamsException("GIFT CARD does not support MO/TO transactions");
             }
 
             return new MyPOSRefund(this);

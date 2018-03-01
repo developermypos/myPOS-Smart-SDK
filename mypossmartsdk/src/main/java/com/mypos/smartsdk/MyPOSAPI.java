@@ -64,7 +64,9 @@ public class MyPOSAPI {
         Intent myposIntent;
         if (payment.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
-        } else {
+        } else if (payment.isGiftCardTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
+        }else {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
         }
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PAYMENT);
@@ -100,6 +102,8 @@ public class MyPOSAPI {
         Intent myposIntent;
         if (payment.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else if (payment.isGiftCardTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
         } else {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
         }
@@ -144,6 +148,8 @@ public class MyPOSAPI {
         Intent myposIntent;
         if (refund.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else if (refund.isGiftCardTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
         } else {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
         }
@@ -175,6 +181,8 @@ public class MyPOSAPI {
         Intent myposIntent;
         if (refund.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
+        } else if (refund.isGiftCardTransaction()) {
+            myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
         } else {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
         }
@@ -217,7 +225,6 @@ public class MyPOSAPI {
 
         activity.startActivityForResult(myposIntent,requestCode);
     }
-
 
     /**
      * Creates a preauthorization request
@@ -424,6 +431,60 @@ public class MyPOSAPI {
 
         activity.startActivityForResult(myposIntent, requestCode);
 
+    }
+
+    /**
+     * Takes care of building the intent and opening the payment activity
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param activation             a {@link MyPOSPayment} object with payment-related data
+     * @param requestCode            the request code used later to distinguish
+     * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
+     */
+    public static void openGiftCardActivationActivity(Activity activity, MyPOSGiftCardActivation activation, int requestCode, boolean skipConfirmationScreen) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_ACTIVATION);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, activation.getProductAmount());
+        myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, activation.getCurrency().toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, activation.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, activation.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, activation.getPrintCustomerReceipt());
+
+        activity.startActivityForResult(myposIntent, requestCode);
+    }
+
+    /**
+     * Takes care of building the intent and opening the payment activity
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param foreignTransactionId   a payment-related id
+     * @param requestCode            the request code used later to distinguish
+     */
+    public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_DEACTIVATION);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+
+        activity.startActivityForResult(myposIntent, requestCode);
+    }
+
+    /**
+     * Takes care of building the intent and opening the payment activity
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param foreignTransactionId   a payment-related id
+     * @param requestCode            the request code used later to distinguish
+     */
+    public static void openGiftCardCheckBalanceActivity(Activity activity, String foreignTransactionId, int requestCode) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+
+        activity.startActivityForResult(myposIntent, requestCode);
     }
 
     public static void createPaymentRequest(Activity activity, MyPOSPaymentRequest paymentRequest, int requestCode) {
