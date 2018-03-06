@@ -1,12 +1,14 @@
 package com.mypos.smartsdk;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.mypos.smartsdk.data.POSInfo;
+import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
 
 
 public class MyPOSAPI {
@@ -60,7 +62,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen) {
+    public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (payment.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -83,7 +85,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, payment.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -98,7 +100,7 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      * @param printMode              tells the payment app how receipts should be printed, if any
      */
-    public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) {
+    public static void openPaymentActivity(Activity activity, MyPOSPayment payment, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (payment.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -122,7 +124,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, payment.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -144,7 +146,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen) {
+    public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (refund.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -162,7 +164,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -177,7 +179,7 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      * @param printMode              tells the payment app how receipts should be printed, if any
      */
-    public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) {
+    public static void openRefundActivity(Activity activity, MyPOSRefund refund, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (refund.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -196,7 +198,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -207,7 +209,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void openVoidActivity(Activity activity, MyPOSVoid voidTr, int requestCode, boolean skipConfirmationScreen) {
+    public static void openVoidActivity(Activity activity, MyPOSVoid voidTr, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if(voidTr.getVoidLastTransactionFlag()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_VOID_INTENT);
@@ -223,7 +225,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, voidTr.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, voidTr.getPrintCustomerReceipt());
 
-        activity.startActivityForResult(myposIntent,requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -245,7 +247,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen) {
+    public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (preauth.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -264,7 +266,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -280,7 +282,7 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      * @param printMode              tells the payment app how receipts should be printed, if any
      */
-    public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) {
+    public static void createPreauthorization(Activity activity, MyPOSPreauthorization preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) throws FunctionalityNotSupportedException {
         Intent myposIntent;
         if (preauth.isMotoTransaction()) {
             myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_MOTO_INTENT);
@@ -300,7 +302,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -322,7 +324,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen) {
+    public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_COMPLETION);
@@ -336,7 +338,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -351,7 +353,7 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      * @param printMode              tells the payment app how receipts should be printed, if any
      */
-    public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) {
+    public static void completePreauthorization(Activity activity, MyPOSPreauthorizationCompletion preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_COMPLETION);
@@ -366,7 +368,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
 
     }
 
@@ -389,7 +391,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish the type of transaction that has completed
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen) {
+    public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_CANCELLATION);
@@ -401,7 +403,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -416,7 +418,7 @@ public class MyPOSAPI {
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      * @param printMode              tells the payment app how receipts should be printed, if any
      */
-    public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) {
+    public static void cancelPreauthorization(Activity activity, MyPOSPreauthorizationCancellation preauth, int requestCode, boolean skipConfirmationScreen, ReceiptPrintMode printMode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PREAUTH_CANCELLATION);
@@ -429,7 +431,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
 
     }
 
@@ -441,7 +443,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
-    public static void openGiftCardActivationActivity(Activity activity, MyPOSGiftCardActivation activation, int requestCode, boolean skipConfirmationScreen) {
+    public static void openGiftCardActivationActivity(Activity activity, MyPOSGiftCardActivation activation, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_ACTIVATION);
@@ -452,7 +454,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, activation.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, activation.getPrintCustomerReceipt());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -462,13 +464,13 @@ public class MyPOSAPI {
      * @param foreignTransactionId   a payment-related id
      * @param requestCode            the request code used later to distinguish
      */
-    public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) {
+    public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_DEACTIVATION);
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
     /**
@@ -478,16 +480,16 @@ public class MyPOSAPI {
      * @param foreignTransactionId   a payment-related id
      * @param requestCode            the request code used later to distinguish
      */
-    public static void openGiftCardCheckBalanceActivity(Activity activity, String foreignTransactionId, int requestCode) {
+    public static void openGiftCardCheckBalanceActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK);
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
     }
 
-    public static void createPaymentRequest(Activity activity, MyPOSPaymentRequest paymentRequest, int requestCode) {
+    public static void createPaymentRequest(Activity activity, MyPOSPaymentRequest paymentRequest, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_PAYMENT_REQUEST);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, paymentRequest.getProductAmount());
@@ -499,7 +501,15 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PAYMENT_REQUEST_CODE, paymentRequest.getRequestCode());
         myposIntent.putExtra(MyPOSUtil.INTENT_PAYMENT_REQUEST_EXPIRY_DAYS, paymentRequest.getExpiryDays());
 
-        activity.startActivityForResult(myposIntent, requestCode);
+        startActivityForResult(activity, myposIntent, requestCode);
 
+    }
+
+    private static void startActivityForResult(Activity activity, Intent intent, int requestCode) throws FunctionalityNotSupportedException {
+        try {
+            activity.startActivityForResult(intent, requestCode);
+        } catch (ActivityNotFoundException e) {
+            throw new FunctionalityNotSupportedException("Functionality not supported");
+        }
     }
 }
