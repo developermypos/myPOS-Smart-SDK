@@ -39,6 +39,8 @@ public class PrinterCommand {
         ALIGN_RIGHT,
     }
 
+    private static final int     RECEIPT_MAX_CHARS_PER_LINE                 = 32;
+
     /**
      * The command's type
      */
@@ -159,6 +161,11 @@ public class PrinterCommand {
         this.alignment = alignment;
     }
 
+    public PrinterCommand(CommandType type, String leftText, String rightText) {
+        this.type = type;
+        this.text = formatRow(leftText, rightText, RECEIPT_MAX_CHARS_PER_LINE);
+    }
+
     public String getText() {
         return text;
     }
@@ -241,5 +248,26 @@ public class PrinterCommand {
         this.imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
         return this;
+    }
+
+    private static String formatRow(String leftText, String rightText, int maxCharsPerLine){
+        String formattedRow = "";
+        if(leftText.length() + rightText.length() <= maxCharsPerLine){
+            formattedRow = leftText;
+            while (formattedRow.length() + rightText.length() < maxCharsPerLine){
+                formattedRow += " ";
+            }
+            formattedRow += rightText;
+        }
+        else{
+            int rowIndex = 0;
+            while(rowIndex < maxCharsPerLine - 1 - rightText.length()){
+                formattedRow += leftText.charAt(rowIndex);
+                rowIndex++;
+            }
+            formattedRow += "\n";
+            formattedRow += formatRow(leftText.charAt(rowIndex) == ' ' ? leftText.substring(rowIndex+1) : leftText.substring(rowIndex), rightText, maxCharsPerLine);
+        }
+        return formattedRow;
     }
 }
