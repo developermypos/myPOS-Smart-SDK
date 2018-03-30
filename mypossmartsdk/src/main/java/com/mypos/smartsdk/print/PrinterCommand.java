@@ -85,6 +85,10 @@ public class PrinterCommand {
 
     public PrinterCommand(CommandType type) {
         this.type = type;
+
+        if (type == CommandType.TEXT) {
+            text = " ";
+        }
     }
 
     public PrinterCommand(String text) {
