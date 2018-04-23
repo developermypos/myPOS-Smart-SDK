@@ -46,6 +46,10 @@ public class PrinterStatus {
      */
     public static final int PRINTER_STATUS_DATA_PACKET_TOO_LONG    = 254;
     /**
+     * The timeout of the printer command expired before the printing was complete
+     */
+    public static final int PRINTER_NOT_FINISHED                   = 257;
+    /**
      * Something else
      */
     public static final int PRINTER_STATUS_UNKNOWN_ERROR           = -1;

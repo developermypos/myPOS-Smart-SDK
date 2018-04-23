@@ -508,6 +508,8 @@ Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
 
 // Add the commands
 intent.putExtra("commands", json);
+intent.putExtra("GUID", "1234567890"); // String, optional, any text, will be echoed back. If a second command with the same GUID is sent, it will not start a new print, but return the result of the first.
+intent.putExtra("timeout", 10000); // int, optional, milliseconds
 
 // Send broadcast
 sendBroadcast(intent);
@@ -537,6 +539,9 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
          } else if (printer_status == PrinterStatus.PRINTER_STATUS_OUT_OF_PAPER) {
              // Show "missing paper" dialog
              Toast.makeText(context, "No paper in the printer", Toast.LENGTH_SHORT).show();
+         } else if (printer_status == PrinterStatus.PRINTER_NOT_FINISHED) {
+             // Show "timeout" dialog
+             Toast.makeText(context, "Timeout. Please resend the command.", Toast.LENGTH_SHORT).show();
          } else {
              Toast.makeText(context, String.format("Some error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
          }

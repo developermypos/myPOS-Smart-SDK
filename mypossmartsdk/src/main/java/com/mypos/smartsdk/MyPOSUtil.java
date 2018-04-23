@@ -142,6 +142,7 @@ public class MyPOSUtil {
     public static final String INTENT_SAM_CARD_SLOT                 = "slot";
     public static final String INTENT_SAM_CARD_REQUEST              = "request";
     public static final String INTENT_SAM_CARD_RESPONSE             = "response";
+    public static final String INTENT_GUID                          = "GUID";
 
     public static final String INTENT_SAM_CARD_COMMAND_DETECT       = "detect";
     public static final String INTENT_SAM_CARD_COMMAND_OPEN         = "open";

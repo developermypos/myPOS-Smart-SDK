@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.ConditionVariable;
 import android.os.Looper;
 
+import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -25,12 +26,18 @@ public class SAMCard {
         final boolean[] mResultValue = {false};
         final ConditionVariable mCondition = new ConditionVariable(false);
         final String[] error_msg = {null};
+        final String sentGUID = UUID.randomUUID().toString();
 
         if (timeOut <= 100) timeOut = 100;
 
         final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent resultIntent) {
+                String receivedGUID = resultIntent.getStringExtra(MyPOSUtil.INTENT_GUID);
+                if (receivedGUID != null && !sentGUID.equals(receivedGUID)) {
+                    return;
+                }
+
                 mResult[0] = resultIntent.getIntExtra("status", 0);
                 if (mResult[0] == Activity.RESULT_OK) {
                     mResultValue[0] = resultIntent.getBooleanExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE, false);
@@ -46,6 +53,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_DETECT);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
+        intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
@@ -72,12 +80,18 @@ public class SAMCard {
         final byte[][] mResultValue = {null};
         final ConditionVariable mCondition = new ConditionVariable(false);
         final String[] error_msg = {null};
+        final String sentGUID = UUID.randomUUID().toString();
 
         if (timeOut <= 100) timeOut = 100;
 
         final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent resultIntent) {
+                String receivedGUID = resultIntent.getStringExtra(MyPOSUtil.INTENT_GUID);
+                if (receivedGUID != null && !sentGUID.equals(receivedGUID)) {
+                    return;
+                }
+
                 mResult[0] = resultIntent.getIntExtra("status", 0);
                 if (mResult[0] == Activity.RESULT_OK) {
                     mResultValue[0] = resultIntent.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
@@ -93,6 +107,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_OPEN);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
+        intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
@@ -118,12 +133,18 @@ public class SAMCard {
         final int[] mResult = {0};
         final ConditionVariable mCondition = new ConditionVariable(false);
         final String[] error_msg = {null};
+        final String sentGUID = UUID.randomUUID().toString();
 
         if (timeOut <= 100) timeOut = 100;
 
         final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent resultIntent) {
+                String receivedGUID = resultIntent.getStringExtra(MyPOSUtil.INTENT_GUID);
+                if (receivedGUID != null && !sentGUID.equals(receivedGUID)) {
+                    return;
+                }
+
                 mResult[0] = resultIntent.getIntExtra("status", 0);
                 if (mResult[0] == Activity.RESULT_OK) {
                 }
@@ -138,6 +159,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_CLOSE);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
+        intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
@@ -164,12 +186,18 @@ public class SAMCard {
         final byte[][] mResultValue = {null};
         final ConditionVariable mCondition = new ConditionVariable(false);
         final String[] error_msg = {null};
+        final String sentGUID = UUID.randomUUID().toString();
 
         if (timeOut <= 100) timeOut = 100;
 
         final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent resultIntent) {
+                String receivedGUID = resultIntent.getStringExtra(MyPOSUtil.INTENT_GUID);
+                if (receivedGUID != null && !sentGUID.equals(receivedGUID)) {
+                    return;
+                }
+
                 mResult[0] = resultIntent.getIntExtra("status", 0);
                 if (mResult[0] == Activity.RESULT_OK) {
                     mResultValue[0] = resultIntent.getByteArrayExtra(MyPOSUtil.INTENT_SAM_CARD_RESPONSE);
@@ -186,6 +214,7 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_ISOCOMMAND);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_REQUEST, apduSend);
+        intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
