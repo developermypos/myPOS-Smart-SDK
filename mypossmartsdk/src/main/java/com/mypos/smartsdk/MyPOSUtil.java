@@ -149,6 +149,10 @@ public class MyPOSUtil {
     public static final String INTENT_SAM_CARD_COMMAND_CLOSE        = "close";
     public static final String INTENT_SAM_CARD_COMMAND_ISOCOMMAND   = "isoCommand";
 
+    //Printer
+    public static final String INTENT_PRINT_COMMANDS                = "commands";
+    public static final String INTENT_PRINT_STATUS                  = "printer_status";
+
     public static boolean isReferenceNumberValid(String referenceNumber) {
         return referenceNumber == null || (referenceNumber.length() <= 20 && referenceNumber.matches("[a-zA-Z0-9\\p{Punct}]+"));
     }
