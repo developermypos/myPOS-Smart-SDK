@@ -62,6 +62,11 @@ public class PrinterCommand {
     @SerializedName("doubleHeight")
     private boolean doubleHeight;
     /**
+     * Should print double width/height correctly?
+     */
+    @SerializedName("doubleDimensionsSupported")
+    private boolean doubleDimensionsSupported;
+    /**
      * The encoding
      */
     @SerializedName("encoding")
@@ -114,12 +119,27 @@ public class PrinterCommand {
         this.doubleHeight = doubleHeight;
     }
 
+    public PrinterCommand(String text, boolean doubleWidth, boolean doubleHeight, boolean doubleDimensionsSupported) {
+        this.text = text;
+        this.doubleWidth = doubleWidth;
+        this.doubleHeight = doubleHeight;
+        this.doubleDimensionsSupported = doubleDimensionsSupported;
+    }
+
     @Deprecated
     public PrinterCommand(CommandType type, String text, boolean doubleWidth, boolean doubleHeight) {
         this.type = type;
         this.text = text;
         this.doubleWidth = doubleWidth;
         this.doubleHeight = doubleHeight;
+    }
+
+    public PrinterCommand(CommandType type, String text, boolean doubleWidth, boolean doubleHeight, boolean doubleDimensionsSupported) {
+        this.type = type;
+        this.text = text;
+        this.doubleWidth = doubleWidth;
+        this.doubleHeight = doubleHeight;
+        this.doubleDimensionsSupported = doubleDimensionsSupported;
     }
 
     public PrinterCommand(CommandType type, Bitmap image) {
@@ -198,6 +218,17 @@ public class PrinterCommand {
         this.doubleHeight = doubleHeight;
         return this;
     }
+
+
+    public boolean isDoubleDimensionsSupported() {
+        return doubleDimensionsSupported;
+    }
+
+    public PrinterCommand setIsDoubleDimensionsSupported(boolean doubleDimensionsSupported) {
+        this.doubleDimensionsSupported = doubleDimensionsSupported;
+        return this;
+    }
+
 
     @Deprecated
     public String getEncoding() {
