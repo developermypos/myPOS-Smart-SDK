@@ -256,6 +256,13 @@ public class PrinterCommand {
 
     private static String formatRow(String leftText, String rightText, int maxCharsPerLine){
         String formattedRow = "";
+
+        if (leftText == null)
+            leftText = "";
+
+        if (rightText == null)
+            rightText = "";
+
         if(leftText.length() + rightText.length() <= maxCharsPerLine){
             formattedRow = leftText;
             while (formattedRow.length() + rightText.length() < maxCharsPerLine){
