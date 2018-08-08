@@ -264,13 +264,36 @@ public class PrinterCommand {
             formattedRow += rightText;
         }
         else{
-            int rowIndex = 0;
-            while(rowIndex < maxCharsPerLine - 1 - rightText.length()){
-                formattedRow += leftText.charAt(rowIndex);
-                rowIndex++;
+            maxCharsPerLine = maxCharsPerLine - 1;
+            float ratio = (float) leftText.length() / (float) (leftText.length() + rightText.length());
+            int charsForLeft = Math.round(ratio * maxCharsPerLine);
+
+            if (charsForLeft < 4)
+                charsForLeft = 4 < leftText.length() ? 4 : leftText.length();
+            else
+            if (charsForLeft > maxCharsPerLine - 4)
+                charsForLeft = 4 < rightText.length() ? maxCharsPerLine - 4 : maxCharsPerLine - rightText.length();
+
+            while (!leftText.isEmpty() || !rightText.isEmpty()) {
+                leftText = leftText.trim();
+                rightText = rightText.trim();
+
+                boolean notEnoughFromLeft = leftText.length() < charsForLeft;
+                boolean notEnoughFromRight = rightText.length() < maxCharsPerLine - charsForLeft;
+
+                if (notEnoughFromLeft)
+                    while (leftText.length() < charsForLeft)
+                        leftText = String.format("%s ", leftText);
+
+                if (notEnoughFromRight)
+                    while (rightText.length() < maxCharsPerLine - charsForLeft)
+                        rightText = String.format(" %s", rightText);
+
+                formattedRow += String.format("%s %s\n", leftText.substring(0, charsForLeft), rightText.substring(0,  maxCharsPerLine - charsForLeft));
+
+                leftText = leftText.substring(charsForLeft);
+                rightText = rightText.substring( maxCharsPerLine - charsForLeft);
             }
-            formattedRow += "\n";
-            formattedRow += formatRow(leftText.charAt(rowIndex) == ' ' ? leftText.substring(rowIndex+1) : leftText.substring(rowIndex), rightText, maxCharsPerLine);
         }
         return formattedRow;
     }
