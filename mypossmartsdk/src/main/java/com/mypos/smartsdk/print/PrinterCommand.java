@@ -276,10 +276,10 @@ public class PrinterCommand {
             int charsForLeft = Math.round(ratio * maxCharsPerLine);
 
             if (charsForLeft < 4)
-                charsForLeft = 4 < leftText.length() ? 4 : leftText.length();
+                charsForLeft = Math.min(4, leftText.length());
             else
             if (charsForLeft > maxCharsPerLine - 4)
-                charsForLeft = 4 < rightText.length() ? maxCharsPerLine - 4 : maxCharsPerLine - rightText.length();
+                charsForLeft = maxCharsPerLine - Math.min(4, rightText.length());
 
             while (!leftText.isEmpty() || !rightText.isEmpty()) {
                 leftText = leftText.trim();
