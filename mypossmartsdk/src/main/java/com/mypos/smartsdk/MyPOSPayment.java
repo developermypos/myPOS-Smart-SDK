@@ -239,7 +239,7 @@ public class MyPOSPayment {
             return this;
         }
 
-        public MyPOSPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, InvalidOperatorCodeExcepton, InvalidReferenceTypeException, InvalidReferenceNumberException {
+        public MyPOSPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException, InvalidOperatorCodeExcepton, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
             }

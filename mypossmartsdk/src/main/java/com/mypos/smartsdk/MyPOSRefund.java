@@ -157,7 +157,7 @@ public class MyPOSRefund {
             return this;
         }
 
-        public MyPOSRefund build() throws InvalidAmountException, MissingCurrencyException {
+        public MyPOSRefund build() throws InvalidAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException {
             if (this.refundAmount == null || this.refundAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid amount");
             }
