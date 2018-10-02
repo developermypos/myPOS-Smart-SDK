@@ -39,7 +39,8 @@ public class PrinterCommand {
         ALIGN_RIGHT,
     }
 
-    private static final int     RECEIPT_MAX_CHARS_PER_LINE                 = 32;
+    public static final int     RECEIPT_SMART_MAX_CHARS_PER_LINE = 32;
+    public static final int     RECEIPT_HUB_MAX_CHARS_PER_LINE   = 39;
 
     /**
      * The command's type
@@ -167,7 +168,13 @@ public class PrinterCommand {
 
     public PrinterCommand(CommandType type, String leftText, String rightText) {
         this.type = type;
-        this.text = formatRow(leftText, rightText, RECEIPT_MAX_CHARS_PER_LINE);
+        this.text = formatRow(leftText, rightText, RECEIPT_SMART_MAX_CHARS_PER_LINE);
+    }
+
+
+    public PrinterCommand(CommandType type, String leftText, String rightText, int maxCharsPerLine) {
+        this.type = type;
+        this.text = formatRow(leftText, rightText, maxCharsPerLine);
     }
 
     public String getText() {
