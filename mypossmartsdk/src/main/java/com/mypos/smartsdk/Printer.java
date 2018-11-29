@@ -20,6 +20,10 @@ public class Printer {
 
 
     public static int print(Context context, List<PrinterCommand> commands, UUID guid, long timeOut) throws IllegalStateException {
+        return print(context, commands, guid, timeOut, true);
+    }
+
+    public static int print(Context context, List<PrinterCommand> commands, UUID guid, long timeOut, boolean printBottomSpace) throws IllegalStateException {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             throw new IllegalStateException("Must not be invoked from the main thread.");
         }
@@ -55,6 +59,7 @@ public class Printer {
         Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
         intent.putExtra(MyPOSUtil.INTENT_PRINT_COMMANDS, json);
         intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
+        intent.putExtra(MyPOSUtil.INTENT_RECEIPT_BOTTOM_SPACE, printBottomSpace);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
