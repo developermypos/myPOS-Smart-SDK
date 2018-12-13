@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.ConditionVariable;
 import android.os.Looper;
+import android.os.Parcel;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -41,6 +43,14 @@ public class Printer {
 
         Log.i("Printer", "Sending print broadcast: " + json);
 
+        Bundle extras = new Bundle();
+        extras.putString(MyPOSUtil.INTENT_PRINT_COMMANDS, json);
+        extras.putString(MyPOSUtil.INTENT_GUID, sentGUID);
+        extras.putBoolean(MyPOSUtil.INTENT_RECEIPT_BOTTOM_SPACE, printBottomSpace);
+
+        if (getBundleSizeInBytes(extras) >= 1e+6)
+            return PrinterStatus.PRINTER_STATUS_DATA_PACKET_TOO_LONG;
+
         final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent resultIntent) {
@@ -57,9 +67,7 @@ public class Printer {
         context.registerReceiver(broadcastReceiver, new IntentFilter(MyPOSUtil.PRINTING_DONE_BROADCAST));
 
         Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
-        intent.putExtra(MyPOSUtil.INTENT_PRINT_COMMANDS, json);
-        intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
-        intent.putExtra(MyPOSUtil.INTENT_RECEIPT_BOTTOM_SPACE, printBottomSpace);
+        intent.putExtras(extras);
         context.sendBroadcast(intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
@@ -70,6 +78,17 @@ public class Printer {
         }
 
         return  mResult[0];
+    }
+
+    private static int getBundleSizeInBytes(Bundle bundle) {
+        Parcel parcel = Parcel.obtain();
+        int size;
+
+        parcel.writeBundle(bundle);
+        size = parcel.dataSize();
+        parcel.recycle();
+
+        return size;
     }
 
 }
