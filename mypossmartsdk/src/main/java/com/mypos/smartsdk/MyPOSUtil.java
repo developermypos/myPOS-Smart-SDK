@@ -153,6 +153,7 @@ public class MyPOSUtil {
     //Printer
     public static final String INTENT_PRINT_COMMANDS                = "commands";
     public static final String INTENT_PRINT_STATUS                  = "printer_status";
+    public static final String INTENT_PRINT_DATA_FILE_PATH          = "file_path";
 
     public static boolean isReferenceNumberValid(String referenceNumber) {
         return referenceNumber == null || (referenceNumber.length() <= 20 && referenceNumber.matches("[a-zA-Z0-9\\p{Punct}]+"));
