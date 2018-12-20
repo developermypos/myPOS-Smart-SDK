@@ -113,4 +113,35 @@ public class Printer {
         return size;
     }
 
+    public static int getPrinterStatus(Context context, long timeOut) throws IllegalStateException {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            throw new IllegalStateException("Must not be invoked from the main thread.");
+        }
+
+        final ConditionVariable mCondition = new ConditionVariable(false);
+        final int mResult[] = {PrinterStatus.PRINTER_STATUS_UNKNOWN_ERROR};
+
+        if (timeOut <= 100) timeOut = 100;
+
+        Log.i("Printer", "Sending printer status broadcast");
+
+        final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent resultIntent) {
+                mResult[0] = resultIntent.getIntExtra(MyPOSUtil.INTENT_PRINT_STATUS, PrinterStatus.PRINTER_STATUS_UNKNOWN_ERROR);
+
+                mCondition.open();
+            }
+        };
+        context.registerReceiver(broadcastReceiver, new IntentFilter(MyPOSUtil.PRINTER_STATUS_RESPONSE_BROADCAST));
+
+        Intent intent = new Intent(MyPOSUtil.PRINTER_STATUS_BROADCAST);
+        context.sendBroadcast(intent);
+
+        boolean returned = mCondition.block(timeOut); // return false if timeout
+
+        context.unregisterReceiver(broadcastReceiver);
+
+        return  mResult[0];
+    }
 }

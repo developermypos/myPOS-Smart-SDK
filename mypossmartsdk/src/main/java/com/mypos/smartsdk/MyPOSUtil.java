@@ -45,6 +45,14 @@ public class MyPOSUtil {
      */
     public static final String PRINT_BROADCAST                           = "com.mypos.action.PRINT";
     /**
+     * Get current status of printer
+     */
+    public static final String PRINTER_STATUS_BROADCAST                  = "com.mypos.action.PRINTER_STATUS";
+    /**
+     * Returned by the printing broadcasts
+     */
+    public static final String PRINTER_STATUS_RESPONSE_BROADCAST         = "com.mypos.broadcast.PRINTER_STATUS_RESPONSE";
+    /**
      * Used to pass the transaction amount to the Payment core
      */
     public static final String INTENT_TRANSACTION_AMOUNT                 = "amount";
