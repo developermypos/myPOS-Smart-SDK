@@ -89,6 +89,8 @@ public class MyPOSUtil {
     public static final String INTENT_REFERENCE_NUMBER           = "reference_number";
     public static final String INTENT_REFERENCE_NUMBER_TYPE      = "reference_number_type";
     public static final String INTENT_MOTO_PASSWORD              = "moto_password";
+    public static final String INTENT_RESULT_SCREEN_TIMEOUT      = "result_screen_timeout";
+    public static final String INTENT_IS_FISCAL_DEVICE           = "is_fiscal_device";
 
     /**
      * Code used for completing a preauthorization transaction

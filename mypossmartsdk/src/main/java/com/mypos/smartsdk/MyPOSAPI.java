@@ -84,6 +84,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, payment.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, payment.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, payment.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -123,6 +125,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, payment.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, payment.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, payment.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -163,6 +167,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, refund.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -197,6 +203,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, refund.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -222,8 +230,11 @@ public class MyPOSAPI {
         }
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_VOID);
         myposIntent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, voidTr.getForeignTransactionId());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, voidTr.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, voidTr.getPrintCustomerReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, voidTr.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, voidTr.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -265,6 +276,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -301,6 +314,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -337,6 +352,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -367,6 +384,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
 
@@ -402,6 +421,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -430,6 +451,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER, preauth.getReferenceNumber());
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
 
@@ -453,6 +476,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, activation.getForeignTransactionId());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, activation.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, activation.getPrintCustomerReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, activation.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, activation.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -461,14 +486,16 @@ public class MyPOSAPI {
      * Takes care of building the intent and opening the payment activity
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param foreignTransactionId   a payment-related id
+     * @param myPOSBase              a payment-related object
      * @param requestCode            the request code used later to distinguish
      */
-    public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
+    public static void openGiftCardDeactivationActivity(Activity activity, MyPOSBase myPOSBase, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_DEACTIVATION);
-        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, myPOSBase.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, myPOSBase.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, myPOSBase.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -477,14 +504,16 @@ public class MyPOSAPI {
      * Takes care of building the intent and opening the payment activity
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param foreignTransactionId   a payment-related id
+     * @param myPOSBase              a payment-related object
      * @param requestCode            the request code used later to distinguish
      */
-    public static void openGiftCardCheckBalanceActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
+    public static void openGiftCardCheckBalanceActivity(Activity activity, MyPOSBase myPOSBase, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK);
-        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, myPOSBase.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, myPOSBase.isFiscalDevice());
+        myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, myPOSBase.getResultScreenOnTimeOut());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }

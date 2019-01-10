@@ -7,9 +7,8 @@ import com.mypos.smartsdk.exceptions.MissingPreauthCodeException;
 /**
  * Cancel a preauthorization
  */
-public class MyPOSPreauthorizationCancellation {
+public class MyPOSPreauthorizationCancellation extends MyPOSBase{
 
-    private String              foreignTransactionId;
     private String              preauthorizationCode;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
@@ -17,8 +16,8 @@ public class MyPOSPreauthorizationCancellation {
     private int                 referenceType;
 
 
-    MyPOSPreauthorizationCancellation(MyPOSPreauthorizationCancellation.Builder builder) {
-        this.foreignTransactionId = builder.foreignTransactionId;
+    MyPOSPreauthorizationCancellation(Builder builder) {
+        super(builder);
         this.preauthorizationCode = builder.preauthorizationCode;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
@@ -29,15 +28,6 @@ public class MyPOSPreauthorizationCancellation {
 
     public static MyPOSPreauthorizationCancellation.Builder builder() {
         return new MyPOSPreauthorizationCancellation.Builder();
-    }
-
-    public String getForeignTransactionId() {
-        return foreignTransactionId;
-    }
-
-    public MyPOSPreauthorizationCancellation setForeignTransactionId(String foreignTransactionId) {
-        this.foreignTransactionId = foreignTransactionId;
-        return this;
     }
 
     public String getPreauthorizationCode() {
@@ -81,18 +71,12 @@ public class MyPOSPreauthorizationCancellation {
         return this;
     }
 
-    public static class Builder {
-        private String              foreignTransactionId;
+    public static class Builder extends BaseBuilder {
         private String              preauthorizationCode;
         private int                 printMerchantReceipt;
         private int                 printCustomerReceipt;
         private String              referenceNumber;
         private int                 referenceType;
-
-        public MyPOSPreauthorizationCancellation.Builder foreignTransactionId(String foreignTransactionId) {
-            this.foreignTransactionId = foreignTransactionId;
-            return this;
-        }
 
         public MyPOSPreauthorizationCancellation.Builder preauthorizationCode(String preauthorizationCode) {
             this.preauthorizationCode = preauthorizationCode;

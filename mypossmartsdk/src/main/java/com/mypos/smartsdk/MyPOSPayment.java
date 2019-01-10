@@ -12,14 +12,13 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a payment
  */
-public class MyPOSPayment {
+public class MyPOSPayment extends MyPOSBase {
 
     private boolean     tippingModeEnabled;
     private boolean     motoTransaction;
     private boolean     giftCardTransaction;
     private double      productAmount;
     private double      tipAmount;
-    private String      foreignTransactionId;
     private Currency    currency;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
@@ -30,8 +29,8 @@ public class MyPOSPayment {
 
 
     MyPOSPayment(Builder builder) {
+        super(builder);
         this.productAmount = builder.productAmount;
-        this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.tippingModeEnabled = builder.tippingModeEnabled;
         this.tipAmount = builder.tipAmount;
@@ -56,15 +55,6 @@ public class MyPOSPayment {
 
     public MyPOSPayment setProductAmount(double productAmount) {
         this.productAmount = productAmount;
-        return this;
-    }
-
-    public String getForeignTransactionId() {
-        return foreignTransactionId;
-    }
-
-    public MyPOSPayment setForeignTransactionId(String foreignTransactionId) {
-        this.foreignTransactionId = foreignTransactionId;
         return this;
     }
 
@@ -163,13 +153,12 @@ public class MyPOSPayment {
         return this;
     }
 
-    public static class Builder {
+    public static class Builder extends BaseBuilder{
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
         private boolean     giftCardTransaction;
         private double      tipAmount;
         private Double      productAmount;
-        private String      foreignTransactionId;
         private Currency    currency;
         private int         printMerchantReceipt;
         private int         printCustomerReceipt;
@@ -190,11 +179,6 @@ public class MyPOSPayment {
 
         public Builder currency(Currency currency) {
             this.currency = currency;
-            return this;
-        }
-
-        public Builder foreignTransactionId(String foreignTransactionId) {
-            this.foreignTransactionId = foreignTransactionId;
             return this;
         }
 

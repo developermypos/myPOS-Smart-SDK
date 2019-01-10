@@ -8,16 +8,17 @@ import com.mypos.smartsdk.exceptions.MissingSTANException;
 /**
  * Describes a refund
  */
-public class MyPOSVoid {
+public class MyPOSVoid extends MyPOSBase {
 
     private int                 STAN;
     private String              authCode;
     private String              dateTime;
-    private boolean voidLastTransactionFlag;
+    private boolean             voidLastTransactionFlag;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
 
     private MyPOSVoid(Builder builder) {
+        super(builder);
         this.STAN = builder.STAN;
         this.authCode = builder.authCode;
         this.dateTime = builder.dateTime;
@@ -85,7 +86,7 @@ public class MyPOSVoid {
         return this;
     }
 
-    public static final class Builder {
+    public static final class Builder extends BaseBuilder{
         private int                 STAN;
         private String              authCode;
         private String              dateTime;
