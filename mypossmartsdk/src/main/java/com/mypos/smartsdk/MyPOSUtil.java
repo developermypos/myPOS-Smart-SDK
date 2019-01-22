@@ -52,6 +52,14 @@ public class MyPOSUtil {
      * Returned by the printing broadcasts
      */
     public static final String PRINTER_STATUS_RESPONSE_BROADCAST         = "com.mypos.broadcast.PRINTER_STATUS_RESPONSE";
+     /**
+     * send ping broadcast
+     */
+    public static final String SEND_PING_BROADCAST                       = "com.mypos.broadcast.PING";
+    /**
+     * Returned by the ping broadcasts
+     */
+    public static final String PING_DONE_BROADCAST                   = "com.mypos.broadcast.PING_DONE";
     /**
      * Used to pass the transaction amount to the Payment core
      */
@@ -164,6 +172,8 @@ public class MyPOSUtil {
     public static final String INTENT_PRINT_COMMANDS                = "commands";
     public static final String INTENT_PRINT_STATUS                  = "printer_status";
     public static final String INTENT_PRINT_DATA_FILE_PATH          = "file_path";
+
+    public static final String INTENT_STATUS                        = "status";
 
     public static boolean isReferenceNumberValid(String referenceNumber) {
         return referenceNumber == null || (referenceNumber.length() <= 20 && referenceNumber.matches("[a-zA-Z0-9\\p{Punct}]+"));
