@@ -86,7 +86,7 @@ public class MyPOSVoid extends MyPOSBase {
         return this;
     }
 
-    public static final class Builder extends BaseBuilder{
+    public static final class Builder extends BaseBuilder<Builder> {
         private int                 STAN;
         private String              authCode;
         private String              dateTime;

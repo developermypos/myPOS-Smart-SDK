@@ -97,7 +97,7 @@ public class MyPOSRefund extends MyPOSBase {
         return this;
     }
 
-    public static final class Builder extends BaseBuilder {
+    public static final class Builder extends BaseBuilder<Builder> {
         private boolean         motoTransaction;
         private boolean         giftCardTransaction;
         private Double          refundAmount;

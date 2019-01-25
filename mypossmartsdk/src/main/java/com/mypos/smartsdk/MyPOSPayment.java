@@ -153,7 +153,7 @@ public class MyPOSPayment extends MyPOSBase {
         return this;
     }
 
-    public static class Builder extends BaseBuilder{
+    public static class Builder extends BaseBuilder<Builder>{
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
         private boolean     giftCardTransaction;

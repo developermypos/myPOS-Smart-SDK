@@ -94,7 +94,7 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase{
         return this;
     }
 
-    public static class Builder extends BaseBuilder {
+    public static class Builder extends BaseBuilder<Builder> {
         private Double              productAmount;
         private Currency            currency;
         private String              preauthorizationCode;

@@ -43,17 +43,17 @@ public class MyPOSBase {
         return new BaseBuilder();
     }
 
-    public static class BaseBuilder {
+    public static class BaseBuilder<T extends BaseBuilder<T>> {
         private boolean isFiscalDevice;
         private int resultScreenOnTimeOut;
         private String foreignTransactionId;
 
-        public BaseBuilder isFiscalDevice(boolean isFiscalDevice) {
+        public T isFiscalDevice(boolean isFiscalDevice) {
             this.isFiscalDevice = isFiscalDevice;
-            return this;
+            return (T) this;
         }
 
-        public BaseBuilder resultScreenOnTimeOut(int resultScreenOnTimeOut) {
+        public T resultScreenOnTimeOut(int resultScreenOnTimeOut) {
             if (resultScreenOnTimeOut < 0) {
                 resultScreenOnTimeOut = 0;
             }
@@ -62,12 +62,12 @@ public class MyPOSBase {
             }
 
             this.resultScreenOnTimeOut = resultScreenOnTimeOut;
-            return this;
+            return (T) this;
         }
 
-        public BaseBuilder foreignTransactionId(String foreignTransactionId) {
+        public T foreignTransactionId(String foreignTransactionId) {
             this.foreignTransactionId = foreignTransactionId;
-            return this;
+            return (T) this;
         }
 
         public MyPOSBase build() {

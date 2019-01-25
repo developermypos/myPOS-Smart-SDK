@@ -71,7 +71,7 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase{
         return this;
     }
 
-    public static class Builder extends BaseBuilder {
+    public static class Builder extends BaseBuilder<Builder> {
         private String              preauthorizationCode;
         private int                 printMerchantReceipt;
         private int                 printCustomerReceipt;
