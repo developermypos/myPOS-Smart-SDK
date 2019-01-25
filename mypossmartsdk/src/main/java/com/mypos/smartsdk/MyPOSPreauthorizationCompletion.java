@@ -9,7 +9,7 @@ import com.mypos.smartsdk.exceptions.MissingPreauthCodeException;
 /**
  * Complete a preauthorization
  */
-public class MyPOSPreauthorizationCompletion extends MyPOSBase{
+public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthorizationCompletion> {
 
     private double              productAmount;
     private String              preauthorizationCode;

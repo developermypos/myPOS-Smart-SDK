@@ -11,7 +11,7 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a payment
  */
-public class MyPOSGiftCardActivation extends MyPOSBase {
+public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> {
 
     private double      productAmount;
     private Currency    currency;

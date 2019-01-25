@@ -2,7 +2,7 @@ package com.mypos.smartsdk;
 
 import com.mypos.smartsdk.MyPOSPayment;
 
-public class MyPOSBase {
+public class MyPOSBase<D extends MyPOSBase> {
 
     private boolean     isFiscalDevice;
     private int         resultScreenOnTimeOut;
@@ -12,25 +12,27 @@ public class MyPOSBase {
         return isFiscalDevice;
     }
 
-    public void setFiscalDevice(boolean fiscalDevice) {
+    public D setFiscalDevice(boolean fiscalDevice) {
         isFiscalDevice = fiscalDevice;
+        return (D) this;
     }
 
     public int getResultScreenOnTimeOut() {
         return resultScreenOnTimeOut;
     }
 
-    public void setResultScreenOnTimeOut(int resultScreenOnTimeOut) {
+    public D setResultScreenOnTimeOut(int resultScreenOnTimeOut) {
         this.resultScreenOnTimeOut = resultScreenOnTimeOut;
+        return (D) this;
     }
 
     public String getForeignTransactionId() {
         return foreignTransactionId;
     }
 
-    public MyPOSBase setForeignTransactionId(String foreignTransactionId) {
+    public D setForeignTransactionId(String foreignTransactionId) {
         this.foreignTransactionId = foreignTransactionId;
-        return this;
+        return (D) this;
     }
 
     protected MyPOSBase(BaseBuilder builder) {

@@ -8,7 +8,7 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a refund
  */
-public class MyPOSRefund extends MyPOSBase {
+public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
 
     private double              refundAmount;
     private boolean             motoTransaction;
