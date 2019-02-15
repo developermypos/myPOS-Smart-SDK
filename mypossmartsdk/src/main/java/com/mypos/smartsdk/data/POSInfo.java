@@ -13,6 +13,7 @@ public class POSInfo implements Serializable {
     public static final int MISSING_CONFIG_FILES = 4;
 
     private String TID;
+    private String SN;
     private String currencyName;
     private String currencyCode;
     private int deviceState;
@@ -20,6 +21,7 @@ public class POSInfo implements Serializable {
 
     public POSInfo() {
         TID = "";
+        SN = "";
         currencyName = "";
         currencyCode = "";
         deviceState = INITIAL;
@@ -32,6 +34,14 @@ public class POSInfo implements Serializable {
 
     public void setTID(String TID) {
         this.TID = TID;
+    }
+
+    public String getSN() {
+        return SN;
+    }
+
+    public void setSN(String SN) {
+        this.SN = SN;
     }
 
     public String getCurrencyName() {
@@ -70,6 +80,7 @@ public class POSInfo implements Serializable {
         Bundle ret = new Bundle();
 
         ret.putString("TID", TID);
+        ret.putString("SN", SN);
         ret.putString("CurrencyName", currencyName);
         ret.putString("CurrencyCode", currencyCode);
         ret.putInt("device_state", deviceState);
@@ -80,6 +91,7 @@ public class POSInfo implements Serializable {
 
     public void parseFromBundle(Bundle ret) {
         TID = ret.getString("TID");
+        SN = ret.getString("SN");
         currencyName = ret.getString("CurrencyName");
         currencyCode = ret.getString("CurrencyCode");
         deviceState = ret.getInt("device_state");
@@ -90,6 +102,7 @@ public class POSInfo implements Serializable {
     public String toString() {
         return "POSInfo{" +
                 "TID=" + TID +
+                "SN=" + SN +
                 ", currencyName='" + currencyName + "'\n" +
                 ", currencyCode='" + currencyCode + "'\n" +
                 ", device_state='" + deviceState + "'\n" +
