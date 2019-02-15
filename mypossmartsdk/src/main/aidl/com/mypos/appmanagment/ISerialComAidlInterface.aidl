@@ -10,6 +10,6 @@ interface ISerialComAidlInterface {
      */
     int connect();
     int disconnect();
-    int send(String data);
-    String recv(int len, long timeout);
+    int send(in byte[] data);
+    byte[] recv(int len, long timeout);
 }

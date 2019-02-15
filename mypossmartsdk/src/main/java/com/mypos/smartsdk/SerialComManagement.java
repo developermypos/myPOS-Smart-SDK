@@ -144,7 +144,7 @@ public class SerialComManagement {
         return -5;
     }
 
-    public int send(String data, long timeout) throws BindException {
+    public int send(byte[] data, long timeout) throws BindException {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
@@ -177,7 +177,7 @@ public class SerialComManagement {
         return -5;
     }
 
-    public String recv(int len, long timeout) throws BindException {
+    public byte[] recv(int len, long timeout) throws BindException {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
