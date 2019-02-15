@@ -1,4 +1,4 @@
-package com.mypos;
+package com.mypos.smartsdk;
 
 import android.content.ComponentName;
 import android.content.Context;
