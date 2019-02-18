@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
-import android.os.DeadObjectException;
 import android.os.IBinder;
 import android.os.RemoteException;
 
@@ -93,9 +92,6 @@ public class SerialComManagement {
                     return serialComService.connect();
             }
             catch (IllegalStateException ignored) {
-            } catch (DeadObjectException e) {
-                e.printStackTrace();
-                return 0;
             } catch (RemoteException e) {
                 e.printStackTrace();
                 return - 2;
@@ -123,12 +119,7 @@ public class SerialComManagement {
                     return serialComService.disconnect();
             }
             catch (IllegalStateException ignored) {
-            }
-            catch (DeadObjectException e) {
-                e.printStackTrace();
-                return 0;
-            }
-            catch (RemoteException e) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 return - 2;
             }
@@ -156,12 +147,7 @@ public class SerialComManagement {
                     return serialComService.send(data);
             }
             catch (IllegalStateException ignored) {
-            }
-            catch (DeadObjectException e) {
-                e.printStackTrace();
-                return 0;
-            }
-            catch (RemoteException e) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
                 return - 2;
             }
