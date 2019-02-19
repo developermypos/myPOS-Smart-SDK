@@ -25,6 +25,8 @@ public class SerialComManagement {
     private boolean isBound = false;
     private static SerialComManagement instance;
 
+    private OnBindListener mListener = null;
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -39,6 +41,11 @@ public class SerialComManagement {
 
             if (binder != null)
                 serialComService = ISerialComAidlInterface.Stub.asInterface(binder);
+
+            isBound = true;
+
+            if (mListener != null)
+                mListener.onBindComplete();
         }
 
         @Override
@@ -60,24 +67,30 @@ public class SerialComManagement {
         return instance;
     }
 
-    public void bind(Context context) throws Exception {
+    public void bind(Context context, OnBindListener listener) throws Exception {
         if (!isSupported(context))
             throw new Exception("Functionality not supported (probably old version of myPOS OS)");
+
+        if (isBound)
+            return;
+
+        mListener = listener;
 
         Intent intent = new Intent(SERVICE_ACTION);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.setPackage("com.mypos");
-
         context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        isBound = true;
     }
 
     public void unbind(Context context) {
-        if (isBound)
+        if (isBound) {
             context.unbindService(serviceConnection);
+            systemService = null;
+            serialComService = null;
+            isBound = false;
+        }
 
-        isBound = false;
+        mListener = null;
     }
 
     public int connect(long timeout) throws BindException {
@@ -197,6 +210,10 @@ public class SerialComManagement {
 
         List<ResolveInfo> services = context.getPackageManager().queryIntentServices(intent, 0);
         return !services.isEmpty();
+    }
+
+    public interface OnBindListener {
+        void onBindComplete();
     }
 
 }
