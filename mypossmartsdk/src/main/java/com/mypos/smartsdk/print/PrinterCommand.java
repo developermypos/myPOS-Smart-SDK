@@ -261,6 +261,80 @@ public class PrinterCommand {
         return this;
     }
 
+    public static String columnRow(String[] texts, int[] weights, Alignment[] alignments, int maxCharsPerLine) {
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        int maxWeight = 0;
+        int indexOfFirstSpace = -1;
+        String[] textsLineTwo = null;
+
+        for (i = 0; i < weights.length; i++) {
+            maxWeight += weights[i];
+        }
+
+        double charsPerWeight = maxCharsPerLine / maxWeight;
+
+        for (i = 0 ; i < texts.length; i++) {
+            String text = texts[i];
+
+            if (text == null)
+                text = "";
+
+            int spacesCount = (int) Math.round(weights[i] * charsPerWeight - text.length());
+
+            if (spacesCount < 0) {
+                textsLineTwo = new String[texts.length];
+                textsLineTwo[i] = text.substring(text.length() + spacesCount);
+                text = text.substring(0, text.length() + spacesCount);
+            }
+
+            String spaces = spaces(spacesCount);
+
+            if (alignments[i] == Alignment.ALIGN_LEFT) {
+                result.append(text).append(spaces);
+
+                if (indexOfFirstSpace < 0 && spaces.length() > 0)
+                    indexOfFirstSpace = text.length();
+            }
+            else if (alignments[i] == Alignment.ALIGN_CENTER) {
+                result.append(spaces.substring(0, spaces.length() / 2)).append(text).append(spaces.substring(spaces.length() / 2));
+
+                if (indexOfFirstSpace < 0 && spaces.length() > 1)
+                    indexOfFirstSpace = 0;
+            }
+            else if (alignments[i] == Alignment.ALIGN_RIGHT) {
+                result.append(spaces).append(text);
+
+                if (indexOfFirstSpace < 0 && spaces.length() > 0)
+                    indexOfFirstSpace = 0;
+            }
+        }
+
+        while (result.length() > maxCharsPerLine) {
+            if (result.charAt(indexOfFirstSpace) == ' ')
+                result.deleteCharAt(indexOfFirstSpace);
+            else
+                result.deleteCharAt(result.indexOf(" "));
+        }
+
+        while (result.length() < maxCharsPerLine) {
+            result.insert(indexOfFirstSpace < 0 ? result.indexOf(" ") : indexOfFirstSpace, " ");
+        }
+
+        if (textsLineTwo != null)
+            result.append(columnRow(textsLineTwo, weights, alignments, maxCharsPerLine));
+
+        return result.toString();
+    }
+
+    private static String spaces(int number) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < number; i++)
+            result.append(" ");
+
+        return result.toString();
+    }
+
     private static String formatRow(String leftText, String rightText, int maxCharsPerLine){
         String formattedRow = "";
 
