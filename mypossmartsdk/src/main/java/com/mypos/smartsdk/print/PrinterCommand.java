@@ -283,7 +283,9 @@ public class PrinterCommand {
             int spacesCount = (int) Math.round(weights[i] * charsPerWeight - text.length());
 
             if (spacesCount < 0) {
-                textsLineTwo = new String[texts.length];
+                if (textsLineTwo == null)
+                    textsLineTwo = new String[texts.length];
+
                 textsLineTwo[i] = text.substring(text.length() + spacesCount);
                 text = text.substring(0, text.length() + spacesCount);
             }
