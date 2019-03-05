@@ -176,6 +176,10 @@ public class SerialComManagement {
         return -5;
     }
 
+    public byte[] recv(long timeout) throws BindException {
+        return recv(0, timeout);
+    }
+
     public byte[] recv(int len, long timeout) throws BindException {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
