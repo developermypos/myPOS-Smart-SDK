@@ -8,12 +8,6 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 * [Installation](#installation)
 
-  * [Build the library and add it as a dependency](#build-the-library-and-add-it-as-a-dependency)
-
-  * [Add the library to your project](#add-the-library-to-your-project)
-
-  * [As a git submodule](#as-a-git-submodule)
-
 * [Usage](#Usage)
 
   * [Receive POS info](#receive-pos-info)
