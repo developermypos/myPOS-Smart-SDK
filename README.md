@@ -36,70 +36,22 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 ## Installation
 
-myPOS-Smart-SDK can be used by adding it as a git submodule to your project or building the .aar and using it.
+Add the repository to your gradle dependencies:
 
-### Build the library and add it as a dependency
-
-
-1. Download the source code and import it in Android Studio
-2. Build it
-3. Navigate to the `build/outputs/aar` folder and retrieve the .aar file
-
-### Add the library to your project
-
-After building the library, add it as a dependency in Android Studio, create a new module.
-
-![Create a new module](doc/new_module.png)
-
-In the window that appears, select "Import JAR/.AAR Package" and click "Next"
-
-![Import AAR](doc/import_jar_aar.png)
-
-Then navigate to where the generated .aar file is located and select it, then click "Finish"
-
-![Select AAR](doc/select_aar.png)
-
-
-In your `build.gradle` file add the newly-created module as a dependency:
-```groovy
-dependencies {
-    // [...]
-    compile project(':mypossmartsdk-0.0.1')
+```java
+allprojects {
+   repositories {
+      jcenter()
+   }
 }
 ```
 
+Add the dependency to a module:
 
-### As a git submodule
-
-If your project uses git for version control, run the following command in the project's root:
-``` bash
-git submodule add https://github.com/developermypos/myPOS-Smart-SDK.git smartsdk
+```java
+implementation 'com.mypos.smartsdk:mypossmartsdk:1.0.2'
 ```
-__Note:__ Older versions of Git might need ``git submodule update --init --recursive`` to be called
 
-After git finishes cloning the module, create a new module in your project:
-
-![Create a new module](doc/new_module.png)
-
-In the window that appears, select Import Gradle Project and click "Next":
-
-![Import Gradle Project](doc/import_gradle_project.png)
-
-Navigate to your project's root directory. Select the ``smartsdk`` directory:
-
-![Import Gradle Project](doc/select_module.png)
-
-After clicking "OK", click "Finish" and the module should be ready to use:
-
-![Import Gradle Project](doc/module_selected.png)
-
-Add the module to your ``build.gradle``'s dependencies section:
-```groovy
-dependencies {
-    // [...]
-    compile project(path: ':mypossmartsdk')
-}
-```
 ### Additional functions:
 -	Payment Requests, 
 -	Managing operations of first and second SAM component of myPOS Smart device
