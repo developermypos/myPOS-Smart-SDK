@@ -13,7 +13,7 @@ public class MyPOSVoid {
     private int                 STAN;
     private String              authCode;
     private String              dateTime;
-    private boolean voidLastTransactionFlag;
+    private boolean             voidLastTransactionFlag;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
 
