@@ -3,13 +3,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.jfrog.bintray"
 
 def versionNumber = 21
-def versionString = "1.0.2"
+def versionString = "1.0.0"
 
 ext {
     bintrayRepo = 'myPOSSmartSDK'
     bintrayName = 'mypossmartsdk'
 
-    publishedGroupId = 'com.mypos.smartsdk'
+    publishedGroupId = 'com.mypos'
     libraryName = 'myPOS-Smart-SDK'
     artifact = 'mypossmartsdk'
 
