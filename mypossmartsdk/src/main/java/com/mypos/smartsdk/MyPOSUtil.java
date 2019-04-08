@@ -59,7 +59,15 @@ public class MyPOSUtil {
     /**
      * Returned by the ping broadcasts
      */
-    public static final String PING_DONE_BROADCAST                   = "com.mypos.broadcast.PING_DONE";
+    public static final String PING_DONE_BROADCAST                       = "com.mypos.broadcast.PING_DONE";
+    /**
+     * send ping broadcast
+     */
+    public static final String SET_CDC_BROADCAST                         = "com.mypos.action.SET_CDC";
+    /**
+     * Returned by the ping broadcasts
+     */
+    public static final String SET_CDC_RESPONSE                          = "com.mypos.action.SET_CDC_RESPONSE";
     /**
      * Used to pass the transaction amount to the Payment core
      */
@@ -162,6 +170,7 @@ public class MyPOSUtil {
     public static final String INTENT_SAM_CARD_RESPONSE             = "response";
     public static final String INTENT_GUID                          = "GUID";
     public static final String INTENT_RECEIPT_BOTTOM_SPACE          = "bottom_space";
+    public static final String INTENT_CDC_STATUS                    = "cdc_status";
 
     public static final String INTENT_SAM_CARD_COMMAND_DETECT       = "detect";
     public static final String INTENT_SAM_CARD_COMMAND_OPEN         = "open";

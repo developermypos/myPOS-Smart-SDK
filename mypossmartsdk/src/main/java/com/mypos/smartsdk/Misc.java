@@ -43,4 +43,38 @@ public class Misc {
         return  mResult[0];
     }
 
+
+    public static int setCDCMode(Context context, boolean cdcMode, long timeOut) throws IllegalStateException {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            throw new IllegalStateException("Must not be invoked from the main thread.");
+        }
+
+        final ConditionVariable mCondition = new ConditionVariable(false);
+        final int mResult[] = {Activity.RESULT_CANCELED};
+
+        if (timeOut <= 100) timeOut = 100;
+
+        Log.i("Ping", "Sending ping broadcast");
+
+        final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent resultIntent) {
+                mResult[0] = resultIntent.getIntExtra(MyPOSUtil.INTENT_STATUS, Activity.RESULT_CANCELED);
+
+                mCondition.open();
+            }
+        };
+        context.registerReceiver(broadcastReceiver, new IntentFilter(MyPOSUtil.SET_CDC_RESPONSE));
+
+        Intent intent = new Intent(MyPOSUtil.SET_CDC_BROADCAST);
+        intent.putExtra(MyPOSUtil.INTENT_CDC_STATUS, cdcMode);
+        context.sendBroadcast(intent);
+
+        boolean returned = mCondition.block(timeOut); // return false if timeout
+
+        context.unregisterReceiver(broadcastReceiver);
+
+        return  mResult[0];
+    }
+
 }
