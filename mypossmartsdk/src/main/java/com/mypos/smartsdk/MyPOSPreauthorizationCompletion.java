@@ -16,8 +16,6 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthoriza
     private Currency            currency;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
-    private String              referenceNumber;
-    private int                 referenceType;
 
     MyPOSPreauthorizationCompletion(Builder builder) {
         super(builder);
@@ -26,8 +24,6 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthoriza
         this.preauthorizationCode = builder.preauthorizationCode;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
-        this.referenceNumber = builder.referenceNumber;
-        this.referenceType = builder.referenceType;
     }
 
 
@@ -80,28 +76,12 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthoriza
         return this;
     }
 
-    public String getReferenceNumber() {
-        return referenceNumber;
-    }
-
-    public int getReferenceType() {
-        return referenceType;
-    }
-
-    public MyPOSPreauthorizationCompletion setReference(String referenceNumber, int referenceType) {
-        this.referenceNumber = referenceNumber;
-        this.referenceType = referenceType;
-        return this;
-    }
-
     public static class Builder extends BaseBuilder<Builder> {
         private Double              productAmount;
         private Currency            currency;
         private String              preauthorizationCode;
         private int                 printMerchantReceipt;
         private int                 printCustomerReceipt;
-        private String              referenceNumber;
-        private int                 referenceType;
 
         public MyPOSPreauthorizationCompletion.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -128,12 +108,6 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthoriza
             return this;
         }
 
-        public MyPOSPreauthorizationCompletion.Builder reference(String referenceNumber, int referenceType) {
-            this.referenceNumber = referenceNumber;
-            this.referenceType = referenceType;
-            return this;
-        }
-
         public MyPOSPreauthorizationCompletion build() throws InvalidAmountException, MissingCurrencyException, MissingPreauthCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
@@ -143,12 +117,6 @@ public class MyPOSPreauthorizationCompletion extends MyPOSBase<MyPOSPreauthoriza
             }
             if (this.preauthorizationCode == null || preauthorizationCode.isEmpty()) {
                 throw new MissingPreauthCodeException("Missing preauthorization code");
-            }
-            if(!ReferenceType.isInBound(referenceType)) {
-                throw new InvalidReferenceTypeException("reference type out of bound");
-            }
-            if(ReferenceType.isEnabled(referenceType) && !MyPOSUtil.isReferenceNumberValid(referenceNumber)) {
-                throw new InvalidReferenceNumberException("incorrect reference number");
             }
 
             return new MyPOSPreauthorizationCompletion(this);

@@ -12,8 +12,6 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase<MyPOSPreauthori
     private String              preauthorizationCode;
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
-    private String              referenceNumber;
-    private int                 referenceType;
 
 
     MyPOSPreauthorizationCancellation(Builder builder) {
@@ -21,8 +19,6 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase<MyPOSPreauthori
         this.preauthorizationCode = builder.preauthorizationCode;
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
-        this.referenceNumber = builder.referenceNumber;
-        this.referenceType = builder.referenceType;
     }
 
 
@@ -57,26 +53,10 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase<MyPOSPreauthori
         return this;
     }
 
-    public String getReferenceNumber() {
-        return referenceNumber;
-    }
-
-    public int getReferenceType() {
-        return referenceType;
-    }
-
-    public MyPOSPreauthorizationCancellation setReference(String referenceNumber, int referenceType) {
-        this.referenceNumber = referenceNumber;
-        this.referenceType = referenceType;
-        return this;
-    }
-
     public static class Builder extends BaseBuilder<Builder> {
         private String              preauthorizationCode;
         private int                 printMerchantReceipt;
         private int                 printCustomerReceipt;
-        private String              referenceNumber;
-        private int                 referenceType;
 
         public MyPOSPreauthorizationCancellation.Builder preauthorizationCode(String preauthorizationCode) {
             this.preauthorizationCode = preauthorizationCode;
@@ -93,21 +73,9 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase<MyPOSPreauthori
             return this;
         }
 
-        public MyPOSPreauthorizationCancellation.Builder reference(String referenceNumber, int referenceType) {
-            this.referenceNumber = referenceNumber;
-            this.referenceType = referenceType;
-            return this;
-        }
-
         public MyPOSPreauthorizationCancellation build() throws MissingPreauthCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.preauthorizationCode == null || preauthorizationCode.isEmpty()) {
                 throw new MissingPreauthCodeException("Missing preauthorization code");
-            }
-            if(!ReferenceType.isInBound(referenceType)) {
-                throw new InvalidReferenceTypeException("reference type out of bound");
-            }
-            if(ReferenceType.isEnabled(referenceType) && !MyPOSUtil.isReferenceNumberValid(referenceNumber)) {
-                throw new InvalidReferenceNumberException("incorrect reference number");
             }
 
             return new MyPOSPreauthorizationCancellation(this);

@@ -8,23 +8,21 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 * [Installation](#installation)
 
-  * [Build the library and add it as a dependency](#build-the-library-and-add-it-as-a-dependency)
-
-  * [Add the library to your project](#add-the-library-to-your-project)
-
-  * [As a git submodule](#as-a-git-submodule)
-
 * [Usage](#Usage)
 
   * [Receive POS info](#receive-pos-info)
 
-  * [Process checkout](#process-checkout)
+  * [Process a checkout](#process-a-checkout)
 
   * [Refund request](#refund-request)
   
   * [Payment Request](#payment-request)
   
   * [Void Request](#void-request)
+  
+  * [Pre-Authorization Request](#pre-authorization-request)
+  
+   * [PL GiftCard Request](#pl-giftcard-request)
   
   * [SAM Module operation](#sam-module-operation)
 
@@ -36,70 +34,22 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
 ## Installation
 
-myPOS-Smart-SDK can be used by adding it as a git submodule to your project or building the .aar and using it.
+Add the repository to your gradle dependencies:
 
-### Build the library and add it as a dependency
-
-
-1. Download the source code and import it in Android Studio
-2. Build it
-3. Navigate to the `build/outputs/aar` folder and retrieve the .aar file
-
-### Add the library to your project
-
-After building the library, add it as a dependency in Android Studio, create a new module.
-
-![Create a new module](doc/new_module.png)
-
-In the window that appears, select "Import JAR/.AAR Package" and click "Next"
-
-![Import AAR](doc/import_jar_aar.png)
-
-Then navigate to where the generated .aar file is located and select it, then click "Finish"
-
-![Select AAR](doc/select_aar.png)
-
-
-In your `build.gradle` file add the newly-created module as a dependency:
-```groovy
-dependencies {
-    // [...]
-    compile project(':mypossmartsdk-0.0.1')
+```java
+allprojects {
+   repositories {
+      jcenter()
+   }
 }
 ```
 
+Add the dependency to a module:
 
-### As a git submodule
-
-If your project uses git for version control, run the following command in the project's root:
-``` bash
-git submodule add https://github.com/developermypos/myPOS-Smart-SDK.git smartsdk
+```java
+implementation 'com.mypos:mypossmartsdk:1.0.0'
 ```
-__Note:__ Older versions of Git might need ``git submodule update --init --recursive`` to be called
 
-After git finishes cloning the module, create a new module in your project:
-
-![Create a new module](doc/new_module.png)
-
-In the window that appears, select Import Gradle Project and click "Next":
-
-![Import Gradle Project](doc/import_gradle_project.png)
-
-Navigate to your project's root directory. Select the ``smartsdk`` directory:
-
-![Import Gradle Project](doc/select_module.png)
-
-After clicking "OK", click "Finish" and the module should be ready to use:
-
-![Import Gradle Project](doc/module_selected.png)
-
-Add the module to your ``build.gradle``'s dependencies section:
-```groovy
-dependencies {
-    // [...]
-    compile project(path: ':mypossmartsdk')
-}
-```
 ### Additional functions:
 -	Payment Requests, 
 -	Managing operations of first and second SAM component of myPOS Smart device
@@ -129,7 +79,7 @@ MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
 ### Process a checkout
 
 
-##### 1. Make the payment
+##### 1. Perform the payment
 
 ```java
 // Build the payment call
@@ -139,7 +89,24 @@ MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
          .currency(Currency.EUR)
          // Foreign transaction ID. Maximum length: 128 characters
          .foreignTransactionId(UUID.randomUUID().toString())
+	 // Optional parameters
+	 // Enable tipping mode
+	 .tippingModeEnabled(true)
+         .tipAmount(1.55)
+	 // Operator code. Maximum length: 4 characters
+	 .operatorCode("1234")
+	 // Reference number. Maximum length: 20 alpha numeric characters
+	 .reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
+	 // Set print receipt mode
+	 .printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	 .printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
          .build();
+	 
+// If you want to initiate a moto transaction:
+payment.setMotoTransaction(true)
+
+// Or you want to initiate a giftcard transaction:
+payment.setGiftCardTransaction(true)
 
  // Start the transaction
  MyPOSAPI.openPaymentActivity(MainActivity.this, payment, 1);
@@ -202,10 +169,21 @@ if (transaction_approved) {
 ``` java
 // Build the refund request
 MyPOSRefund refund = MyPOSRefund.builder()
+	// Mandatoy parameters
         .refundAmount(1.23)
         .currency(Currency.EUR)
         .foreignTransactionId(UUID.randomUUID().toString())
+	// Optional parameters
+        // Set print receipt mode
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
         .build();
+	
+// If you want to initiate a moto transaction:
+payment.setMotoTransaction(true)
+
+// Or you want to initiate a giftcard transaction:
+payment.setGiftCardTransaction(true)
 
 // Start the transaction
 MyPOSAPI.openRefundActivity(MainActivity.this, refund, 2);
@@ -351,6 +329,187 @@ The same as with the payment, in your calling Activity, override the ``onActivit
 		}
     }
 ```
+
+### Pre-Authorization Request
+
+
+##### 1. Perform the Pre-Authorization
+
+``` java
+// Build the preauth request
+MyPOSPreauthorization preauth = MyPOSPreauthorization.builder()
+	// Mandatoy parameters
+        .productAmount(1.23)
+        .currency(Currency.EUR)
+        .foreignTransactionId(UUID.randomUUID().toString())
+	// Optional parameters
+	// Reference number. Maximum length: 20 alpha numeric characters
+	.reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
+        // Set print receipt mode
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+        .build();
+	
+// If you want to initiate a moto transaction:
+payment.setMotoTransaction(true)
+
+// Start the transaction
+MyPOSAPI.createPreauthorization(MainActivity.this, preauth, PREAUTH_REQUEST_CODE);
+```
+
+##### 2. Perform the Pre-Authorization Completion
+
+``` java
+// Build the preauth completion
+MyPOSPreauthorizationCompletion preauthCompletion = MyPOSPreauthorizationCompletion.builder()
+	// Mandatoy parameters
+        .productAmount(1.23)
+        .currency(Currency.EUR)
+	.preauthorizationCode("1111")
+        .foreignTransactionId(UUID.randomUUID().toString())
+	// Optional parameters
+	// Reference number. Maximum length: 20 alpha numeric characters
+	.reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
+        // Set print receipt mode
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+        .build();
+
+// Start the transaction
+MyPOSAPI.completePreauthorization(MainActivity.this, preauthCompletion, PREAUTH_COMPLETION_REQUEST_CODE);
+```
+
+
+##### 3. Perform the Pre-Authorization Cancellation
+
+``` java
+// Build the preauth cancellation
+MyPOSPreauthorizationCancellation preauthCancellation = MyPOSPreauthorizationCancellation.builder()
+	// Mandatoy parameters
+	.preauthorizationCode("1111")
+        .foreignTransactionId(UUID.randomUUID().toString())
+	// Optional parameters
+	// Reference number. Maximum length: 20 alpha numeric characters
+	.reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
+        // Set print receipt mode
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+        .build();
+
+// Start the transaction
+MyPOSAPI.cancelPreauthorization(MainActivity.this, preauthCancellation, PREAUTH_CANCELLATION_REQUEST_CODE);
+```
+
+##### 4. Handle the result
+
+In your calling Activity, override the ``onActivityResult`` method to handle the result of the payment:
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // The same request code as when calling MyPOSAPI.createPreauthorization
+    if (requestCode == PREAUTH_REQUEST_CODE) {
+        // The transaction was processed, handle the response
+        if (resultCode == RESULT_OK) {
+            // Something went wrong in the Payment core app and the result couldn't be returned properly
+            if (data == null) {
+                Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+
+            Toast.makeText(this, "Pre-Auth transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+
+            // TODO: handle each transaction response accordingly
+            if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+	    	String preauthCode = data.getStringExtra("preauth_code");
+                // Transaction is successful
+            }
+        } else {
+            // The user cancelled the transaction
+            Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+
+```
+
+Read the pre-athorization code from transaction response:
+```java
+String preauthCode = data.getStringExtra("preauth_code");
+```
+
+
+### PL GiftCard Request
+
+
+##### 1. Perform the GiftCard Activation
+
+``` java
+// Build the preauth request
+MyPOSGiftCardActivation activation = MyPOSGiftCardActivation.builder()
+	// Mandatoy parameters
+        .productAmount(1.23)
+        .currency(Currency.EUR)
+        .foreignTransactionId(UUID.randomUUID().toString())
+	// Optional parameters
+        // Set print receipt mode
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+        .build();
+
+// Start the transaction
+MyPOSAPI.openGiftCardActivationActivity(MainActivity.this, activation, ACTIVATION_REQUEST_CODE, skipConfirmationScreen);
+```
+
+##### 2. Perform the GiftCard Dectivation
+
+``` java
+// Start the transaction
+MyPOSAPI.openGiftCardDeactivationActivity(MainActivity.this, UUID.randomUUID().toString(), GIFTCARD_DEACTIVATION_REQUEST_CODE);
+```
+
+
+##### 3. Perform the GiftCard Balance Check
+
+``` java
+// Start the transaction
+MyPOSAPI.openGiftCardCheckBalanceActivity(MainActivity.this, UUID.randomUUID().toString(), GIFTCARD_BALANCE_CHECK_REQUEST_CODE);
+```
+
+##### 4. Handle the result
+
+In your calling Activity, override the ``onActivityResult`` method to handle the result of the payment:
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // The same request code as when calling MyPOSAPI.openGiftCardActivationActivity
+    if (requestCode == ACTIVATION_REQUEST_CODE) {
+        // The transaction was processed, handle the response
+        if (resultCode == RESULT_OK) {
+            // Something went wrong in the Payment core app and the result couldn't be returned properly
+            if (data == null) {
+                Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+
+            Toast.makeText(this, "GiftCard transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+
+            // TODO: handle each transaction response accordingly
+            if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+                // Transaction is successful
+            }
+        } else {
+            // The user cancelled the transaction
+            Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+
+```
+
 
 ### SAM Module operation
 
