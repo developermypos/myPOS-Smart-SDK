@@ -1,8 +1,8 @@
 package com.mypos.smartsdk;
 
-import com.mypos.smartsdk.MyPOSPayment;
+import java.io.Serializable;
 
-public class MyPOSBase<D extends MyPOSBase> {
+public class MyPOSBase<D extends MyPOSBase> implements Serializable {
 
     private boolean     isFiscalDevice;
     private int         resultScreenOnTimeOut;
@@ -45,7 +45,7 @@ public class MyPOSBase<D extends MyPOSBase> {
         return new BaseBuilder();
     }
 
-    public static class BaseBuilder<T extends BaseBuilder<T>> {
+    public static class BaseBuilder<T extends BaseBuilder<T>> implements Serializable {
         private boolean isFiscalDevice;
         private int resultScreenOnTimeOut;
         private String foreignTransactionId;

@@ -22,6 +22,7 @@ public class MyPOSUtil {
 
     public static final String PAYMENT_CORE_ENTRY_PAYMENT_REQUEST        = "com.mypos.transaction.PAYMENT_REQUEST";
 
+    static final String BLOCKING_TRANSACTION_RESULT                      = "com.mypos.BLOCKING_TRANSACTION_RESULT";
     /**
      * Reprint the last transaction receipt
      */
@@ -123,6 +124,10 @@ public class MyPOSUtil {
     public static final String INTENT_VOID_STAN                            = "STAN";
     public static final String INTENT_VOID_AUTH_CODE                       = "authorization_code";
     public static final String INTENT_VOID_DATE_TIME                       = "date_time";
+
+    static final String INTENT_PAYMENT                                   = "payment";
+    static final String INTENT_REFUND                                    = "refund";
+    static final String INTENT_VOID                                      = "void";
 
     /**
      * Request code for a Payment

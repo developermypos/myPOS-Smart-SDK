@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.ConditionVariable;
 
 import com.mypos.smartsdk.data.POSInfo;
 import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
@@ -41,6 +42,84 @@ public class MyPOSAPI {
                         context.unregisterReceiver(this);
                     }
                 },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
+    }
+
+    public static Intent startPaymentBlocking(Context context, MyPOSPayment payment, int timeout) {
+        final ConditionVariable mCondition = new ConditionVariable(false);
+
+        Intent intent = new Intent(context, WorkerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        final Intent[] result = {null};
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent i) {
+                result[0] = i;
+                mCondition.open();
+            }
+        };
+        context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
+
+        intent.putExtra(MyPOSUtil.INTENT_PAYMENT, payment);
+        context.startActivity(intent);
+
+        mCondition.block(timeout); // return false if timeout
+
+        context.unregisterReceiver(br);
+
+        return result[0];
+    }
+
+    public static Intent startRefundBlocking(Context context, MyPOSRefund refund, int timeout) {
+        final ConditionVariable mCondition = new ConditionVariable(false);
+
+        Intent intent = new Intent(context, WorkerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        final Intent[] result = {null};
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent i) {
+                result[0] = i;
+                mCondition.open();
+            }
+        };
+        context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
+
+        intent.putExtra(MyPOSUtil.INTENT_REFUND, refund);
+        context.startActivity(intent);
+
+        mCondition.block(timeout); // return false if timeout
+
+        context.unregisterReceiver(br);
+
+        return result[0];
+    }
+
+    public static Intent startVoidBlocking(Context context, MyPOSVoid voidData, int timeout) {
+        final ConditionVariable mCondition = new ConditionVariable(false);
+
+        Intent intent = new Intent(context, WorkerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        final Intent[] result = {null};
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent i) {
+                result[0] = i;
+                mCondition.open();
+            }
+        };
+        context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
+
+        intent.putExtra(MyPOSUtil.INTENT_VOID, voidData);
+        context.startActivity(intent);
+
+        mCondition.block(timeout); // return false if timeout
+
+        context.unregisterReceiver(br);
+
+        return result[0];
     }
 
     /**
