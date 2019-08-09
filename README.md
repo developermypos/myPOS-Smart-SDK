@@ -631,7 +631,7 @@ The printing broadcast accepts a list of PrinterCommand objects serialized as JS
 
 A PrinterCommand can be one of the following types:
 
-* HEADER – prints merchant data and time and date. The time and date must be sent with the broadcast
+* HEADER – prints merchant data and time and date format:"DD/MM/YY;HH:mm:ss". The time and date must be sent with the broadcast
 * LOGO – prints the device’s logo.
 * TEXT – prints arbitrary text. Double width and height are available as parameters
 * FOOTER – prints a footer with a “Thank you” message
@@ -739,6 +739,14 @@ When a transaction has finished, an Intent with the following data is returned t
 * CVM - Cardholder Verification Method (P – PIN, S – Signature , N – NO CVM)
 * application_name - Application Label, read from the card chip
 * transaction_approved (boolean) - – true : approved, false : declined
+* dcc_available (boolean) - Dynamic currency conversion (DCC) available
+* amount_dcc (double) - Dynamic currency conversion (DCC) amount
+* currency_dcc - Dynamic currency conversion (DCC) currency
+* exchange_rate (double) - Dynamic currency conversion (DCC) exchange rate
+* TID - Terminal id
+* update_pending (boolean) - New update is available
+* resp_code - Payment request response code. Values, different from "00", represent the reason for a declined transaction
+* expire_date - Payment request expire date
 * merchant_data - Bundle with data from your myPOS profile used for printing the receipts. It contains:
   * billing_descriptor - merchant billing descriptor
   * address_line1 - merchant address line 1
@@ -746,6 +754,14 @@ When a transaction has finished, an Intent with the following data is returned t
   * MID - Merchant ID
   * custom_receipt_row1 - custom receipt footer row 1
   * custom_receipt_row2 - custom receipt footer row 2
+* installment_data - Bundle with data if user paid in installments. It contains:
+  * number (int) - selected number of installments
+  * interest_rate (double) - installment interest rate
+  * fee (double) - installment fee
+  * annual_percentage_rate (double) - installment annual percantage rate
+  * total_amount (double) - installments total amount
+  * first_installment_amount (double) - first installment amount
+  * subsequent_installment_amount (double) - subsequent installment amount
 
 
 Note 1: Unless noted, extras in the bundle are Strings.
