@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 
+import com.MyPOSBase;
 import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.MissingCurrencyException;
@@ -8,25 +9,20 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a refund
  */
-public class MyPOSRefund {
+public class MyPOSRefund extends MyPOSBase {
 
     private double              refundAmount;
     private boolean             motoTransaction;
     private boolean             giftCardTransaction;
-    private String              foreignTransactionId;
     private Currency            currency;
-    private int                 printMerchantReceipt;
-    private int                 printCustomerReceipt;
     private String              motoPassword;
 
     private MyPOSRefund(Builder builder) {
+        super(builder);
         this.refundAmount = builder.refundAmount;
-        this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.motoTransaction = builder.motoTransaction;
         this.giftCardTransaction = builder.giftCardTransaction;
-        this.printMerchantReceipt = builder.printMerchantReceipt;
-        this.printCustomerReceipt = builder.printCustomerReceipt;
         this.motoPassword = builder.motoPassword;
     }
 
@@ -41,15 +37,6 @@ public class MyPOSRefund {
 
     public MyPOSRefund setRefundAmount(double refundAmount) {
         this.refundAmount = refundAmount;
-        return this;
-    }
-
-    public String getForeignTransactionId() {
-        return foreignTransactionId;
-    }
-
-    public MyPOSRefund setForeignTransactionId(String foreignTransactionId) {
-        this.foreignTransactionId = foreignTransactionId;
         return this;
     }
 
@@ -89,32 +76,11 @@ public class MyPOSRefund {
         return this;
     }
 
-    public int getPrintMerchantReceipt() {
-        return printMerchantReceipt;
-    }
-
-    public MyPOSRefund setPrintMerchantReceipt(int printMerchantReceipt) {
-        this.printMerchantReceipt = printMerchantReceipt;
-        return this;
-    }
-
-    public int getPrintCustomerReceipt() {
-        return printCustomerReceipt;
-    }
-
-    public MyPOSRefund setPrintCustomerReceipt(int printCustomerReceipt) {
-        this.printCustomerReceipt = printCustomerReceipt;
-        return this;
-    }
-
-    public static final class Builder {
+    public static final class Builder extends MyPOSBase.BaseBuilder {
         private boolean         motoTransaction;
         private boolean         giftCardTransaction;
         private Double          refundAmount;
-        private String          foreignTransactionId;
         private Currency        currency;
-        private int             printMerchantReceipt;
-        private int             printCustomerReceipt;
         private String          motoPassword;
 
         public Builder refundAmount(Double productAmount) {
@@ -124,11 +90,6 @@ public class MyPOSRefund {
 
         public Builder currency(Currency currency) {
             this.currency = currency;
-            return this;
-        }
-
-        public Builder foreignTransactionId(String foreignTransactionId) {
-            this.foreignTransactionId = foreignTransactionId;
             return this;
         }
 
@@ -144,16 +105,6 @@ public class MyPOSRefund {
 
         public Builder motoPassword(String motoPassword) {
             this.motoPassword = motoPassword;
-            return this;
-        }
-
-        public Builder printMerchantReceipt(int printMerchantReceipt) {
-            this.printMerchantReceipt = printMerchantReceipt;
-            return this;
-        }
-
-        public Builder printCustomerReceipt(int printCustomerReceipt) {
-            this.printCustomerReceipt = printCustomerReceipt;
             return this;
         }
 

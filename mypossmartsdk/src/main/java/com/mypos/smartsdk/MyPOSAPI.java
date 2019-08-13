@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.MyPOSBase;
 import com.mypos.smartsdk.data.POSInfo;
 import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
 
@@ -431,7 +432,7 @@ public class MyPOSAPI {
      * Takes care of building the intent and opening the payment activity
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param activation             a {@link MyPOSPayment} object with payment-related data
+     * @param activation             a {@link MyPOSGiftCardActivation} object with payment-related data
      * @param requestCode            the request code used later to distinguish
      * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
      */
@@ -457,10 +458,23 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      */
     public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
+        openGiftCardDeactivationActivity(activity, MyPOSBase.builder().foreignTransactionId(foreignTransactionId).printCustomerReceipt(MyPOSUtil.RECEIPT_ON).printMerchantReceipt(MyPOSUtil.RECEIPT_ON).build(), requestCode);
+    }
+
+    /**
+     * Takes care of building the intent and opening the payment activity
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param base                   a payment-related object
+     * @param requestCode            the request code used later to distinguish
+     */
+    public static void openGiftCardDeactivationActivity(Activity activity, MyPOSBase base, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_DEACTIVATION);
-        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, base.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, base.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, base.getPrintCustomerReceipt());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -473,10 +487,23 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      */
     public static void openGiftCardCheckBalanceActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
+        openGiftCardCheckBalanceActivity(activity,  MyPOSBase.builder().foreignTransactionId(foreignTransactionId).printCustomerReceipt(MyPOSUtil.RECEIPT_ON).printMerchantReceipt(MyPOSUtil.RECEIPT_ON).build(), requestCode);
+    }
+
+    /**
+     * Takes care of building the intent and opening the payment activity
+     *
+     * @param activity               the activity whose context will be used to start the payment activity
+     * @param base                   a payment-related object
+     * @param requestCode            the request code used later to distinguish
+     */
+    public static void openGiftCardCheckBalanceActivity(Activity activity, MyPOSBase base, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_POINT_GIFTCARD_INTENT);
 
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK);
-        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, foreignTransactionId);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, base.getForeignTransactionId());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, base.getPrintMerchantReceipt());
+        myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, base.getPrintCustomerReceipt());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }

@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 
+import com.MyPOSBase;
 import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.InvalidOperatorCodeExcepton;
@@ -12,17 +13,14 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a payment
  */
-public class MyPOSPayment {
+public class MyPOSPayment extends MyPOSBase {
 
     private boolean     tippingModeEnabled;
     private boolean     motoTransaction;
     private boolean     giftCardTransaction;
     private double      productAmount;
     private double      tipAmount;
-    private String      foreignTransactionId;
     private Currency    currency;
-    private int         printMerchantReceipt;
-    private int         printCustomerReceipt;
     private String      operatorCode;
     private String      referenceNumber;
     private int         referenceType;
@@ -30,15 +28,13 @@ public class MyPOSPayment {
 
 
     MyPOSPayment(Builder builder) {
+        super(builder);
         this.productAmount = builder.productAmount;
-        this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.tippingModeEnabled = builder.tippingModeEnabled;
         this.tipAmount = builder.tipAmount;
         this.motoTransaction = builder.motoTransaction;
         this.giftCardTransaction = builder.giftCardTransaction;
-        this.printMerchantReceipt = builder.printMerchantReceipt;
-        this.printCustomerReceipt = builder.printCustomerReceipt;
         this.operatorCode = builder.operatorCode;
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
@@ -56,15 +52,6 @@ public class MyPOSPayment {
 
     public MyPOSPayment setProductAmount(double productAmount) {
         this.productAmount = productAmount;
-        return this;
-    }
-
-    public String getForeignTransactionId() {
-        return foreignTransactionId;
-    }
-
-    public MyPOSPayment setForeignTransactionId(String foreignTransactionId) {
-        this.foreignTransactionId = foreignTransactionId;
         return this;
     }
 
@@ -113,24 +100,6 @@ public class MyPOSPayment {
         return this;
     }
 
-    public int getPrintMerchantReceipt() {
-        return printMerchantReceipt;
-    }
-
-    public MyPOSPayment setPrintMerchantReceipt(int printMerchantReceipt) {
-        this.printMerchantReceipt = printMerchantReceipt;
-        return this;
-    }
-
-    public int getPrintCustomerReceipt() {
-        return printCustomerReceipt;
-    }
-
-    public MyPOSPayment setPrintCustomerReceipt(int printCustomerReceipt) {
-        this.printCustomerReceipt = printCustomerReceipt;
-        return this;
-    }
-
     public String getOperatorCode() {
         return operatorCode;
     }
@@ -163,16 +132,13 @@ public class MyPOSPayment {
         return this;
     }
 
-    public static class Builder {
+    public static class Builder extends MyPOSBase.BaseBuilder {
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
         private boolean     giftCardTransaction;
         private double      tipAmount;
         private Double      productAmount;
-        private String      foreignTransactionId;
         private Currency    currency;
-        private int         printMerchantReceipt;
-        private int         printCustomerReceipt;
         private String      operatorCode;
         private String      referenceNumber;
         private int         referenceType;
@@ -193,11 +159,6 @@ public class MyPOSPayment {
             return this;
         }
 
-        public Builder foreignTransactionId(String foreignTransactionId) {
-            this.foreignTransactionId = foreignTransactionId;
-            return this;
-        }
-
         public Builder tippingModeEnabled(boolean tippingModeEnabled) {
             this.tippingModeEnabled = tippingModeEnabled;
             return this;
@@ -210,16 +171,6 @@ public class MyPOSPayment {
 
         public Builder motoTransaction(boolean motoTransaction) {
             this.motoTransaction = motoTransaction;
-            return this;
-        }
-
-        public Builder printMerchantReceipt(int printMerchantReceipt) {
-            this.printMerchantReceipt = printMerchantReceipt;
-            return this;
-        }
-
-        public Builder printCustomerReceipt(int printCustomerReceipt) {
-            this.printCustomerReceipt = printCustomerReceipt;
             return this;
         }
 

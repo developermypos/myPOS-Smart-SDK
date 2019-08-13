@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 
+import com.MyPOSBase;
 import com.mypos.smartsdk.exceptions.MissingAuthCodeException;
 import com.mypos.smartsdk.exceptions.MissingDateTimeException;
 import com.mypos.smartsdk.exceptions.MissingSTANException;
@@ -8,22 +9,19 @@ import com.mypos.smartsdk.exceptions.MissingSTANException;
 /**
  * Describes a refund
  */
-public class MyPOSVoid {
+public class MyPOSVoid extends MyPOSBase {
 
     private int                 STAN;
     private String              authCode;
     private String              dateTime;
     private boolean             voidLastTransactionFlag;
-    private int                 printMerchantReceipt;
-    private int                 printCustomerReceipt;
 
     private MyPOSVoid(Builder builder) {
+        super(builder);
         this.STAN = builder.STAN;
         this.authCode = builder.authCode;
         this.dateTime = builder.dateTime;
         this.voidLastTransactionFlag = builder.voidLastTransactionFlag;
-        this.printMerchantReceipt = builder.printMerchantReceipt;
-        this.printCustomerReceipt = builder.printCustomerReceipt;
     }
 
 
@@ -67,31 +65,11 @@ public class MyPOSVoid {
         return this;
     }
 
-    public int getPrintMerchantReceipt() {
-        return printMerchantReceipt;
-    }
-
-    public MyPOSVoid setPrintMerchantReceipt(int printMerchantReceipt) {
-        this.printMerchantReceipt = printMerchantReceipt;
-        return this;
-    }
-
-    public int getPrintCustomerReceipt() {
-        return printCustomerReceipt;
-    }
-
-    public MyPOSVoid setPrintCustomerReceipt(int printCustomerReceipt) {
-        this.printCustomerReceipt = printCustomerReceipt;
-        return this;
-    }
-
-    public static final class Builder {
+    public static final class Builder extends MyPOSBase.BaseBuilder {
         private int                 STAN;
         private String              authCode;
         private String              dateTime;
         private boolean             voidLastTransactionFlag;
-        private int                 printMerchantReceipt;
-        private int                 printCustomerReceipt;
 
         public Builder STAN(int STAN) {
             this.STAN = STAN;
@@ -110,16 +88,6 @@ public class MyPOSVoid {
 
         public Builder voidLastTransactionFlag(boolean voidLastTransactionFlag) {
             this.voidLastTransactionFlag = voidLastTransactionFlag;
-            return this;
-        }
-
-        public Builder printMerchantReceipt(int printMerchantReceipt) {
-            this.printMerchantReceipt = printMerchantReceipt;
-            return this;
-        }
-
-        public Builder printCustomerReceipt(int printCustomerReceipt) {
-            this.printCustomerReceipt = printCustomerReceipt;
             return this;
         }
 
