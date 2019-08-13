@@ -8,7 +8,7 @@ import com.mypos.smartsdk.exceptions.MissingPreauthCodeException;
 /**
  * Cancel a preauthorization
  */
-public class MyPOSPreauthorizationCancellation extends MyPOSBase {
+public class MyPOSPreauthorizationCancellation extends MyPOSBase<MyPOSPreauthorizationCancellation> {
 
     private String              preauthorizationCode;
 

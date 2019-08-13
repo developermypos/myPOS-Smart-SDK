@@ -9,7 +9,7 @@ import com.mypos.smartsdk.exceptions.MissingSTANException;
 /**
  * Describes a refund
  */
-public class MyPOSVoid extends MyPOSBase {
+public class MyPOSVoid extends MyPOSBase<MyPOSVoid> {
 
     private int                 STAN;
     private String              authCode;

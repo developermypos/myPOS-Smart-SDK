@@ -10,7 +10,7 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
  * Creates a preauthorization transaction
  */
 
-public class MyPOSPreauthorization extends MyPOSBase {
+public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
 
     private boolean     motoTransaction;
     private double      productAmount;

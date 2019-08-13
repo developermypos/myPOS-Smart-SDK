@@ -13,7 +13,7 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a payment
  */
-public class MyPOSPayment extends MyPOSBase {
+public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
 
     private boolean     tippingModeEnabled;
     private boolean     motoTransaction;
