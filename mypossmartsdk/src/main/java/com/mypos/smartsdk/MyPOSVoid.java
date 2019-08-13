@@ -65,7 +65,7 @@ public class MyPOSVoid extends MyPOSBase {
         return this;
     }
 
-    public static final class Builder extends MyPOSBase.BaseBuilder {
+    public static final class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private int                 STAN;
         private String              authCode;
         private String              dateTime;

@@ -59,7 +59,7 @@ public class MyPOSGiftCardActivation extends MyPOSBase {
         return this;
     }
 
-    public static class Builder extends MyPOSBase.BaseBuilder {
+    public static class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private Double      productAmount;
         private String      foreignTransactionId;
         private Currency    currency;

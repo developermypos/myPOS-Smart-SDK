@@ -31,7 +31,7 @@ public class MyPOSPreauthorizationCancellation extends MyPOSBase {
         this.preauthorizationCode = preauthorizationCode;
         return this;
     }
-    public static class Builder extends MyPOSBase.BaseBuilder{
+    public static class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private String              preauthorizationCode;
 
         public Builder preauthorizationCode(String preauthorizationCode) {
