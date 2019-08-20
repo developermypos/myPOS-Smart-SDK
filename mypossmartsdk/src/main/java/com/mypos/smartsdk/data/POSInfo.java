@@ -16,6 +16,7 @@ public class POSInfo implements Serializable {
     private String SN;
     private String currencyName;
     private String currencyCode;
+    private String regNumber;
     private int deviceState;
     private MerchantData merchantData;
 
@@ -60,6 +61,14 @@ public class POSInfo implements Serializable {
         this.currencyCode = currencyCode;
     }
 
+    public String getRegNumber() {
+        return regNumber;
+    }
+
+    public void setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
+    }
+
     public MerchantData getMerchantData() {
         return merchantData;
     }
@@ -83,6 +92,7 @@ public class POSInfo implements Serializable {
         ret.putString("SN", SN);
         ret.putString("CurrencyName", currencyName);
         ret.putString("CurrencyCode", currencyCode);
+        ret.putString("RegNumber", regNumber);
         ret.putInt("device_state", deviceState);
         ret.putBundle("MerchantData", merchantData.asBundle());
 
@@ -94,6 +104,7 @@ public class POSInfo implements Serializable {
         SN = ret.getString("SN");
         currencyName = ret.getString("CurrencyName");
         currencyCode = ret.getString("CurrencyCode");
+        regNumber = ret.getString("RegNumber");
         deviceState = ret.getInt("device_state");
         merchantData.parseFromBundle(ret.getBundle("MerchantData"));
     }
@@ -105,6 +116,7 @@ public class POSInfo implements Serializable {
                 "SN=" + SN +
                 ", currencyName='" + currencyName + "'\n" +
                 ", currencyCode='" + currencyCode + "'\n" +
+                ", regNumber='"    + regNumber    + "'\n" +
                 ", device_state='" + deviceState + "'\n" +
                 ", merchantData='" + merchantData.toString() + "'\n" +
                 '}';
