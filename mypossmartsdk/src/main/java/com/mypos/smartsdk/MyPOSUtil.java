@@ -149,7 +149,7 @@ public class MyPOSUtil {
     public static final String INTENT_SAM_CARD_COMMAND_ISOCOMMAND   = "isoCommand";
 
     public static boolean isReferenceNumberValid(String referenceNumber) {
-        return referenceNumber == null || (referenceNumber.length() <= 20 && referenceNumber.matches("[a-zA-Z0-9\\p{Punct}]+"));
+        return referenceNumber == null || (referenceNumber.length() <= 50 && referenceNumber.matches("[a-zA-Z0-9\\p{Punct}]+"));
     }
 
 }
