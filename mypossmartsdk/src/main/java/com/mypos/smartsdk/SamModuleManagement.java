@@ -14,6 +14,7 @@ import com.mypos.appmanagment.ISystemAidlInterface;
 
 import java.net.BindException;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class SamModuleManagement {
 
@@ -126,7 +127,7 @@ public class SamModuleManagement {
             }
         }
 
-        return false;
+        throw new TimeoutException("Function did not return result in the required time period");
     }
 
     public byte[] open(int slot, long timeOut) throws Exception {
@@ -167,7 +168,7 @@ public class SamModuleManagement {
             }
         }
 
-        return null;
+        throw new TimeoutException("Function did not return result in the required time period");
     }
 
     public  void close(int slot, long timeOut) throws Exception {
@@ -201,6 +202,8 @@ public class SamModuleManagement {
                 }
             }
         }
+
+        throw new TimeoutException("Function did not return result in the required time period");
     }
 
     public  byte[] isoCommand(int slot, byte[] apduSend, long timeOut) throws Exception {
@@ -237,7 +240,7 @@ public class SamModuleManagement {
             }
         }
 
-        return null;
+        throw new TimeoutException("Function did not return result in the required time period");
     }
 
     public boolean isSupported(Context context) {
