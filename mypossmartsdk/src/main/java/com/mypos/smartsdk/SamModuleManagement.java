@@ -5,25 +5,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
+import android.os.DeadObjectException;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import com.mypos.appmanagment.ISerialComAidlInterface;
+import com.mypos.appmanagment.ISamModuleAidlInterface;
 import com.mypos.appmanagment.ISystemAidlInterface;
 
 import java.net.BindException;
 import java.util.List;
 
-public class SerialComManagement {
+public class SamModuleManagement {
 
     private static final String SERVICE_ACTION = "com.mypos.service.SYSTEM";
-    private static final String SERIAL_COM = "serial_com";
+    private static final String SAM_MODULE = "sam_module";
 
     private ISystemAidlInterface systemService = null;
-    private ISerialComAidlInterface serialComService = null;
+    private ISamModuleAidlInterface samCardManagementService = null;
 
     private boolean isBound = false;
-    private static SerialComManagement instance;
+    private static SamModuleManagement instance;
 
     private OnBindListener mListener = null;
 
@@ -34,13 +35,13 @@ public class SerialComManagement {
 
             IBinder binder = null;
             try {
-                binder = systemService.getManager(SERIAL_COM);
+                binder = systemService.getManager(SAM_MODULE);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
 
             if (binder != null)
-                serialComService = ISerialComAidlInterface.Stub.asInterface(binder);
+                samCardManagementService = ISamModuleAidlInterface.Stub.asInterface(binder);
 
             isBound = true;
 
@@ -51,18 +52,18 @@ public class SerialComManagement {
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             systemService = null;
-            serialComService = null;
+            samCardManagementService = null;
             isBound = false;
         }
     };
 
-    private SerialComManagement(){
+    private SamModuleManagement(){
 
     }
 
-    public static SerialComManagement getInstance() {
+    public static SamModuleManagement getInstance() {
         if (instance == null)
-            instance = new SerialComManagement();
+            instance = new SamModuleManagement();
 
         return instance;
     }
@@ -79,6 +80,7 @@ public class SerialComManagement {
         Intent intent = new Intent(SERVICE_ACTION);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.setPackage("com.mypos");
+
         context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -86,28 +88,35 @@ public class SerialComManagement {
         if (isBound) {
             context.unbindService(serviceConnection);
             systemService = null;
-            serialComService = null;
+            samCardManagementService = null;
             isBound = false;
         }
 
         mListener = null;
     }
 
-    public int connect(long timeout) throws BindException {
+    public boolean detect(int slot, long timeOut) throws Exception {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
 
         long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < timeout)) {
+        while ((System.currentTimeMillis() - startTime < timeOut)) {
             try {
-                if (serialComService != null)
-                    return serialComService.connect();
+                if (samCardManagementService != null) {
+                    boolean detect = samCardManagementService.detect(slot);
+                    String e = samCardManagementService.getError();
+
+                    if (e != null)
+                        throw new Exception(e);
+
+                    return detect;
+                }
             }
             catch (IllegalStateException ignored) {
             } catch (RemoteException e) {
                 e.printStackTrace();
-                return - 2;
+                return false;
             } finally {
                 try {
                     Thread.sleep(100);
@@ -117,24 +126,37 @@ public class SerialComManagement {
             }
         }
 
-        return -5;
+        return false;
     }
 
-    public int disconnect(long timeout) throws BindException {
+    public byte[] open(int slot, long timeOut) throws Exception {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
 
         long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < timeout)) {
+        while ((System.currentTimeMillis() - startTime < timeOut)) {
             try {
-                if (serialComService != null)
-                    return serialComService.disconnect();
+                if (samCardManagementService != null) {
+                    byte[] open = samCardManagementService.open(slot);
+
+                    String e = samCardManagementService.getError();
+
+                    if (e != null)
+                        throw new Exception(e);
+
+                    return open;
+                }
             }
             catch (IllegalStateException ignored) {
-            } catch (RemoteException e) {
+            }
+            catch (DeadObjectException e) {
                 e.printStackTrace();
-                return - 2;
+                return null;
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+                return null;
             }
             finally {
                 try {
@@ -145,24 +167,31 @@ public class SerialComManagement {
             }
         }
 
-        return -5;
+        return null;
     }
 
-    public int send(byte[] data, long timeout) throws BindException {
+    public  void close(int slot, long timeOut) throws Exception {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
 
         long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < timeout)) {
+        while ((System.currentTimeMillis() - startTime < timeOut)) {
             try {
-                if (serialComService != null)
-                    return serialComService.send(data);
+                if (samCardManagementService != null) {
+                    samCardManagementService.close(slot);
+
+                    String e = samCardManagementService.getError();
+
+                    if (e != null)
+                        throw new Exception(e);
+                }
             }
             catch (IllegalStateException ignored) {
-            } catch (RemoteException e) {
+            }
+            catch (RemoteException e) {
                 e.printStackTrace();
-                return - 2;
+
             }
             finally {
                 try {
@@ -172,27 +201,30 @@ public class SerialComManagement {
                 }
             }
         }
-
-        return -5;
     }
 
-    public byte[] recv(long timeout) throws BindException {
-        return recv(0, timeout);
-    }
-
-    public byte[] recv(int len, long timeout) throws BindException {
+    public  byte[] isoCommand(int slot, byte[] apduSend, long timeOut) throws Exception {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
 
         long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < timeout)) {
+        while ((System.currentTimeMillis() - startTime < timeOut)) {
             try {
-                if (serialComService != null)
-                    return serialComService.recv(len, timeout);
+                if (samCardManagementService != null) {
+                    byte[] isoCommand = samCardManagementService.isoCommand(slot, apduSend);
+
+                    String e = samCardManagementService.getError();
+
+                    if (e != null)
+                        throw new Exception(e);
+
+                    return isoCommand;
+                }
             }
             catch (IllegalStateException ignored) {
-            } catch (RemoteException e) {
+            }
+            catch (RemoteException e) {
                 e.printStackTrace();
                 return null;
             }
@@ -215,4 +247,5 @@ public class SerialComManagement {
         List<ResolveInfo> services = context.getPackageManager().queryIntentServices(intent, 0);
         return !services.isEmpty();
     }
+
 }
