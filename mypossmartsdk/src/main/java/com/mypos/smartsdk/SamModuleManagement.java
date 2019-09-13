@@ -115,7 +115,8 @@ public class SamModuleManagement {
                 }
             }
             catch (IllegalStateException ignored) {
-            } catch (RemoteException e) {
+            }
+            catch (RemoteException e) {
                 e.printStackTrace();
                 return false;
             } finally {
@@ -151,10 +152,6 @@ public class SamModuleManagement {
             }
             catch (IllegalStateException ignored) {
             }
-            catch (DeadObjectException e) {
-                e.printStackTrace();
-                return null;
-            }
             catch (RemoteException e) {
                 e.printStackTrace();
                 return null;
@@ -186,13 +183,14 @@ public class SamModuleManagement {
 
                     if (e != null)
                         throw new Exception(e);
+
+                    return;
                 }
             }
             catch (IllegalStateException ignored) {
             }
             catch (RemoteException e) {
                 e.printStackTrace();
-
             }
             finally {
                 try {
