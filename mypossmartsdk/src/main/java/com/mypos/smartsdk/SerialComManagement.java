@@ -19,7 +19,6 @@ public class SerialComManagement {
     private static final String SERVICE_ACTION = "com.mypos.service.SYSTEM";
     private static final String SERIAL_COM = "serial_com";
 
-    private ISystemAidlInterface systemService = null;
     private ISerialComAidlInterface serialComService = null;
 
     private boolean isBound = false;
@@ -30,7 +29,7 @@ public class SerialComManagement {
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            systemService = ISystemAidlInterface.Stub.asInterface(iBinder);
+            ISystemAidlInterface systemService = ISystemAidlInterface.Stub.asInterface(iBinder);
 
             IBinder binder = null;
             try {
@@ -50,7 +49,6 @@ public class SerialComManagement {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            systemService = null;
             serialComService = null;
             isBound = false;
         }
@@ -68,7 +66,7 @@ public class SerialComManagement {
     }
 
     public void bind(Context context, OnBindListener listener) throws Exception {
-        if (!isSupported(context))
+        if (!isServiceExist(context))
             throw new Exception("Functionality not supported (probably old version of myPOS OS)");
 
         if (isBound)
@@ -85,7 +83,6 @@ public class SerialComManagement {
     public void unbind(Context context) {
         if (isBound) {
             context.unbindService(serviceConnection);
-            systemService = null;
             serialComService = null;
             isBound = false;
         }
@@ -208,11 +205,15 @@ public class SerialComManagement {
         return null;
     }
 
-    public boolean isSupported(Context context) {
+    private boolean isServiceExist(Context context) {
         Intent intent = new Intent(SERVICE_ACTION, null);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 
         List<ResolveInfo> services = context.getPackageManager().queryIntentServices(intent, 0);
         return !services.isEmpty();
+    }
+
+    public boolean isSupported() {
+        return serialComService != null;
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
-import android.os.DeadObjectException;
 import android.os.IBinder;
 import android.os.RemoteException;
 
@@ -21,7 +20,6 @@ public class SamModuleManagement {
     private static final String SERVICE_ACTION = "com.mypos.service.SYSTEM";
     private static final String SAM_MODULE = "sam_module";
 
-    private ISystemAidlInterface systemService = null;
     private ISamModuleAidlInterface samCardManagementService = null;
 
     private boolean isBound = false;
@@ -32,7 +30,7 @@ public class SamModuleManagement {
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            systemService = ISystemAidlInterface.Stub.asInterface(iBinder);
+            ISystemAidlInterface systemService = ISystemAidlInterface.Stub.asInterface(iBinder);
 
             IBinder binder = null;
             try {
@@ -52,7 +50,6 @@ public class SamModuleManagement {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            systemService = null;
             samCardManagementService = null;
             isBound = false;
         }
@@ -70,7 +67,7 @@ public class SamModuleManagement {
     }
 
     public void bind(Context context, OnBindListener listener) throws Exception {
-        if (!isSupported(context))
+        if (!isServiceExist(context))
             throw new Exception("Functionality not supported (probably old version of myPOS OS)");
 
         if (isBound)
@@ -88,7 +85,6 @@ public class SamModuleManagement {
     public void unbind(Context context) {
         if (isBound) {
             context.unbindService(serviceConnection);
-            systemService = null;
             samCardManagementService = null;
             isBound = false;
         }
@@ -241,12 +237,16 @@ public class SamModuleManagement {
         throw new TimeoutException("Function did not return result in the required time period");
     }
 
-    public boolean isSupported(Context context) {
+    private boolean isServiceExist(Context context) {
         Intent intent = new Intent(SERVICE_ACTION, null);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 
         List<ResolveInfo> services = context.getPackageManager().queryIntentServices(intent, 0);
         return !services.isEmpty();
+    }
+
+    public boolean isSupported() {
+        return samCardManagementService != null;
     }
 
 }
