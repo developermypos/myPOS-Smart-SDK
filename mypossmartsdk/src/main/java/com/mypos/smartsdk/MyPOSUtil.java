@@ -45,6 +45,11 @@ public class MyPOSUtil {
      */
     public static final String PRINT_BROADCAST                           = "com.mypos.action.PRINT";
     /**
+     * Open QR/barcode scanner
+     */
+    public static final String SCANNER_BROADCAST                         = "com.mypos.action.OPEN_SCANNER";
+    public static final String SCANNER_RESULT_BROADCAST                  = "com.mypos.action.SCANNER_RESULT";
+    /**
      * Used to pass the transaction amount to the Payment core
      */
     public static final String INTENT_TRANSACTION_AMOUNT                 = "amount";
