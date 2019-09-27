@@ -1,8 +1,6 @@
 package com.mypos.smartsdk;
 
 
-import com.MyPOSBase;
-import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.InvalidOperatorCodeExcepton;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;

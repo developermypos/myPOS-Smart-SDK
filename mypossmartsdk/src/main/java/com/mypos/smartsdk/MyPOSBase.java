@@ -1,4 +1,4 @@
-package com;
+package com.mypos.smartsdk;
 
 import java.io.Serializable;
 

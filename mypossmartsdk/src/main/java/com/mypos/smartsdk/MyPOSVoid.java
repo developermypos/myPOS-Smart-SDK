@@ -1,7 +1,6 @@
 package com.mypos.smartsdk;
 
 
-import com.MyPOSBase;
 import com.mypos.smartsdk.exceptions.MissingAuthCodeException;
 import com.mypos.smartsdk.exceptions.MissingDateTimeException;
 import com.mypos.smartsdk.exceptions.MissingSTANException;

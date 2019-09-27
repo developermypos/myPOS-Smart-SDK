@@ -1,6 +1,5 @@
 package com.mypos.smartsdk;
 
-import com.MyPOSBase;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceTypeException;
