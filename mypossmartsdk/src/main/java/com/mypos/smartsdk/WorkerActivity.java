@@ -13,21 +13,21 @@ public class WorkerActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra(MyPOSUtil.INTENT_PAYMENT)) {
             try {
-                MyPOSAPI.openPaymentActivity(this, (MyPOSPayment) getIntent().getSerializableExtra(MyPOSUtil.INTENT_PAYMENT), 101);
+                MyPOSAPI.openPaymentActivity(this, (MyPOSPayment) getIntent().getSerializableExtra(MyPOSUtil.INTENT_PAYMENT), 101, getIntent().getBooleanExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, false));
             } catch (IllegalArgumentException e) {
                 sendBroadcast(new Intent(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
                 finish();
             }
         } else if (getIntent().hasExtra(MyPOSUtil.INTENT_REFUND)) {
             try {
-                MyPOSAPI.openRefundActivity(this, (MyPOSRefund) getIntent().getSerializableExtra(MyPOSUtil.INTENT_REFUND), 101);
+                MyPOSAPI.openRefundActivity(this, (MyPOSRefund) getIntent().getSerializableExtra(MyPOSUtil.INTENT_REFUND), 101, getIntent().getBooleanExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, false));
             } catch (IllegalArgumentException e) {
                 sendBroadcast(new Intent(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
                 finish();
             }
         } else if (getIntent().hasExtra(MyPOSUtil.INTENT_VOID)) {
             try {
-                MyPOSAPI.openVoidActivity(this, (MyPOSVoid) getIntent().getSerializableExtra(MyPOSUtil.INTENT_VOID), 101, false);
+                MyPOSAPI.openVoidActivity(this, (MyPOSVoid) getIntent().getSerializableExtra(MyPOSUtil.INTENT_VOID), 101, getIntent().getBooleanExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, false));
             } catch (IllegalArgumentException e) {
                 sendBroadcast(new Intent(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
                 finish();

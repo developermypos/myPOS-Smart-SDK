@@ -44,7 +44,7 @@ public class MyPOSAPI {
                 },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
     }
 
-    public static Intent startPaymentBlocking(Context context, MyPOSPayment payment, int timeout) {
+    public static Intent startPaymentBlocking(Context context, MyPOSPayment payment, int timeout, boolean skipConfirmationScreen) {
         final ConditionVariable mCondition = new ConditionVariable(false);
 
         Intent intent = new Intent(context, WorkerActivity.class);
@@ -61,6 +61,8 @@ public class MyPOSAPI {
         context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
 
         intent.putExtra(MyPOSUtil.INTENT_PAYMENT, payment);
+        intent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+
         context.startActivity(intent);
 
         mCondition.block(timeout); // return false if timeout
@@ -70,7 +72,7 @@ public class MyPOSAPI {
         return result[0];
     }
 
-    public static Intent startRefundBlocking(Context context, MyPOSRefund refund, int timeout) {
+    public static Intent startRefundBlocking(Context context, MyPOSRefund refund, int timeout, boolean skipConfirmationScreen) {
         final ConditionVariable mCondition = new ConditionVariable(false);
 
         Intent intent = new Intent(context, WorkerActivity.class);
@@ -87,6 +89,8 @@ public class MyPOSAPI {
         context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
 
         intent.putExtra(MyPOSUtil.INTENT_REFUND, refund);
+        intent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+
         context.startActivity(intent);
 
         mCondition.block(timeout); // return false if timeout
@@ -96,7 +100,7 @@ public class MyPOSAPI {
         return result[0];
     }
 
-    public static Intent startVoidBlocking(Context context, MyPOSVoid voidData, int timeout) {
+    public static Intent startVoidBlocking(Context context, MyPOSVoid voidData, int timeout, boolean skipConfirmationScreen) {
         final ConditionVariable mCondition = new ConditionVariable(false);
 
         Intent intent = new Intent(context, WorkerActivity.class);
@@ -113,6 +117,8 @@ public class MyPOSAPI {
         context.registerReceiver(br, new IntentFilter(MyPOSUtil.BLOCKING_TRANSACTION_RESULT));
 
         intent.putExtra(MyPOSUtil.INTENT_VOID, voidData);
+        intent.putExtra(MyPOSUtil.INTENT_SKIP_CONFIRMATION_SCREEN, skipConfirmationScreen);
+
         context.startActivity(intent);
 
         mCondition.block(timeout); // return false if timeout
