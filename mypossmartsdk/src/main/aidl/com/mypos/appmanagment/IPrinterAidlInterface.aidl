@@ -9,4 +9,6 @@ interface IPrinterAidlInterface {
      * and return values in AIDL.
      */
     int print(String gsonString, boolean printBottomSpace);
+
+    int getStatus();
 }

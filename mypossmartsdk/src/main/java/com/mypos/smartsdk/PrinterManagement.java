@@ -126,6 +126,37 @@ public class PrinterManagement {
         throw new TimeoutException("Function did not return result in the required time period");
     }
 
+
+    public int getPrinterStatus(long timeOut) throws Exception {
+        if (!isBound) {
+            throw new BindException("call .bind(context) fist");
+        }
+
+        long startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime < timeOut)) {
+            try {
+                if (printerManagementService != null) {
+                    int ret = printerManagementService.getStatus();
+                    return ret;
+                }
+            }
+            catch (IllegalStateException ignored) {
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+                return -1;
+            } finally {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        throw new TimeoutException("Function did not return result in the required time period");
+    }
+
     private boolean isServiceExist(Context context) {
         Intent intent = new Intent(SERVICE_ACTION, null);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
