@@ -8,5 +8,5 @@ interface IPrinterAidlInterface {
      * Demonstrates some basic types that you can use as parameters
      * and return values in AIDL.
      */
-    int print(String gsonString);
+    int print(String gsonString, boolean printBottomSpace);
 }

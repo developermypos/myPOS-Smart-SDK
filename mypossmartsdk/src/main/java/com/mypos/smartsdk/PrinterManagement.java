@@ -94,7 +94,7 @@ public class PrinterManagement {
         mListener = null;
     }
 
-    public int print(List<PrinterCommand> commands, long timeOut) throws Exception {
+    public int print(List<PrinterCommand> commands, boolean printBottomSpace, long timeOut) throws Exception {
         if (!isBound) {
             throw new BindException("call .bind(context) fist");
         }
@@ -106,7 +106,7 @@ public class PrinterManagement {
                     Gson gson = new Gson();
                     String json = gson.toJson(commands);
 
-                    return printerManagementService.print(json);
+                    return printerManagementService.print(json, printBottomSpace);
                 }
             }
             catch (IllegalStateException ignored) {
