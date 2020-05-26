@@ -17,6 +17,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
     private String      referenceNumber;
     private int         referenceType;
     private String      motoPassword;
+    private boolean     fixedPinpad;
 
     MyPOSPreauthorization(Builder builder) {
         super(builder);
@@ -26,6 +27,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
         this.motoPassword = builder.motoPassword;
+        this.fixedPinpad = builder.fixedPinpad;
     }
 
 
@@ -69,6 +71,16 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         return this;
     }
 
+
+    public boolean getFixedPinpad() {
+        return fixedPinpad;
+    }
+
+    public MyPOSPreauthorization setFixedPinpad(boolean fixedPinpad) {
+        this.fixedPinpad = fixedPinpad;
+        return this;
+    }
+
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -90,6 +102,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
+        private boolean     fixedPinpad;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -108,6 +121,11 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
 
         public MyPOSPreauthorization.Builder motoPassword(String motoPassword) {
             this.motoPassword = motoPassword;
+            return this;
+        }
+
+        public MyPOSPreauthorization.Builder fixedPinpad(boolean fixedPinpad) {
+            this.fixedPinpad = fixedPinpad;
             return this;
         }
 

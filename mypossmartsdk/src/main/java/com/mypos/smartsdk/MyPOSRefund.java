@@ -15,6 +15,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
     private boolean             giftCardTransaction;
     private Currency            currency;
     private String              motoPassword;
+    private boolean             fixedPinpad;
 
     private MyPOSRefund(Builder builder) {
         super(builder);
@@ -23,6 +24,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         this.motoTransaction = builder.motoTransaction;
         this.giftCardTransaction = builder.giftCardTransaction;
         this.motoPassword = builder.motoPassword;
+        this.fixedPinpad = builder.fixedPinpad;
     }
 
 
@@ -75,12 +77,22 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         return this;
     }
 
+    public boolean getFixedPinpad() {
+        return fixedPinpad;
+    }
+
+    public MyPOSRefund setFixedPinpad(boolean fixedPinpad) {
+        this.fixedPinpad = fixedPinpad;
+        return this;
+    }
+
     public static final class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private boolean         motoTransaction;
         private boolean         giftCardTransaction;
         private Double          refundAmount;
         private Currency        currency;
         private String          motoPassword;
+        private boolean         fixedPinpad;
 
         public Builder refundAmount(Double productAmount) {
             this.refundAmount = productAmount;
@@ -104,6 +116,10 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
 
         public Builder motoPassword(String motoPassword) {
             this.motoPassword = motoPassword;
+            return this;
+        }
+        public Builder fixedPinpad(boolean fixedPinpad) {
+            this.fixedPinpad = fixedPinpad;
             return this;
         }
 
