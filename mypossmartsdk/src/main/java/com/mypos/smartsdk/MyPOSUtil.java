@@ -86,6 +86,8 @@ public class MyPOSUtil {
     public static final String INTENT_REFERENCE_NUMBER           = "reference_number";
     public static final String INTENT_REFERENCE_NUMBER_TYPE      = "reference_number_type";
     public static final String INTENT_MOTO_PASSWORD              = "moto_password";
+    public static final String INTENT_FIXED_PINPAD               = "fixed_pinpad";
+    public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
 
     /**
      * Code used for completing a preauthorization transaction
