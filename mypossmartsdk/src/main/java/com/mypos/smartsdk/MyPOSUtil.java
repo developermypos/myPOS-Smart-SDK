@@ -69,6 +69,11 @@ public class MyPOSUtil {
      * Returned by the ping broadcasts
      */
     public static final String SET_CDC_RESPONSE                          = "com.mypos.action.SET_CDC_RESPONSE";
+	/**
+     * Open QR/barcode scanner
+     */
+    public static final String SCANNER_BROADCAST                         = "com.mypos.action.OPEN_SCANNER";
+    public static final String SCANNER_RESULT_BROADCAST                  = "com.mypos.action.SCANNER_RESULT";
     /**
      * Used to pass the transaction amount to the Payment core
      */
@@ -108,6 +113,8 @@ public class MyPOSUtil {
     public static final String INTENT_MOTO_PASSWORD              = "moto_password";
     public static final String INTENT_RESULT_SCREEN_TIMEOUT      = "result_screen_timeout";
     public static final String INTENT_IS_FISCAL_DEVICE           = "is_fiscal_device";
+    public static final String INTENT_FIXED_PINPAD               = "fixed_pinpad";
+    public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
 
     /**
      * Code used for completing a preauthorization transaction

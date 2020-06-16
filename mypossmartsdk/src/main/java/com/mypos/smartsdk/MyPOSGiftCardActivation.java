@@ -15,16 +15,14 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
 
     private double      productAmount;
     private Currency    currency;
-    private int         printMerchantReceipt;
-    private int         printCustomerReceipt;
+    private boolean     fixedPinpad;
 
 
     MyPOSGiftCardActivation(Builder builder) {
         super(builder);
         this.productAmount = builder.productAmount;
         this.currency = builder.currency;
-        this.printMerchantReceipt = builder.printMerchantReceipt;
-        this.printCustomerReceipt = builder.printCustomerReceipt;
+        this.fixedPinpad = builder.fixedPinpad;
     }
 
 
@@ -50,29 +48,19 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
         return this;
     }
 
-    public int getPrintMerchantReceipt() {
-        return printMerchantReceipt;
+    public boolean getFixedPinpad() {
+        return fixedPinpad;
     }
 
-    public MyPOSGiftCardActivation setPrintMerchantReceipt(int printMerchantReceipt) {
-        this.printMerchantReceipt = printMerchantReceipt;
+    public MyPOSGiftCardActivation setFixedPinpad(boolean fixedPinpad) {
+        this.fixedPinpad = fixedPinpad;
         return this;
     }
 
-    public int getPrintCustomerReceipt() {
-        return printCustomerReceipt;
-    }
-
-    public MyPOSGiftCardActivation setPrintCustomerReceipt(int printCustomerReceipt) {
-        this.printCustomerReceipt = printCustomerReceipt;
-        return this;
-    }
-
-    public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private Double      productAmount;
         private Currency    currency;
-        private int         printMerchantReceipt;
-        private int         printCustomerReceipt;
+        private boolean     fixedPinpad;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -84,13 +72,8 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
             return this;
         }
 
-        public Builder printMerchantReceipt(int printMerchantReceipt) {
-            this.printMerchantReceipt = printMerchantReceipt;
-            return this;
-        }
-
-        public Builder printCustomerReceipt(int printCustomerReceipt) {
-            this.printCustomerReceipt = printCustomerReceipt;
+        public Builder fixedPinpad(boolean fixedPinpad) {
+            this.fixedPinpad = fixedPinpad;
             return this;
         }
 

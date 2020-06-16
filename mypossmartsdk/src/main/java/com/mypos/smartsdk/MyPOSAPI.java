@@ -171,6 +171,8 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, payment.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, payment.getFixedPinpad());
+        myposIntent.putExtra(MyPOSUtil.INTENT_ENABLE_MASTERCARD_SONIC, payment.mastercardSonicBranding());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -212,6 +214,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, payment.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, payment.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -254,6 +257,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -290,6 +294,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -363,6 +368,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -401,6 +407,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -555,6 +562,7 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, activation.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, activation.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, activation.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, activation.getFixedPinpad());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }

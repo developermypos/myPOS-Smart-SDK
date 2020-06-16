@@ -7,6 +7,8 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
     private boolean     isFiscalDevice;
     private int         resultScreenOnTimeOut;
     private String      foreignTransactionId;
+    private int         printMerchantReceipt;
+    private int         printCustomerReceipt;
 
     public boolean isFiscalDevice() {
         return isFiscalDevice;
@@ -35,9 +37,29 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
         return (D) this;
     }
 
+    public int getPrintMerchantReceipt() {
+        return printMerchantReceipt;
+    }
+
+    public D setPrintMerchantReceipt(int printMerchantReceipt) {
+        this.printMerchantReceipt = printMerchantReceipt;
+        return (D) this;
+    }
+
+    public int getPrintCustomerReceipt() {
+        return printCustomerReceipt;
+    }
+
+    public D setPrintCustomerReceipt(int printCustomerReceipt) {
+        this.printCustomerReceipt = printCustomerReceipt;
+        return (D) this;
+    }
+
     protected MyPOSBase(BaseBuilder builder) {
         this.isFiscalDevice = builder.isFiscalDevice;
         this.resultScreenOnTimeOut = builder.resultScreenOnTimeOut;
+        this.printMerchantReceipt = builder.printMerchantReceipt;
+        this.printCustomerReceipt = builder.printCustomerReceipt;
         this.foreignTransactionId = builder.foreignTransactionId;
     }
 
@@ -46,9 +68,12 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
     }
 
     public static class BaseBuilder<T extends BaseBuilder<T>> implements Serializable {
+
         private boolean isFiscalDevice;
         private int resultScreenOnTimeOut;
         private String foreignTransactionId;
+        private int    printMerchantReceipt;
+        private int    printCustomerReceipt;
 
         public T isFiscalDevice(boolean isFiscalDevice) {
             this.isFiscalDevice = isFiscalDevice;
@@ -64,6 +89,16 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
             }
 
             this.resultScreenOnTimeOut = resultScreenOnTimeOut;
+            return (T) this;
+        }
+
+        public T printMerchantReceipt(int printMerchantReceipt) {
+            this.printMerchantReceipt = printMerchantReceipt;
+            return (T) this;
+        }
+
+        public T printCustomerReceipt(int printCustomerReceipt) {
+            this.printCustomerReceipt = printCustomerReceipt;
             return (T) this;
         }
 

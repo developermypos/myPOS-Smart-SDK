@@ -17,6 +17,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
     private int                 printMerchantReceipt;
     private int                 printCustomerReceipt;
     private String              motoPassword;
+    private boolean             fixedPinpad;
 
     private MyPOSRefund(Builder builder) {
         super(builder);
@@ -27,6 +28,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.motoPassword = builder.motoPassword;
+        this.fixedPinpad = builder.fixedPinpad;
     }
 
 
@@ -79,25 +81,16 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         return this;
     }
 
-    public int getPrintMerchantReceipt() {
-        return printMerchantReceipt;
+    public boolean getFixedPinpad() {
+        return fixedPinpad;
     }
 
-    public MyPOSRefund setPrintMerchantReceipt(int printMerchantReceipt) {
-        this.printMerchantReceipt = printMerchantReceipt;
+    public MyPOSRefund setFixedPinpad(boolean fixedPinpad) {
+        this.fixedPinpad = fixedPinpad;
         return this;
     }
 
-    public int getPrintCustomerReceipt() {
-        return printCustomerReceipt;
-    }
-
-    public MyPOSRefund setPrintCustomerReceipt(int printCustomerReceipt) {
-        this.printCustomerReceipt = printCustomerReceipt;
-        return this;
-    }
-
-    public static final class Builder extends BaseBuilder<Builder> {
+    public static final class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private boolean         motoTransaction;
         private boolean         giftCardTransaction;
         private Double          refundAmount;
@@ -105,6 +98,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         private int             printMerchantReceipt;
         private int             printCustomerReceipt;
         private String          motoPassword;
+        private boolean         fixedPinpad;
 
         public Builder refundAmount(Double productAmount) {
             this.refundAmount = productAmount;
@@ -128,6 +122,10 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
 
         public Builder motoPassword(String motoPassword) {
             this.motoPassword = motoPassword;
+            return this;
+        }
+        public Builder fixedPinpad(boolean fixedPinpad) {
+            this.fixedPinpad = fixedPinpad;
             return this;
         }
 
