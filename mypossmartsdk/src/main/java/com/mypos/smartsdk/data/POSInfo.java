@@ -1,5 +1,6 @@
 package com.mypos.smartsdk.data;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import java.io.Serializable;
@@ -66,6 +67,20 @@ public class POSInfo implements Serializable {
         currencyName = ret.getString("CurrencyName");
         currencyCode = ret.getString("CurrencyCode");
         merchantData.parseFromBundle(ret.getBundle("MerchantData"));
+    }
+
+    public void parseFromCursor(Cursor cursor) {
+        if (cursor.getColumnIndex("tid") > -1)
+          TID = cursor.getString(cursor.getColumnIndex("tid"));
+
+        if (cursor.getColumnIndex("CurrencyName") > -1)
+            currencyName = cursor.getString(cursor.getColumnIndex("CurrencyName"));
+
+        if (cursor.getColumnIndex("CurrencyCode") > -1)
+            currencyCode = cursor.getString(cursor.getColumnIndex("CurrencyCode"));
+
+        if (cursor.getExtras() != null)
+            merchantData.parseFromBundle(cursor.getExtras());
     }
 
     @Override

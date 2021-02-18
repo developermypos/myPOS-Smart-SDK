@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 
 import com.mypos.smartsdk.data.POSInfo;
 import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
@@ -25,22 +27,46 @@ public class MyPOSAPI {
         if (context == null)
             return;
 
-        context.sendBroadcast(new Intent(MyPOSUtil.GET_SIMPLE_POS_INFO));
+        final Uri CONTENT_URI = Uri.parse("content://com.mypos.providers.POSInfoProvider/pos_info");
 
-        context.registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context cx, Intent intent) {
+        Cursor cursor = context.getContentResolver().query(
+                CONTENT_URI,
+                new String[] {"tid", "CurrencyName", "CurrencyCode", "MerchantData"},
+                null,
+                null,
+                null
+        );
 
-                        if (listener != null) {
-                            POSInfo inf = new POSInfo();
-                            inf.parseFromBundle(intent.getExtras());
-                            listener.onReceive(inf);
+        if(cursor == null || cursor.getCount() < 1) {
+            context.sendBroadcast(new Intent(MyPOSUtil.GET_SIMPLE_POS_INFO));
+
+            context.registerReceiver(
+                    new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context cx, Intent intent) {
+
+                            if (listener != null) {
+                                POSInfo inf = new POSInfo();
+                                inf.parseFromBundle(intent.getExtras());
+                                listener.onReceive(inf);
+                            }
+
+                            context.unregisterReceiver(this);
                         }
+                    },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
 
-                        context.unregisterReceiver(this);
-                    }
-                },new IntentFilter(MyPOSUtil.GET_SIMPLE_POS_INFO_RESPONSE));
+            return;
+        }
+        else {
+            cursor.moveToFirst();
+
+            POSInfo inf = new POSInfo();
+            inf.parseFromCursor(cursor);
+            listener.onReceive(inf);
+        }
+
+        if(!cursor.isClosed())
+            cursor.close();
     }
 
     /**
