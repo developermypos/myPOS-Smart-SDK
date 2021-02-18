@@ -11,6 +11,7 @@ import com.mypos.smartsdk.exceptions.MissingRecipientException;
 public class MyPOSPaymentRequest {
     private Double productAmount;
     private Currency currency;
+    private Language language;
     private String GSM;
     private String eMail;
     private String reason;
@@ -21,6 +22,7 @@ public class MyPOSPaymentRequest {
     MyPOSPaymentRequest(MyPOSPaymentRequest.Builder builder) {
         this.productAmount = builder.productAmount;
         this.currency = builder.currency;
+        this.language = builder.language;
         this.GSM = builder.GSM;
         this.eMail = builder.eMail;
         this.reason = builder.reason;
@@ -48,6 +50,15 @@ public class MyPOSPaymentRequest {
 
     public MyPOSPaymentRequest setCurrency(Currency currency) {
         this.currency = currency;
+        return this;
+    }
+
+    public Language getLanguage() {
+        return this.language;
+    }
+
+    public MyPOSPaymentRequest setLanguage(Language language) {
+        this.language = language;
         return this;
     }
 
@@ -108,6 +119,7 @@ public class MyPOSPaymentRequest {
     public static class Builder {
         private Double productAmount;
         private Currency currency;
+        private Language language;
         private String GSM;
         private String eMail;
         private String reason;
@@ -125,6 +137,11 @@ public class MyPOSPaymentRequest {
 
         public MyPOSPaymentRequest.Builder currency(Currency currency) {
             this.currency = currency;
+            return this;
+        }
+
+        public MyPOSPaymentRequest.Builder language(Language language) {
+            this.language = language;
             return this;
         }
 
