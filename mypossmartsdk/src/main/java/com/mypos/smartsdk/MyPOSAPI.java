@@ -3,14 +3,19 @@ package com.mypos.smartsdk;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 
 import com.mypos.smartsdk.data.POSInfo;
 import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
+
+import java.util.List;
 
 
 public class MyPOSAPI {
