@@ -38,7 +38,7 @@ public class MyPOSAPI {
         );
 
         if(cursor == null || cursor.getCount() < 1) {
-            context.sendBroadcast(new Intent(MyPOSUtil.GET_SIMPLE_POS_INFO));
+            sendExplicitBroadcast(context, new Intent(MyPOSUtil.GET_SIMPLE_POS_INFO));
 
             context.registerReceiver(
                     new BroadcastReceiver() {
@@ -67,6 +67,21 @@ public class MyPOSAPI {
 
         if(!cursor.isClosed())
             cursor.close();
+    }
+
+    public static void sendExplicitBroadcast(Context context, Intent intent) {
+        try{
+            PackageManager packageManager = context.getPackageManager();
+            List<ResolveInfo> resolveInfoList = packageManager.queryBroadcastReceivers(intent, 0);
+            for (ResolveInfo info : resolveInfoList) {
+                ComponentName cn = new ComponentName(info.activityInfo.packageName, info.activityInfo.name);
+                intent.setComponent(cn);
+                intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                context.sendBroadcast(intent);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
