@@ -46,7 +46,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_DETECT);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -93,7 +93,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_OPEN);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -138,7 +138,7 @@ public class SAMCard {
         Intent intent = new Intent(MyPOSUtil.INTENT_SAM_CARD);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_CLOSE);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -186,7 +186,7 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_ISOCOMMAND);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_REQUEST, apduSend);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
