@@ -88,6 +88,7 @@ public class MyPOSUtil {
     public static final String INTENT_MOTO_PASSWORD              = "moto_password";
     public static final String INTENT_FIXED_PINPAD               = "fixed_pinpad";
     public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
+    public static final String INTENT_ENABLE_VISA_SENSORY        = "enable_visa_sensory";
 
     /**
      * Code used for completing a preauthorization transaction

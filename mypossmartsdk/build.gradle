@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.jfrog.bintray"
 
-def versionNumber = 23
-def versionString = "1.0.2"
+def versionNumber = 24
+def versionString = "1.0.3"
 
 ext {
     bintrayRepo = 'myPOSSmartSDK'
