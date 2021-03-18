@@ -47,7 +47,7 @@ allprojects {
 Add the dependency to a module:
 
 ```java
-implementation 'com.mypos:mypossmartsdk:1.0.2'
+implementation 'com.mypos:mypossmartsdk:1.0.3'
 ```
 
 ### Additional functions:
