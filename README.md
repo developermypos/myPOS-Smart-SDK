@@ -582,7 +582,7 @@ Printing the last transaction receipt is done by sending a broadcast.
 Intent intent = new Intent(MyPOSUtil.PRINT_LAST_RECEIPT_BROADCAST);
 // Whether or not a copy for the customer should be printed
 intent.putExtra("print_customer_receipt", true);
-sendBroadcast(intent);
+MyPOSAPI.sendExplicitBroadcast(context, intent);
 ```
 
 ##### 2. Handle the printing result
@@ -669,7 +669,7 @@ Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
 intent.putExtra("commands", json);
 
 // Send broadcast
-sendBroadcast(intent);
+MyPOSAPI.sendExplicitBroadcast(context, intent);
 
 
 ```
