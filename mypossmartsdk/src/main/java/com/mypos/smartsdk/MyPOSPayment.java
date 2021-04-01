@@ -28,6 +28,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
     private String      motoPassword;
     private boolean     fixedPinpad;
     private boolean     mastercardSonicBranding;
+    private boolean     visaSensoryBranding;
 
 
     MyPOSPayment(Builder builder) {
@@ -46,6 +47,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         this.motoPassword = builder.motoPassword;
         this.fixedPinpad = builder.fixedPinpad;
         this.mastercardSonicBranding = builder.mastercardSonicBranding;
+        this.visaSensoryBranding = builder.visaSensoryBranding;
     }
 
 
@@ -161,6 +163,15 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return this;
     }
 
+    public boolean visaSensoryBranding() {
+        return visaSensoryBranding;
+    }
+
+    public MyPOSPayment setVisaSensoryBranding(boolean  visaSensoryBranding) {
+        this. visaSensoryBranding = visaSensoryBranding;
+        return this;
+    }
+
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -190,6 +201,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         private String      motoPassword;
         private boolean     fixedPinpad;
         private boolean     mastercardSonicBranding = true;
+        private boolean     visaSensoryBranding = true;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -242,6 +254,11 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         }
         public Builder mastercardSonicBranding(boolean mastercardSonicBranding) {
             this.mastercardSonicBranding = mastercardSonicBranding;
+            return this;
+        }
+
+        public Builder visaSensoryBranding(boolean visaSensoryBranding) {
+            this.visaSensoryBranding = visaSensoryBranding;
             return this;
         }
 

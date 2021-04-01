@@ -115,6 +115,7 @@ public class MyPOSUtil {
     public static final String INTENT_IS_FISCAL_DEVICE           = "is_fiscal_device";
     public static final String INTENT_FIXED_PINPAD               = "fixed_pinpad";
     public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
+    public static final String INTENT_ENABLE_VISA_SENSORY        = "enable_visa_sensory";
 
     /**
      * Code used for completing a preauthorization transaction
@@ -127,6 +128,7 @@ public class MyPOSUtil {
     public static final String INTENT_PAYMENT_REQUEST_CODE               = "requestCode";
     public static final String INTENT_PAYMENT_REQUEST_REASON             = "reason";
     public static final String INTENT_PAYMENT_REQUEST_RECIPIENT_NAME     = "recipient_name";
+    public static final String INTENT_PAYMENT_REQUEST_LANGUAGE           = "language";
 
     public static final String INTENT_VOID_STAN                            = "STAN";
     public static final String INTENT_VOID_AUTH_CODE                       = "authorization_code";

@@ -47,7 +47,7 @@ allprojects {
 Add the dependency to a module:
 
 ```java
-implementation 'com.mypos:mypossmartsdk:1.0.0'
+implementation 'com.mypos:mypossmartsdk:1.0.3'
 ```
 
 ### Additional functions:
@@ -582,7 +582,7 @@ Printing the last transaction receipt is done by sending a broadcast.
 Intent intent = new Intent(MyPOSUtil.PRINT_LAST_RECEIPT_BROADCAST);
 // Whether or not a copy for the customer should be printed
 intent.putExtra("print_customer_receipt", true);
-sendBroadcast(intent);
+MyPOSAPI.sendExplicitBroadcast(context, intent);
 ```
 
 ##### 2. Handle the printing result
@@ -671,7 +671,7 @@ intent.putExtra("GUID", "1234567890"); // String, optional, any text, will be ec
 intent.putExtra("timeout", 10000); // int, optional, milliseconds
 
 // Send broadcast
-sendBroadcast(intent);
+MyPOSAPI.sendExplicitBroadcast(context, intent);
 
 
 ```

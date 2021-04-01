@@ -54,7 +54,7 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_DETECT);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -108,8 +108,8 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_OPEN);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
-        context.sendBroadcast(intent);
-
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
+        
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
 
@@ -160,7 +160,7 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_COMMAND, MyPOSUtil.INTENT_SAM_CARD_COMMAND_CLOSE);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -215,7 +215,7 @@ public class SAMCard {
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_SLOT, slot);
         intent.putExtra(MyPOSUtil.INTENT_SAM_CARD_REQUEST, apduSend);
         intent.putExtra(MyPOSUtil.INTENT_GUID, sentGUID);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
