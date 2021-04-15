@@ -39,7 +39,7 @@ Add the repository to your gradle dependencies:
 ```java
 allprojects {
    repositories {
-      jcenter()
+      mavenCentral()
    }
 }
 ```
@@ -47,7 +47,7 @@ allprojects {
 Add the dependency to a module:
 
 ```java
-implementation 'com.mypos:mypossmartsdk:1.0.3'
+implementation 'com.mypos:mypossmartsdk:1.0.4'
 ```
 
 ### Additional functions:
