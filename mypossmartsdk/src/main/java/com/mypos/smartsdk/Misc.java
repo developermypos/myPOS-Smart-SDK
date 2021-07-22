@@ -34,7 +34,7 @@ public class Misc {
         context.registerReceiver(broadcastReceiver, new IntentFilter(MyPOSUtil.PING_DONE_BROADCAST));
 
         Intent intent = new Intent(MyPOSUtil.SEND_PING_BROADCAST);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
 
@@ -68,7 +68,7 @@ public class Misc {
 
         Intent intent = new Intent(MyPOSUtil.SET_CDC_BROADCAST);
         intent.putExtra(MyPOSUtil.INTENT_CDC_STATUS, cdcMode);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
 

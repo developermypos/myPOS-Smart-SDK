@@ -1,4 +1,4 @@
-    package com.mypos.smartsdk;
+package com.mypos.smartsdk;
 
 import android.content.Intent;
 

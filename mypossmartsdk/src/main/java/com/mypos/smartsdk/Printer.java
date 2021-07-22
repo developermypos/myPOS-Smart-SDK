@@ -90,7 +90,7 @@ public class Printer {
 
         Intent intent = new Intent(MyPOSUtil.PRINT_BROADCAST);
         intent.putExtras(extras);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
         context.unregisterReceiver(broadcastReceiver);
@@ -136,7 +136,7 @@ public class Printer {
         context.registerReceiver(broadcastReceiver, new IntentFilter(MyPOSUtil.PRINTER_STATUS_RESPONSE_BROADCAST));
 
         Intent intent = new Intent(MyPOSUtil.PRINTER_STATUS_BROADCAST);
-        context.sendBroadcast(intent);
+        MyPOSAPI.sendExplicitBroadcast(context, intent);
 
         boolean returned = mCondition.block(timeOut); // return false if timeout
 
