@@ -114,11 +114,20 @@ public class POSInfo implements Serializable {
         if (cursor.getColumnIndex("tid") > -1)
           TID = cursor.getString(cursor.getColumnIndex("tid"));
 
+        if (cursor.getColumnIndex("SN") > -1)
+          SN = cursor.getString(cursor.getColumnIndex("SN"));
+
         if (cursor.getColumnIndex("CurrencyName") > -1)
             currencyName = cursor.getString(cursor.getColumnIndex("CurrencyName"));
 
         if (cursor.getColumnIndex("CurrencyCode") > -1)
             currencyCode = cursor.getString(cursor.getColumnIndex("CurrencyCode"));
+
+        if (cursor.getColumnIndex("RegNumber") > -1)
+            regNumber = cursor.getString(cursor.getColumnIndex("RegNumber"));
+
+        if (cursor.getColumnIndex("device_state") > -1)
+            deviceState = cursor.getInt(cursor.getColumnIndex("device_state"));
 
         if (cursor.getExtras() != null)
             merchantData.parseFromBundle(cursor.getExtras());
