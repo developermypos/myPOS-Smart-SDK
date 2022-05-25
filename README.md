@@ -64,6 +64,12 @@ Once the SDK is added to your project, using the Payment API can be done with th
 
 ### Receive POS info
 
+Add this to your AndroidManifest.xml file
+```xml
+<queries>
+	<package android:name="com.mypos" />
+</queries>
+```
 
 Here you can find simple info about myPOS terminal like	TID, currency name, currency code, merchant info, etc.
 
