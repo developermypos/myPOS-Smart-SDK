@@ -103,6 +103,11 @@ MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
 	 .operatorCode("1234")
 	 // Reference number. Maximum length: 20 alpha numeric characters
 	 .reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
+	 // Enable fixed pinpad keyboard
+	 .fixedPinpad(true)
+	 // Enable mastercard and visa branding video
+	 .mastercardSonicBranding(true)
+	 .visaSensoryBranding(true)
 	 // Set print receipt mode
 	 .printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
 	 .printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
