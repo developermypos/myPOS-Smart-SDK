@@ -2,7 +2,7 @@ package com.mypos.smartsdk;
 
 
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
-import com.mypos.smartsdk.exceptions.InvalidOperatorCodeExcepton;
+import com.mypos.smartsdk.exceptions.InvalidOperatorCodeException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceTypeException;
 import com.mypos.smartsdk.exceptions.InvalidTipAmountException;
@@ -94,7 +94,7 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
             return this;
         }
 
-        public MyPOSGiftCardActivation build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, InvalidOperatorCodeExcepton, InvalidReferenceTypeException, InvalidReferenceNumberException {
+        public MyPOSGiftCardActivation build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, InvalidOperatorCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
             }

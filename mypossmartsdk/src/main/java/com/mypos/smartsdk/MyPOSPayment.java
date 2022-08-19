@@ -3,7 +3,8 @@ package com.mypos.smartsdk;
 
 import com.mypos.smartsdk.exceptions.GiftCardUnsupportedParamsException;
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
-import com.mypos.smartsdk.exceptions.InvalidOperatorCodeExcepton;
+import com.mypos.smartsdk.exceptions.InvalidEReceiptReceiverException;
+import com.mypos.smartsdk.exceptions.InvalidOperatorCodeException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceTypeException;
 import com.mypos.smartsdk.exceptions.InvalidTipAmountException;
@@ -27,6 +28,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
     private boolean     fixedPinpad;
     private boolean     mastercardSonicBranding;
     private boolean     visaSensoryBranding;
+    private String      eReceiptReceiver;
 
 
     MyPOSPayment(Builder builder) {
@@ -44,6 +46,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         this.fixedPinpad = builder.fixedPinpad;
         this.mastercardSonicBranding = builder.mastercardSonicBranding;
         this.visaSensoryBranding = builder.visaSensoryBranding;
+        this.eReceiptReceiver = builder.eReceiptReceiver;
     }
 
 
@@ -150,6 +153,15 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return this;
     }
 
+    public String getEReceiptReceiver() {
+        return eReceiptReceiver;
+    }
+
+    public MyPOSPayment setEReceiptReceiver(String eReceiptReceiver) {
+        this.eReceiptReceiver = eReceiptReceiver;
+        return this;
+    }
+
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -178,6 +190,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         private boolean     fixedPinpad;
         private boolean     mastercardSonicBranding = true;
         private boolean     visaSensoryBranding = true;
+        private String      eReceiptReceiver;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -239,7 +252,12 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
             return this;
         }
 
-        public MyPOSPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException, InvalidOperatorCodeExcepton, InvalidReferenceTypeException, InvalidReferenceNumberException {
+        public Builder eReceiptReceiver(String eReceiptReceiver) {
+            this.eReceiptReceiver = eReceiptReceiver;
+            return this;
+        }
+
+        public MyPOSPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException, InvalidOperatorCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
             }
@@ -273,7 +291,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
                 }
 
                 if(!valid) {
-                    throw new InvalidOperatorCodeExcepton("incorrect operator code");
+                    throw new InvalidOperatorCodeException("incorrect operator code");
                 }
             }
 
@@ -282,6 +300,10 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
             }
             if(ReferenceType.isEnabled(referenceType) && !MyPOSUtil.isReferenceNumberValid(referenceNumber)) {
                 throw new InvalidReferenceNumberException("incorrect reference number");
+            }
+
+            if(eReceiptReceiver != null && !MyPOSUtil.isEmailValid(eReceiptReceiver) && !MyPOSUtil.isMobileNumberValid(eReceiptReceiver)) {
+                throw new InvalidEReceiptReceiverException("e-receipt receiver is not valid");
             }
 
             return new MyPOSPayment(this);

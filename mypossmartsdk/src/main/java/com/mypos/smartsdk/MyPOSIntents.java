@@ -29,6 +29,7 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, payment.getFixedPinpad());
         myposIntent.putExtra(MyPOSUtil.INTENT_ENABLE_MASTERCARD_SONIC, payment.mastercardSonicBranding());
         myposIntent.putExtra(MyPOSUtil.INTENT_ENABLE_VISA_SENSORY, payment.visaSensoryBranding());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, payment.getEReceiptReceiver());
 
         return myposIntent;
     }
@@ -51,6 +52,7 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, refund.getEReceiptReceiver());
 
         return myposIntent;
     }
@@ -93,6 +95,7 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_REFERENCE_NUMBER_TYPE, preauth.getReferenceType());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, preauth.getEReceiptReceiver());
 
         return myposIntent;
     }
