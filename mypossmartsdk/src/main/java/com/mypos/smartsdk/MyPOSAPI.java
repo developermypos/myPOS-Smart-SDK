@@ -150,6 +150,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, payment.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, payment.getFixedPinpad());
 
+        if (payment.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, payment.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -208,6 +211,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, refund.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, refund.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
+
+        if (refund.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, refund.getBaseColor());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -283,6 +289,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_MOTO_PASSWORD, preauth.getMotoPassword());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
 
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -335,6 +344,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
 
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
 
     }
@@ -385,6 +397,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_FOREIGN_TRANSACTION_ID, preauth.getForeignTransactionId());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_MERCHANT_RECEIPT, preauth.getPrintMerchantReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
+
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
 
         startActivityForResult(activity, myposIntent, requestCode);
 
@@ -452,6 +467,27 @@ public class MyPOSAPI {
 
     public static void createPaymentRequest(Activity activity, MyPOSPaymentRequest paymentRequest, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = MyPOSIntents.getPaymentRequestIntent(paymentRequest);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintPaymentActivity(Activity activity, double amount, Currency currency, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintPaymentIntent(amount, currency);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintRefundActivity(Activity activity, double amount, Currency currency, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintRefundIntent(amount, currency);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintVoidActivity(Activity activity, double amount, Currency currency, String originalReference, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintVoidIntent(amount, currency, originalReference);
 
         startActivityForResult(activity, myposIntent, requestCode);
 

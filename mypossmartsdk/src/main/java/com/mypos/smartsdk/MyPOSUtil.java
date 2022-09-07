@@ -27,6 +27,10 @@ public class MyPOSUtil {
 
     public static final String PAYMENT_CORE_ENTRY_PAYMENT_REQUEST        = "com.mypos.transaction.PAYMENT_REQUEST";
 
+    public static final String PAYMENT_CORE_ENTRY_TWINT_PAYMENT          = "com.mypos.transaction.TWINT_PAYMENT";
+
+    public static final String PAYMENT_CORE_ENTRY_TWINT_VOID             = "com.mypos.transaction.TWINT_VOID";
+
     /**
      * Reprint the last transaction receipt
      */
@@ -96,6 +100,8 @@ public class MyPOSUtil {
     public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
     public static final String INTENT_ENABLE_VISA_SENSORY        = "enable_visa_sensory";
     public static final String INTENT_E_RECEIPT_RECEIVER         = "receipt_receiver";
+    public static final String INTENT_TWINT_ORIGINAL_REFERENCE   = "twint_original_reference";
+    public static final String INTENT_APP_MAIN_COLOR             = "app_main_color";
 
     /**
      * Code used for completing a preauthorization transaction

@@ -7,6 +7,7 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
     private String      foreignTransactionId;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
+    private int         baseColor;
 
     public String getForeignTransactionId() {
         return foreignTransactionId;
@@ -35,10 +36,20 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
         return (D) this;
     }
 
+    public int getBaseColor() {
+        return baseColor;
+    }
+
+    public D setBaseColor(int baseColor) {
+        this.baseColor = baseColor;
+        return (D) this;
+    }
+
     protected MyPOSBase(BaseBuilder builder) {
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.foreignTransactionId = builder.foreignTransactionId;
+        this.baseColor = builder.baseColor;
     }
 
     public static BaseBuilder builder() {
@@ -50,6 +61,7 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
         private String foreignTransactionId;
         private int    printMerchantReceipt;
         private int    printCustomerReceipt;
+        private int    baseColor;
 
         public T printMerchantReceipt(int printMerchantReceipt) {
             this.printMerchantReceipt = printMerchantReceipt;
@@ -58,6 +70,11 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
 
         public T printCustomerReceipt(int printCustomerReceipt) {
             this.printCustomerReceipt = printCustomerReceipt;
+            return (T) this;
+        }
+
+        public T baseColor(int baseColor) {
+            this.baseColor = baseColor;
             return (T) this;
         }
 
