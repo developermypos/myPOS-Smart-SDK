@@ -47,7 +47,7 @@ allprojects {
 Add the dependency to a module:
 
 ```java
-implementation 'com.mypos:mypossmartsdk:1.0.4'
+implementation 'com.mypos:mypossmartsdk:1.0.5'
 ```
 
 ### Additional functions:
@@ -109,8 +109,10 @@ MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
 	 .mastercardSonicBranding(true)
 	 .visaSensoryBranding(true)
 	 // Set print receipt mode
-	 .printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
-	 .printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+	 .printMerchantReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF
+	 .printCustomerReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF, RECEIPT_AFTER_CONFIRMATION, RECEIPT_E_RECEIPT
+	 //set email or phone e-receipt receiver, works with customer receipt configuration RECEIPT_E_RECEIPT or RECEIPT_AFTER_CONFIRMATION
+	 .eReceiptReceiver("examplename@example.com")
          .build();
 	 
 // If you want to initiate a moto transaction:
@@ -120,7 +122,7 @@ payment.setMotoTransaction(true)
 payment.setGiftCardTransaction(true)
 
  // Start the transaction
- MyPOSAPI.openPaymentActivity(MainActivity.this, payment, 1);
+ MyPOSAPI.openPaymentActivity(MainActivity.this, payment, PAYMENT_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
 
@@ -186,8 +188,10 @@ MyPOSRefund refund = MyPOSRefund.builder()
         .foreignTransactionId(UUID.randomUUID().toString())
 	// Optional parameters
         // Set print receipt mode
-	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
-	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF, RECEIPT_AFTER_CONFIRMATION, RECEIPT_E_RECEIPT
+	//set email or phone e-receipt receiver, works with customer receipt configuration RECEIPT_E_RECEIPT or RECEIPT_AFTER_CONFIRMATION
+	.eReceiptReceiver("examplename@example.com")
         .build();
 	
 // If you want to initiate a moto transaction:
@@ -197,7 +201,7 @@ payment.setMotoTransaction(true)
 payment.setGiftCardTransaction(true)
 
 // Start the transaction
-MyPOSAPI.openRefundActivity(MainActivity.this, refund, 2);
+MyPOSAPI.openRefundActivity(MainActivity.this, refund, REFUND_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
 ##### 2. Handle the result
@@ -302,7 +306,7 @@ The same as with the payment, in your calling Activity, override the ``onActivit
                 .STAN(27)
                 .authCode("VISSIM")
                 .dateTime("180129123753")
-				//.voidLastTransactionFlag(true) // this may void last transaction initialized by this terminal
+                //.voidLastTransactionFlag(true) // this may void last transaction initialized by this terminal
                 .build();
 				
 		// Start the void transaction
@@ -357,15 +361,17 @@ MyPOSPreauthorization preauth = MyPOSPreauthorization.builder()
 	// Reference number. Maximum length: 20 alpha numeric characters
 	.reference("asd123asd", ReferenceType.REFERENCE_NUMBER)
         // Set print receipt mode
-	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON)
-	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON)
+	.printMerchantReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF
+	.printCustomerReceipt(MyPOSUtil.RECEIPT_ON) // possible options RECEIPT_ON, RECEIPT_OFF, RECEIPT_AFTER_CONFIRMATION, RECEIPT_E_RECEIPT
+	//set email or phone e-receipt receiver, works with customer receipt configuration RECEIPT_E_RECEIPT or RECEIPT_AFTER_CONFIRMATION
+	.eReceiptReceiver("examplename@example.com")
         .build();
 	
 // If you want to initiate a moto transaction:
 payment.setMotoTransaction(true)
 
 // Start the transaction
-MyPOSAPI.createPreauthorization(MainActivity.this, preauth, PREAUTH_REQUEST_CODE);
+MyPOSAPI.createPreauthorization(MainActivity.this, preauth, PREAUTH_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
 ##### 2. Perform the Pre-Authorization Completion
@@ -387,7 +393,7 @@ MyPOSPreauthorizationCompletion preauthCompletion = MyPOSPreauthorizationComplet
         .build();
 
 // Start the transaction
-MyPOSAPI.completePreauthorization(MainActivity.this, preauthCompletion, PREAUTH_COMPLETION_REQUEST_CODE);
+MyPOSAPI.completePreauthorization(MainActivity.this, preauthCompletion, PREAUTH_COMPLETION_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
 
@@ -408,7 +414,7 @@ MyPOSPreauthorizationCancellation preauthCancellation = MyPOSPreauthorizationCan
         .build();
 
 // Start the transaction
-MyPOSAPI.cancelPreauthorization(MainActivity.this, preauthCancellation, PREAUTH_CANCELLATION_REQUEST_CODE);
+MyPOSAPI.cancelPreauthorization(MainActivity.this, preauthCancellation, PREAUTH_CANCELLATION_REQUEST_CODE /*, skipConfirmationScreen*/);
 ```
 
 ##### 4. Handle the result
