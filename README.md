@@ -531,7 +531,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ### SAM Module operation
 
 This functionality defines operations of built-in SAM 1 and SAM 2 modules.
-<br>*In order to use the functions listed above you need to have installed myPOS OS version 0.0.8. myPOS OS Version can be checked Only when device is in “Debug Mode” under “About” submenu in myPOS Terminal App.
 
 ##### 1. SAM Module operation
 
@@ -722,6 +721,46 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
          Toast.makeText(context, String.format("Error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
      }
  }
+}
+
+```
+
+
+### Barcode/QR Scanner
+
+Scanning barcodes or QR codes is done by sending a broadcast.
+
+##### 1. Send the scan broadcast
+
+An example print broadcast can look like this:
+
+```java
+Intent intent = new Intent(MyPOSUtil.SCANNER_BROADCAST);
+
+// Send broadcast
+MyPOSAPI.sendExplicitBroadcast(context, intent);
+
+```
+
+##### 2. Handle the scanning result
+
+When the scanning is finished, the Payment core will return a broadcast with intent `com.mypos.broadcast.SCANNER_RESULT_BROADCAST`.
+
+```java
+public class ScannerResultBroadcastReceiver extends BroadcastReceiver {
+
+ @Override
+ public void onReceive(Context context, Intent intent) {
+        String resultCode = intent.getStringExtra("code");
+        int status = intent.getIntExtra("status", Activity.RESULT_CANCELED);
+
+        if (status == Activity.RESULT_OK) {
+            Toast.makeText(context, "Scanner result: " + resultCode, Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(context, "Scanner cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 ```
