@@ -30,6 +30,10 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
 
   * [Print a custom receipt](#print-a-custom-receipt)
   
+  * [Barcode/QR Scanner](#barcodeqr-scanner)
+  
+  * [Get Last Transaction data](#get-last-transaction-data)
+  
 * [Response](#response)
 
 ## Installation
@@ -75,11 +79,11 @@ Here you can find simple info about myPOS terminal like	TID, currency name, curr
 
 ```java
 MyPOSAPI.registerPOSInfo(MainActivity.this, new OnPOSInfoListener() {
-            @Override
-            public void onReceive(POSInfo info) {
-                //info is received
-            }
-        });
+    @Override
+    public void onReceive(POSInfo info) {
+        //info is received
+    }
+});
 ```
 
 ### Process a checkout
@@ -156,7 +160,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         }
     }
 }
-
 ```
 
 Checking if the transaction is approved can be done by reading the ``transaction_approved`` boolean extra from the response:
@@ -170,7 +173,6 @@ if (transaction_approved) {
     // Transaction was not approved
     // The response code is in the "response_code" string extra
 }
-
 ```
 
 
@@ -244,21 +246,21 @@ This functionality allows a merchant to create payment request and send it as a 
  ```java
  // Build the payment request transaction
  private static final int PAYMENT_REQUEST_REQUEST_CODE = 4;
-    private void startPaymentRequest() {
-        // Build the payment request
-        MyPOSPaymentRequest paymentRequest = MyPOSPaymentRequest.builder()
-                .productAmount(3.55)
-                .currency(Currency.EUR)
-                .expiryDays(60)
-                .recipientName("John Doe")
-                .GSM("0899070087")
-                .eMail("")
-                .reason("System test")
-                .build();
-				
-// Start the payment request transaction
-MyPOSAPI.createPaymentRequest(MainActivity.this, paymentRequest, PAYMENT_REQUEST_REQUEST_CODE);
-    }
+ 
+ private void startPaymentRequest() {
+     // Build the payment request
+     MyPOSPaymentRequest paymentRequest = MyPOSPaymentRequest.builder()
+             .productAmount(3.55)
+             .currency(Currency.EUR)
+             .expiryDays(60)
+             .recipientName("John Doe")
+             .GSM("0899070087")
+             .eMail("")
+             .reason("System test")
+             .build()			
+     // Start the payment request transaction
+     MyPOSAPI.createPaymentRequest(MainActivity.this, paymentRequest, PAYMENT_REQUEST_REQUEST_CODE);
+ }
 ```
 
 ##### 2.  Handle the result
@@ -267,29 +269,29 @@ The same as with the payment, in your calling Activity, override the ``onActivit
 
 ```java
 @Override
-	void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == PAYMENT_REQUEST_REQUEST_CODE) {
-			// The transaction was processed, handle the response
-			if (resultCode == RESULT_OK) {
-				// Something went wrong in the Payment core app and the result couldn't be returned properly
-				if (data == null) {
-					Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == PAYMENT_REQUEST_REQUEST_CODE) {
+        // The transaction was processed, handle the response
+        if (resultCode == RESULT_OK) {
+            // Something went wrong in the Payment core app and the result couldn't be returned properly
+            if (data == null) {
+                Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
 
-				Toast.makeText(this, "Payment request transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Payment request transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
 
-				// TODO: handle each transaction response accordingly
-				if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
-					// Transaction is successful
-				}
-			} else {
-				// The user cancelled the transaction
-				Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
-			}
-		}
+            // TODO: handle each transaction response accordingly
+            if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+            	// Transaction is successful
+            }
+            
+            // The user cancelled the transaction
+            Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+        }
     }
+}
 ```
 
 ### Void Request
@@ -300,18 +302,18 @@ The same as with the payment, in your calling Activity, override the ``onActivit
  ```java
  // Build the void transaction
  private static final int VOID_REQUEST_CODE = 4;
-    private void startVoid() {
-        // Build the void request
-        MyPOSVoid voidEx = MyPOSVoid.builder()
-                .STAN(27)
-                .authCode("VISSIM")
-                .dateTime("180129123753")
-                //.voidLastTransactionFlag(true) // this may void last transaction initialized by this terminal
-                .build();
-				
-		// Start the void transaction
-		MyPOSAPI.openVoidActivity(MainActivity.this, voidEx, VOID_REQUEST_CODE, true);
-    }
+ private void startVoid() {
+     // Build the void request
+     MyPOSVoid voidEx = MyPOSVoid.builder()
+             .STAN(27)
+             .authCode("VISSIM")
+             .dateTime("180129123753")
+             //.voidLastTransactionFlag(true) // this may void last transaction initialized by this terminal
+             .build();
+		
+     // Start the void transaction
+     MyPOSAPI.openVoidActivity(MainActivity.this, voidEx, VOID_REQUEST_CODE, true);
+}
 ```
 
 ##### 2.  Handle the result
@@ -320,29 +322,29 @@ The same as with the payment, in your calling Activity, override the ``onActivit
 
 ```java
 @Override
-	void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == VOID_REQUEST_CODE) {
-			// The transaction was processed, handle the response
-			if (resultCode == RESULT_OK) {
-				// Something went wrong in the Payment core app and the result couldn't be returned properly
-				if (data == null) {
-					Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == VOID_REQUEST_CODE) {
+        // The transaction was processed, handle the response
+        if (resultCode == RESULT_OK) {
+            // Something went wrong in the Payment core app and the result couldn't be returned properly
+            if (data == null) {
+            	Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+            	return;
+            }
+            int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
 
-				Toast.makeText(this, "Void transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Void transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
 
-				// TODO: handle each transaction response accordingly
-				if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
-					// Transaction is successful
-				}
-			} else {
-				// The user cancelled the transaction
-				Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
-			}
-		}
+            // TODO: handle each transaction response accordingly
+            if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+            	// Transaction is successful
+            }
+        } else {
+            // The user cancelled the transaction
+            Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+        }
     }
+}
 ```
 
 ### Pre-Authorization Request
@@ -448,7 +450,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         }
     }
 }
-
 ```
 
 Read the pre-athorization code from transaction response:
@@ -524,7 +525,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         }
     }
 }
-
 ```
 
 
@@ -535,58 +535,57 @@ This functionality defines operations of built-in SAM 1 and SAM 2 modules.
 ##### 1. SAM Module operation
 
  ```java
+//Build SAM module operation
+private static final int SAM_SLOT_1 = 1;
+private static final int SAM_SLOT_2 = 2;
 
-    //Build SAM module operation
-    private static final int SAM_SLOT_1 = 1;
-    private static final int SAM_SLOT_2 = 2;
+private void startSAMTest() {
+    final Context context = this;
+    Thread r = new Thread(new Runnable(){
+        @Override
+        public void run() {
+            try {
+                int slotNumber = SAM_SLOT_1;
+                int timeoutMs = 1000;
 
-    private void startSAMTest() {
-        final Context context = this;
-        Thread r = new Thread(new Runnable(){
-            @Override
-            public void run() {
-                try {
-                    int slotNumber = SAM_SLOT_1;
-                    int timeoutMs = 1000;
+                boolean hasCard;
+                byte[] resp;
+                byte[] cmd = new byte[] {(byte)0x00,(byte)0xA4,(byte)0x00,(byte)0x00,(byte)0x02, (byte) 0x3f, (byte) 0x00}; // SELECT command for file 0x3F00 (GSM card master file)
 
-                    boolean hasCard;
-                    byte[] resp;
-                    byte[] cmd = new byte[] {(byte)0x00,(byte)0xA4,(byte)0x00,(byte)0x00,(byte)0x02, (byte) 0x3f, (byte) 0x00}; // SELECT command for file 0x3F00 (GSM card master file)
-
-                    hasCard = SAMCard.detect(context, slotNumber, timeoutMs);
-                    if (!hasCard) {
-                        showToast("No SAM card detected in slot " + slotNumber);
-                        return;
-                    }
-                    showToast("SAM card detected in slot " + slotNumber + ". Initializing");
-
-                    resp = SAMCard.open(context, slotNumber, timeoutMs);
-                    showToast("Initializing SAM successful. Sending command");
-
-                    resp = SAMCard.isoCommand(context, slotNumber, timeoutMs, cmd);
-                    showToast("Response to SAM command received. Closing SAM");
-
-                    SAMCard.close(context, slotNumber, timeoutMs);
-                    showToast("SAM module closed");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showToast(e.getMessage());
+                hasCard = SAMCard.detect(context, slotNumber, timeoutMs);
+                if (!hasCard) {
+                    showToast("No SAM card detected in slot " + slotNumber);
+                    return;
                 }
-            }
-        });
-        r.start();
-    }
+                showToast("SAM card detected in slot " + slotNumber + ". Initializing");
 
-    public void showToast(final String toast)
-    {
-        runOnUiThread(new Runnable() {
-            public void run()
-            {
-                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+                resp = SAMCard.open(context, slotNumber, timeoutMs);
+                showToast("Initializing SAM successful. Sending command");
+
+                resp = SAMCard.isoCommand(context, slotNumber, timeoutMs, cmd);
+                showToast("Response to SAM command received. Closing SAM");
+
+                SAMCard.close(context, slotNumber, timeoutMs);
+                showToast("SAM module closed");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                showToast(e.getMessage());
             }
-        });
-    }
+        }
+    });
+    r.start();
+}
+
+public void showToast(final String toast)
+{
+    runOnUiThread(new Runnable() {
+        public void run()
+        {
+            Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show();
+        }
+    });
+}
  ```
 
 ### Print the last transaction receipt
@@ -633,7 +632,6 @@ public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
         }
     }
 }
-
 ```
 
 
@@ -686,8 +684,6 @@ intent.putExtra("commands", json);
 
 // Send broadcast
 MyPOSAPI.sendExplicitBroadcast(context, intent);
-
-
 ```
 
 ##### 2. Handle the printing result
@@ -697,30 +693,30 @@ When the printing is finished, the Payment core will return a broadcast with int
 ```java
 public class PrinterResultBroadcastReceiver extends BroadcastReceiver {
 
- @Override
- public void onReceive(Context context, Intent intent) {
-     boolean printing_started = intent.getBooleanExtra("printing_started", false);
-     int printer_status = intent.getIntExtra("printer_status", PrinterStatus.PRINTER_STATUS_UNKNOWN_ERROR);
-
-     // If the printing has actually started, handle the status
-     if (printing_started) {
-
-         // Handle success and errors
-         if (printer_status == PrinterStatus.PRINTER_STATUS_SUCCESS) {
-             Toast.makeText(context, "Printing successful!", Toast.LENGTH_SHORT).show();
-             // Printing is successful
-         } else if (printer_status == PrinterStatus.PRINTER_STATUS_OUT_OF_PAPER) {
-             // Show "missing paper" dialog
-             Toast.makeText(context, "No paper in the printer", Toast.LENGTH_SHORT).show();
-         } else {
-             Toast.makeText(context, String.format("Some error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
-         }
-         // etc.
-     } else {
-         // Some other error occurred. Maybe there's no transaction data (when printing last transaction receipt).
-         Toast.makeText(context, String.format("Error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
-     }
- }
+   @Override
+   public void onReceive(Context context, Intent intent) {
+      boolean printing_started = intent.getBooleanExtra("printing_started", false);
+      int printer_status = intent.getIntExtra("printer_status", PrinterStatus.PRINTER_STATUS_UNKNOWN_ERROR);
+ 
+      // If the printing has actually started, handle the status
+      if (printing_started) {
+ 
+          // Handle success and errors
+          if (printer_status == PrinterStatus.PRINTER_STATUS_SUCCESS) {
+              Toast.makeText(context, "Printing successful!", Toast.LENGTH_SHORT).show();
+              // Printing is successful
+          } else if (printer_status == PrinterStatus.PRINTER_STATUS_OUT_OF_PAPER) {
+              // Show "missing paper" dialog
+              Toast.makeText(context, "No paper in the printer", Toast.LENGTH_SHORT).show();
+          } else {
+              Toast.makeText(context, String.format("Some error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
+          }
+          // etc.
+      } else {
+          // Some other error occurred. Maybe there's no transaction data (when printing last transaction receipt).
+          Toast.makeText(context, String.format("Error occurred while printing. Status: %d", printer_status), Toast.LENGTH_SHORT).show();
+      }
+   }
 }
 
 ```
@@ -739,7 +735,6 @@ Intent intent = new Intent(MyPOSUtil.SCANNER_BROADCAST);
 
 // Send broadcast
 MyPOSAPI.sendExplicitBroadcast(context, intent);
-
 ```
 
 ##### 2. Handle the scanning result
@@ -762,9 +757,59 @@ public class ScannerResultBroadcastReceiver extends BroadcastReceiver {
         }
     }
 }
-
 ```
 
+### Get Last Transaction data
+
+```java
+final Uri CONTENT_URI = Uri.parse("content://com.mypos.providers.LastTransactionProvider/last_transaction");
+
+Cursor cursor = getContentResolver().query(
+    CONTENT_URI,
+    new String[] { // projection parameters you want to receive in response. Choose only the needed ones
+        "amount",
+        "currency",
+        "reference_number",
+        "reference_number_type",
+        "operator_code",
+        "response_code",
+        "stan",
+        "date_time",
+        "authorization_code",
+        "card_brand",
+        "transaction_approved",
+        "cvm",
+        "transaction_type",
+        "rrn"
+    },
+    null,
+    null,
+    null
+);
+
+if (cursor == null)
+    return; // there is no last transaction recorded
+    
+cursor.moveToFirst();
+
+double amount               = cursor.getDouble(cursor.getColumnIndex("amount"));
+String currency             = cursor.getString(cursor.getColumnIndex("currency"));
+String referenceNumber      = cursor.getString(cursor.getColumnIndex("reference_number"));
+int referenceNumberType     = cursor.getInt(cursor.getColumnIndex("reference_number_type"));
+String operatorCode         = cursor.getString(cursor.getColumnIndex("operator_code"));
+String responseCode         = cursor.getString(cursor.getColumnIndex("response_code"));
+String stan                 = cursor.getString(cursor.getColumnIndex("stan"));
+String dateTime             = cursor.getString(cursor.getColumnIndex("date_time"));
+String authorizationCode    = cursor.getString(cursor.getColumnIndex("authorization_code"));
+String cardBrand            = cursor.getString(cursor.getColumnIndex("card_brand"));
+boolean transactionApproved = cursor.getInt(cursor.getColumnIndex("transaction_approved")) == 1;
+String cvm                  = cursor.getString(cursor.getColumnIndex("cvm"));
+String transactionType      = cursor.getString(cursor.getColumnIndex("transaction_type"));
+String rrn                  = cursor.getString(cursor.getColumnIndex("rrn"));
+
+if(!cursor.isClosed())
+    cursor.close();
+```
 
 ### Response
 
