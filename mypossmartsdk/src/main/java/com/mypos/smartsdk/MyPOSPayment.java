@@ -187,7 +187,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
-        private boolean     fixedPinpad;
+        private boolean     fixedPinpad = true;
         private boolean     mastercardSonicBranding = true;
         private boolean     visaSensoryBranding = true;
         private String      eReceiptReceiver;

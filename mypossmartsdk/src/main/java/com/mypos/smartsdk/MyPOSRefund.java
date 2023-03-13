@@ -104,7 +104,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         private Double          refundAmount;
         private Currency        currency;
         private String          motoPassword;
-        private boolean         fixedPinpad;
+        private boolean         fixedPinpad = true;
         private String          eReceiptReceiver;
 
         public Builder refundAmount(Double productAmount) {

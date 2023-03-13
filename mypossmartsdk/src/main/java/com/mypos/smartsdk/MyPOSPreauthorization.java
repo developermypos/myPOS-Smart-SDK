@@ -114,7 +114,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
-        private boolean     fixedPinpad;
+        private boolean     fixedPinpad = true;
         private String      eReceiptReceiver;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {

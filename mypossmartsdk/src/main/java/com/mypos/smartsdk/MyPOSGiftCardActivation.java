@@ -72,7 +72,7 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
         private Double      productAmount;
         private String      foreignTransactionId;
         private Currency    currency;
-        private boolean     fixedPinpad;
+        private boolean     fixedPinpad = true;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
