@@ -34,6 +34,8 @@ No sensitive card data is ever passed through or stored on myPOS Smart device. A
   
   * [Get Last Transaction data](#get-last-transaction-data)
   
+  * [TWINT QR Payment](#twint-qr-payment)
+  
 * [Response](#response)
 
 ## Installation
@@ -138,7 +140,7 @@ In your calling Activity, override the ``onActivityResult`` method to handle the
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     // The same request code as when calling MyPOSAPI.openPaymentActivity
-    if (requestCode == 1) {
+    if (requestCode == PAYMENT_REQUEST_CODE) {
         // The transaction was processed, handle the response
         if (resultCode == RESULT_OK) {
             // Something went wrong in the Payment core app and the result couldn't be returned properly
@@ -214,7 +216,7 @@ The same as with the payment, in your calling Activity, override the ``onActivit
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     // The same request code as when calling MyPOSAPI.openRefundActivity
-    if (requestCode == 2) {
+    if (requestCode == REFUND_REQUEST_CODE) {
         // The transaction was processed, handle the response
         if (resultCode == RESULT_OK) {
             // Something went wrong in the Payment core app and the result couldn't be returned properly
@@ -810,6 +812,57 @@ String rrn                  = cursor.getString(cursor.getColumnIndex("rrn"));
 if(!cursor.isClosed())
     cursor.close();
 ```
+
+
+### TWINT QR Payment
+
+TWINT is a popular mobile payment method in Switzerland. Users can connect their bank account or cards with the TWINT application, and pay with TWINT by scanning a QR code.
+
+##### 1. Perform the TWINT
+
+You can easily initiate a TWINT payment from your application by using only one line of code:
+
+```java
+// Start Twint Payment
+MyPOSAPI.openTwintPaymentActivity(MainActivity.this, 10.0, Currency.CHF, TWINT_REQUEST_CODE);
+```
+
+This will open a screen displaying the TWINT QR code that the client should scan.
+
+##### 2. Handle the result
+
+After the client has completed the payment, you can handle the results back in your application with the following code:
+
+In your calling Activity, override the ``onActivityResult`` method to handle the result of the twint:
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // The same request code as when calling MyPOSAPI.openTwintPaymentActivity
+    if (requestCode == TWINT_REQUEST_CODE) {
+        // The transaction was processed, handle the response
+        if (resultCode == RESULT_OK) {
+            // Something went wrong in the Payment core app and the result couldn't be returned properly
+            if (data == null) {
+                Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int transactionResult = data.getIntExtra("status", TransactionProcessingResult.TRANSACTION_FAILED);
+
+            Toast.makeText(this, "Twint transaction has completed. Result: " + transactionResult, Toast.LENGTH_SHORT).show();
+
+            // TODO: handle each transaction response accordingly
+            if (transactionResult == TransactionProcessingResult.TRANSACTION_SUCCESS) {
+                // Transaction is successful
+            }
+        } else {
+            // The user cancelled the transaction
+            Toast.makeText(this, "Twint cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+```
+
 
 ### Response
 
