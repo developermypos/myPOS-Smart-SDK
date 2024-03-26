@@ -237,6 +237,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, payment.getFixedPinpad());
 
+        if (payment.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, payment.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -297,6 +300,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
+
+        if (refund.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, refund.getBaseColor());
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -374,6 +380,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
 
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -428,6 +437,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
 
     }
@@ -481,6 +493,9 @@ public class MyPOSAPI {
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
 
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
+
         startActivityForResult(activity, myposIntent, requestCode);
 
     }
@@ -502,17 +517,6 @@ public class MyPOSAPI {
      * Takes care of building the intent and opening the payment activity
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param myPOSBase              a payment-related object
-     * @param requestCode            the request code used later to distinguish
-     */
-    public static void openGiftCardDeactivationActivity(Activity activity, String foreignTransactionId, int requestCode) throws FunctionalityNotSupportedException {
-        openGiftCardDeactivationActivity(activity, MyPOSBase.builder().foreignTransactionId(foreignTransactionId).printCustomerReceipt(MyPOSUtil.RECEIPT_ON).printMerchantReceipt(MyPOSUtil.RECEIPT_ON).build(), requestCode);
-    }
-
-    /**
-     * Takes care of building the intent and opening the payment activity
-     *
-     * @param activity               the activity whose context will be used to start the payment activity
      * @param base                   a payment-related object
      * @param requestCode            the request code used later to distinguish
      */
@@ -526,7 +530,7 @@ public class MyPOSAPI {
      * Takes care of building the intent and opening the payment activity
      *
      * @param activity               the activity whose context will be used to start the payment activity
-     * @param myPOSBase              a payment-related object
+     * @param base                   a payment-related object
      * @param requestCode            the request code used later to distinguish
      */
     public static void openGiftCardCheckBalanceActivity(Activity activity, MyPOSBase<?> base, int requestCode) throws FunctionalityNotSupportedException {
@@ -536,6 +540,27 @@ public class MyPOSAPI {
 
     public static void createPaymentRequest(Activity activity, MyPOSPaymentRequest paymentRequest, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = MyPOSIntents.getPaymentRequestIntent(paymentRequest);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintPaymentActivity(Activity activity, double amount, Currency currency, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintPaymentIntent(amount, currency);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintRefundActivity(Activity activity, double amount, Currency currency, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintRefundIntent(amount, currency);
+
+        startActivityForResult(activity, myposIntent, requestCode);
+
+    }
+
+    public static void openTwintVoidActivity(Activity activity, double amount, Currency currency, String originalReference, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintVoidIntent(amount, currency, originalReference);
 
         startActivityForResult(activity, myposIntent, requestCode);
 

@@ -31,6 +31,10 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_ENABLE_VISA_SENSORY, payment.visaSensoryBranding());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, payment.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, payment.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, payment.getEReceiptReceiver());
+
+        if (payment.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, payment.getBaseColor());
 
         return myposIntent;
     }
@@ -55,6 +59,10 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, refund.getFixedPinpad());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, refund.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, refund.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, refund.getEReceiptReceiver());
+
+        if (refund.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, refund.getBaseColor());
 
         return myposIntent;
     }
@@ -76,6 +84,9 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, voidTr.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, voidTr.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, voidTr.getResultScreenOnTimeOut());
+
+        if (voidTr.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, voidTr.getBaseColor());
 
         return myposIntent;
     }
@@ -101,6 +112,10 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_FIXED_PINPAD, preauth.getFixedPinpad());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
+        myposIntent.putExtra(MyPOSUtil.INTENT_E_RECEIPT_RECEIVER, preauth.getEReceiptReceiver());
+
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
 
         return myposIntent;
     }
@@ -118,6 +133,9 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, preauth.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, preauth.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, preauth.getResultScreenOnTimeOut());
+
+        if (preauth.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, preauth.getBaseColor());
 
         return myposIntent;
     }
@@ -151,6 +169,9 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, activation.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, activation.getResultScreenOnTimeOut());
 
+        if (activation.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, activation.getBaseColor());
+
         return myposIntent;
     }
 
@@ -164,6 +185,9 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, base.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, base.getResultScreenOnTimeOut());
 
+        if (base.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, base.getBaseColor());
+
         return myposIntent;
     }
 
@@ -176,6 +200,9 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_PRINT_CUSTOMER_RECEIPT, base.getPrintCustomerReceipt());
         myposIntent.putExtra(MyPOSUtil.INTENT_IS_FISCAL_DEVICE, base.isFiscalDevice());
         myposIntent.putExtra(MyPOSUtil.INTENT_RESULT_SCREEN_TIMEOUT, base.getResultScreenOnTimeOut());
+
+        if (base.getBaseColor() != 0)
+            myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, base.getBaseColor());
 
         return myposIntent;
     }
@@ -192,6 +219,37 @@ public class MyPOSIntents {
         myposIntent.putExtra(MyPOSUtil.INTENT_PAYMENT_REQUEST_CODE, paymentRequest.getRequestCode());
         myposIntent.putExtra(MyPOSUtil.INTENT_PAYMENT_REQUEST_EXPIRY_DAYS, paymentRequest.getExpiryDays());
         myposIntent.putExtra(MyPOSUtil.INTENT_PAYMENT_REQUEST_LANGUAGE, paymentRequest.getLanguage().getLang());
+
+        return myposIntent;
+    }
+
+    public static Intent getTwintPaymentIntent(double amount, Currency currency) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_TWINT_PAYMENT);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_PAYMENT);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, amount);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, currency.toString());
+
+        return myposIntent;
+    }
+
+    public static Intent getTwintRefundIntent(double amount, Currency currency) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_TWINT_PAYMENT);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_REFUND);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, amount);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, currency.toString());
+
+        return myposIntent;
+    }
+
+    public static Intent getTwintVoidIntent(double amount, Currency currency, String originalTwintReference) {
+        Intent myposIntent = new Intent(MyPOSUtil.PAYMENT_CORE_ENTRY_TWINT_VOID);
+
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_REQUEST_CODE, MyPOSUtil.TRANSACTION_TYPE_VOID);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_AMOUNT, amount);
+        myposIntent.putExtra(MyPOSUtil.INTENT_TRANSACTION_CURRENCY, currency.toString());
+        myposIntent.putExtra(MyPOSUtil.INTENT_TWINT_ORIGINAL_REFERENCE, originalTwintReference);
 
         return myposIntent;
     }

@@ -1,6 +1,7 @@
 package com.mypos.smartsdk;
 
 import com.mypos.smartsdk.exceptions.InvalidAmountException;
+import com.mypos.smartsdk.exceptions.InvalidEReceiptReceiverException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceNumberException;
 import com.mypos.smartsdk.exceptions.InvalidReferenceTypeException;
 import com.mypos.smartsdk.exceptions.MissingCurrencyException;
@@ -20,6 +21,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
     private int         referenceType;
     private String      motoPassword;
     private boolean     fixedPinpad;
+    private String      eReceiptReceiver;
 
     MyPOSPreauthorization(Builder builder) {
         super(builder);
@@ -32,6 +34,7 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         this.referenceType = builder.referenceType;
         this.motoPassword = builder.motoPassword;
         this.fixedPinpad = builder.fixedPinpad;
+        this.eReceiptReceiver = builder.eReceiptReceiver;
     }
 
 
@@ -85,6 +88,15 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         return this;
     }
 
+    public String getEReceiptReceiver() {
+        return eReceiptReceiver;
+    }
+
+    public MyPOSPreauthorization setEReceiptReceiver(String eReceiptReceiver) {
+        this.eReceiptReceiver = eReceiptReceiver;
+        return this;
+    }
+
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -108,7 +120,8 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
-        private boolean     fixedPinpad;
+        private boolean     fixedPinpad = true;
+        private String      eReceiptReceiver;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -151,6 +164,11 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
             return this;
         }
 
+        public MyPOSPreauthorization.Builder eReceiptReceiver(String eReceiptCredential) {
+            this.eReceiptReceiver = eReceiptCredential;
+            return this;
+        }
+
         public MyPOSPreauthorization build() throws InvalidAmountException, MissingCurrencyException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
@@ -163,6 +181,9 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
             }
             if(ReferenceType.isEnabled(referenceType) && !MyPOSUtil.isReferenceNumberValid(referenceNumber)) {
                 throw new InvalidReferenceNumberException("incorrect reference number");
+            }
+            if(eReceiptReceiver != null && !MyPOSUtil.isEmailValid(eReceiptReceiver) && !MyPOSUtil.isMobileNumberValid(eReceiptReceiver)) {
+                throw new InvalidEReceiptReceiverException("e-receipt credential is not valid");
             }
 
             return new MyPOSPreauthorization(this);
