@@ -13,7 +13,7 @@ import com.mypos.smartsdk.exceptions.MissingCurrencyException;
 /**
  * Describes a payment
  */
-public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
+public class MyPOSVendingPayment extends MyPOSBase<MyPOSVendingPayment> {
 
     private boolean     tippingModeEnabled;
     private boolean     motoTransaction;
@@ -30,9 +30,12 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
     private boolean     fixedPinpad;
     private boolean     mastercardSonicBranding;
     private boolean     visaSensoryBranding;
-    private String      eReceiptReceiver;
+    private boolean     dccEnabled;
+    private boolean     showAmount;
+    private boolean     showCancel;
+    private int         cardDetectionTimeout;
 
-    MyPOSPayment(Builder builder) {
+    MyPOSVendingPayment(MyPOSVendingPayment.Builder builder) {
         super(builder);
         this.productAmount = builder.productAmount;
         this.currency = builder.currency;
@@ -49,19 +52,22 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         this.fixedPinpad = builder.fixedPinpad;
         this.mastercardSonicBranding = builder.mastercardSonicBranding;
         this.visaSensoryBranding = builder.visaSensoryBranding;
-        this.eReceiptReceiver = builder.eReceiptReceiver;
+        this.cardDetectionTimeout = builder.cardDetectionTimeout;
+        this.dccEnabled = builder.dccEnabled;
+        this.showAmount = builder.showAmount;
+        this.showCancel = builder.showCancel;
     }
 
 
-    public static Builder builder() {
-        return new Builder();
+    public static MyPOSVendingPayment.Builder builder() {
+        return new MyPOSVendingPayment.Builder();
     }
 
     public double getProductAmount() {
         return productAmount;
     }
 
-    public MyPOSPayment setProductAmount(double productAmount) {
+    public MyPOSVendingPayment setProductAmount(double productAmount) {
         this.productAmount = productAmount;
         return this;
     }
@@ -70,7 +76,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return currency;
     }
 
-    public MyPOSPayment setCurrency(Currency currency) {
+    public MyPOSVendingPayment setCurrency(Currency currency) {
         this.currency = currency;
         return this;
     }
@@ -79,7 +85,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return tippingModeEnabled;
     }
 
-    public MyPOSPayment setTippingModeEnabled(boolean tippingModeEnabled) {
+    public MyPOSVendingPayment setTippingModeEnabled(boolean tippingModeEnabled) {
         this.tippingModeEnabled = tippingModeEnabled;
         return this;
     }
@@ -88,16 +94,17 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return tipAmount;
     }
 
-    public MyPOSPayment setTipAmount(double tipAmount) {
+    public MyPOSVendingPayment setTipAmount(double tipAmount) {
         this.tipAmount = tipAmount;
         return this;
     }
+
 
     public boolean isMotoTransaction() {
         return motoTransaction;
     }
 
-    public MyPOSPayment setMotoTransaction(boolean motoTransaction) {
+    public MyPOSVendingPayment setMotoTransaction(boolean motoTransaction) {
         this.motoTransaction = motoTransaction;
         return this;
     }
@@ -106,7 +113,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return giftCardTransaction;
     }
 
-    public MyPOSPayment setGiftCardTransaction(boolean giftCardTransaction) {
+    public MyPOSVendingPayment setGiftCardTransaction(boolean giftCardTransaction) {
         this.giftCardTransaction = giftCardTransaction;
         return this;
     }
@@ -115,7 +122,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return operatorCode;
     }
 
-    public MyPOSPayment setOperatorCode(String operatorCode) {
+    public MyPOSVendingPayment setOperatorCode(String operatorCode) {
         this.operatorCode = operatorCode;
         return this;
     }
@@ -124,7 +131,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return motoPassword;
     }
 
-    public MyPOSPayment setMotoPassword(String motoPassword) {
+    public MyPOSVendingPayment setMotoPassword(String motoPassword) {
         this.motoPassword = motoPassword;
         return this;
     }
@@ -133,7 +140,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return motoPAN;
     }
 
-    public MyPOSPayment setMotoPAN(String motoPAN) {
+    public MyPOSVendingPayment setMotoPAN(String motoPAN) {
         this.motoPAN = motoPAN;
         return this;
     }
@@ -142,7 +149,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return motoExpDate;
     }
 
-    public MyPOSPayment setMotoExpDate(String motoExpDate) {
+    public MyPOSVendingPayment setMotoExpDate(String motoExpDate) {
         this.motoExpDate = motoExpDate;
         return this;
     }
@@ -151,7 +158,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return fixedPinpad;
     }
 
-    public MyPOSPayment setFixedPinpad(boolean fixedPinpad) {
+    public MyPOSVendingPayment setFixedPinpad(boolean fixedPinpad) {
         this.fixedPinpad = fixedPinpad;
         return this;
     }
@@ -160,7 +167,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return mastercardSonicBranding;
     }
 
-    public MyPOSPayment setMastercardSonicBranding(boolean  mastercardSonicBranding) {
+    public MyPOSVendingPayment setMastercardSonicBranding(boolean  mastercardSonicBranding) {
         this. mastercardSonicBranding = mastercardSonicBranding;
         return this;
     }
@@ -169,17 +176,8 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return visaSensoryBranding;
     }
 
-    public MyPOSPayment setVisaSensoryBranding(boolean  visaSensoryBranding) {
+    public MyPOSVendingPayment setVisaSensoryBranding(boolean  visaSensoryBranding) {
         this. visaSensoryBranding = visaSensoryBranding;
-        return this;
-    }
-
-    public String getEReceiptReceiver() {
-        return eReceiptReceiver;
-    }
-
-    public MyPOSPayment setEReceiptReceiver(String eReceiptReceiver) {
-        this.eReceiptReceiver = eReceiptReceiver;
         return this;
     }
 
@@ -191,13 +189,49 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return referenceType;
     }
 
-    public MyPOSPayment setReference(String referenceNumber, int referenceType) {
+    public MyPOSVendingPayment setReference(String referenceNumber, int referenceType) {
         this.referenceNumber = referenceNumber;
         this.referenceType = referenceType;
         return this;
     }
 
-    public static class Builder extends MyPOSBase.BaseBuilder<Builder> {
+    public MyPOSVendingPayment setCardDetectionTimeout(int cardDetectionTimeout) {
+        this.cardDetectionTimeout = cardDetectionTimeout;
+        return this;
+    }
+
+    public int getCardDetectionTimeout() {
+        return cardDetectionTimeout;
+    }
+
+    public MyPOSVendingPayment setDccEnabled(boolean dccEnabled) {
+        this.dccEnabled = dccEnabled;
+        return this;
+    }
+
+    public boolean isDccEnabled() {
+        return dccEnabled;
+    }
+
+    public MyPOSVendingPayment setShowAmount(boolean showAmount) {
+        this.showAmount = showAmount;
+        return this;
+    }
+
+    public boolean isShowAmount() {
+        return showAmount;
+    }
+
+    public MyPOSVendingPayment setShowCancel(boolean showCancel) {
+        this.showCancel = showCancel;
+        return this;
+    }
+
+    public boolean isShowCancel() {
+        return showCancel;
+    }
+
+    public static class Builder extends MyPOSBase.BaseBuilder<MyPOSVendingPayment.Builder> {
         private boolean     tippingModeEnabled;
         private boolean     motoTransaction;
         private boolean     giftCardTransaction;
@@ -213,85 +247,103 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         private boolean     fixedPinpad = true;
         private boolean     mastercardSonicBranding = true;
         private boolean     visaSensoryBranding = true;
-        private String      eReceiptReceiver;
+        private boolean     dccEnabled = true;
+        private boolean     showAmount = true;
+        private boolean     showCancel = true;
+        private int         cardDetectionTimeout;
 
-        public Builder productAmount(Double productAmount) {
+        public MyPOSVendingPayment.Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
             return this;
         }
 
-        public Builder tipAmount(Double tipAmount) {
+        public MyPOSVendingPayment.Builder tipAmount(Double tipAmount) {
             this.tipAmount = tipAmount;
             return this;
         }
 
-        public Builder currency(Currency currency) {
+        public MyPOSVendingPayment.Builder currency(Currency currency) {
             this.currency = currency;
             return this;
         }
 
-        public Builder tippingModeEnabled(boolean tippingModeEnabled) {
+        public MyPOSVendingPayment.Builder tippingModeEnabled(boolean tippingModeEnabled) {
             this.tippingModeEnabled = tippingModeEnabled;
             return this;
         }
 
-        public Builder giftCardTransaction(boolean giftCardTransaction) {
+        public MyPOSVendingPayment.Builder giftCardTransaction(boolean giftCardTransaction) {
             this.giftCardTransaction = giftCardTransaction;
             return this;
         }
 
-        public Builder motoTransaction(boolean motoTransaction) {
+        public MyPOSVendingPayment.Builder motoTransaction(boolean motoTransaction) {
             this.motoTransaction = motoTransaction;
             return this;
         }
 
-        public Builder operatorCode(String operatorCode) {
+        public MyPOSVendingPayment.Builder operatorCode(String operatorCode) {
             this.operatorCode = operatorCode;
             return this;
         }
 
-        public Builder motoPassword(String motoPassword) {
+        public MyPOSVendingPayment.Builder motoPassword(String motoPassword) {
             this.motoPassword = motoPassword;
             return this;
         }
 
-        public Builder motoPAN(String motoPAN) {
+        public MyPOSVendingPayment.Builder motoPAN(String motoPAN) {
             this.motoPAN = motoPAN;
             return this;
         }
 
-        public Builder motoExpDate(String motoExpDate) {
+        public MyPOSVendingPayment.Builder motoExpDate(String motoExpDate) {
             this.motoExpDate = motoExpDate;
             return this;
         }
 
-        public Builder mastercardSonicBranding(boolean mastercardSonicBranding) {
+        public MyPOSVendingPayment.Builder mastercardSonicBranding(boolean mastercardSonicBranding) {
             this.mastercardSonicBranding = mastercardSonicBranding;
             return this;
         }
 
-        public Builder visaSensoryBranding(boolean visaSensoryBranding) {
+        public MyPOSVendingPayment.Builder visaSensoryBranding(boolean visaSensoryBranding) {
             this.visaSensoryBranding = visaSensoryBranding;
             return this;
         }
 
-        public Builder fixedPinpad(boolean fixedPinpad) {
+        public MyPOSVendingPayment.Builder showAmount(boolean showAmount) {
+            this.showAmount = showAmount;
+            return this;
+        }
+
+        public MyPOSVendingPayment.Builder showCancel(boolean showCancel) {
+            this.showCancel = showCancel;
+            return this;
+        }
+
+        public MyPOSVendingPayment.Builder fixedPinpad(boolean fixedPinpad) {
             this.fixedPinpad = fixedPinpad;
             return this;
         }
 
-        public Builder reference(String referenceNumber, int referenceType) {
+        public MyPOSVendingPayment.Builder reference(String referenceNumber, int referenceType) {
             this.referenceNumber = referenceNumber;
             this.referenceType = referenceType;
             return this;
         }
 
-        public Builder eReceiptReceiver(String eReceiptReceiver) {
-            this.eReceiptReceiver = eReceiptReceiver;
+        public MyPOSVendingPayment.Builder cardDetectionTimeout(int cardDetectionTimeout) {
+            this.cardDetectionTimeout = cardDetectionTimeout;
             return this;
         }
 
-        public MyPOSPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException, InvalidOperatorCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
+        public MyPOSVendingPayment.Builder dccEnabled(boolean dccEnabled) {
+            this.dccEnabled = dccEnabled;
+            return this;
+        }
+
+        public MyPOSVendingPayment build() throws InvalidAmountException, InvalidTipAmountException, MissingCurrencyException, GiftCardUnsupportedParamsException, InvalidOperatorCodeException, InvalidReferenceTypeException, InvalidReferenceNumberException {
             if (this.productAmount == null || this.productAmount <= 0.0D) {
                 throw new InvalidAmountException("Invalid or missing amount");
             }
@@ -336,11 +388,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
                 throw new InvalidReferenceNumberException("incorrect reference number");
             }
 
-            if(eReceiptReceiver != null && !MyPOSUtil.isEmailValid(eReceiptReceiver) && !MyPOSUtil.isMobileNumberValid(eReceiptReceiver)) {
-                throw new InvalidEReceiptReceiverException("e-receipt receiver is not valid");
-            }
-
-            return new MyPOSPayment(this);
+            return new MyPOSVendingPayment(this);
         }
     }
 }

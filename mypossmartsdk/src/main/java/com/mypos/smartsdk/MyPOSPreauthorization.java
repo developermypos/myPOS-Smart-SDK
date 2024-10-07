@@ -18,7 +18,10 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
     private String      referenceNumber;
     private int         referenceType;
     private String      motoPassword;
+    private String      motoPAN;
+    private final String      motoExpDate;
     private boolean     fixedPinpad;
+    private boolean     isOnlyAuthorization;
     private String      eReceiptReceiver;
 
     MyPOSPreauthorization(Builder builder) {
@@ -29,7 +32,10 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
         this.motoPassword = builder.motoPassword;
+        this.motoPAN = builder.motoPAN;
+        this.motoExpDate = builder.motoExpDate;
         this.fixedPinpad = builder.fixedPinpad;
+        this.isOnlyAuthorization = builder.isOnlyAuthorization;
         this.eReceiptReceiver = builder.eReceiptReceiver;
     }
 
@@ -74,6 +80,18 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         return this;
     }
 
+    public String getMotoPAN() {
+        return motoPAN;
+    }
+
+    public MyPOSPreauthorization setMotoPAN(String motoPAN) {
+        this.motoPAN = motoPAN;
+        return this;
+    }
+
+    public String getMotoExpDate() {
+        return motoExpDate;
+    }
 
     public boolean getFixedPinpad() {
         return fixedPinpad;
@@ -83,6 +101,17 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         this.fixedPinpad = fixedPinpad;
         return this;
     }
+
+
+    public MyPOSPreauthorization setOnlyAuthorization(boolean isOnlyAuthorization) {
+        this.isOnlyAuthorization = isOnlyAuthorization;
+        return this;
+    }
+
+    public boolean isOnlyAuthorization() {
+        return isOnlyAuthorization;
+    }
+
 
     public String getEReceiptReceiver() {
         return eReceiptReceiver;
@@ -114,7 +143,10 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
+        private String      motoPAN;
+        private String      motoExpDate;
         private boolean     fixedPinpad = true;
+        private boolean     isOnlyAuthorization;
         private String      eReceiptReceiver;
 
         public MyPOSPreauthorization.Builder productAmount(Double productAmount) {
@@ -137,8 +169,23 @@ public class MyPOSPreauthorization extends MyPOSBase<MyPOSPreauthorization> {
             return this;
         }
 
+        public MyPOSPreauthorization.Builder motoPAN(String motoPAN) {
+            this.motoPAN = motoPAN;
+            return this;
+        }
+
+        public MyPOSPreauthorization.Builder motoExpDate(String motoExpDate) {
+            this.motoExpDate = motoExpDate;
+            return this;
+        }
+
         public MyPOSPreauthorization.Builder fixedPinpad(boolean fixedPinpad) {
             this.fixedPinpad = fixedPinpad;
+            return this;
+        }
+
+        public MyPOSPreauthorization.Builder isOnlyAuthorization(boolean isOnlyAuthorization) {
+            this.isOnlyAuthorization = isOnlyAuthorization;
             return this;
         }
 

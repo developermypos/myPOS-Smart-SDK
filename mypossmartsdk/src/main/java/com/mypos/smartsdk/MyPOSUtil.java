@@ -3,6 +3,7 @@ package com.mypos.smartsdk;
 import android.util.Patterns;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 public class MyPOSUtil {
@@ -31,6 +32,8 @@ public class MyPOSUtil {
 
     public static final String PAYMENT_CORE_ENTRY_TWINT_VOID             = "com.mypos.transaction.TWINT_VOID";
 
+    public static final String PAYMENT_CORE_ENTRY_COMPLETE_TX            = "com.mypos.transaction.COMPLETE_TX";
+
     /**
      * Reprint the last transaction receipt
      */
@@ -38,6 +41,12 @@ public class MyPOSUtil {
 
     public static final String GET_SIMPLE_POS_INFO                       = "com.mypos.action.GET_SIMPLE_POS_INFO";
     public static final String GET_SIMPLE_POS_INFO_RESPONSE              = "com.mypos.broadcast.exported.SIMPLE_POS_INFO_RESPONSE";
+
+
+    public static final String CARD_PRESENT                              = "com.mypos.action.CARD_PRESENT";
+    public static final String CARD_DETECTED                             = "com.mypos.action.CARD_DETECTED";
+    public static final String PIN_REQUESTED                             = "com.mypos.action.PIN_REQUESTED";
+    public static final String PIN_ENTERED                               = "com.mypos.action.PIN_ENTERED";
 
     public static final String INTENT_PRINT_MERCHANT_RECEIPT             = "print_merchant_receipt";
     public static final String INTENT_PRINT_CUSTOMER_RECEIPT             = "print_customer_receipt";
@@ -96,13 +105,20 @@ public class MyPOSUtil {
     public static final String INTENT_REFERENCE_NUMBER           = "reference_number";
     public static final String INTENT_REFERENCE_NUMBER_TYPE      = "reference_number_type";
     public static final String INTENT_MOTO_PASSWORD              = "moto_password";
+    public static final String INTENT_MOTO_PAN                   = "pan";
+    public static final String INTENT_MOTO_EXP_DATE              = "expiry_date";
     public static final String INTENT_FIXED_PINPAD               = "fixed_pinpad";
     public static final String INTENT_ENABLE_MASTERCARD_SONIC    = "enable_mastercard_sonic";
     public static final String INTENT_ENABLE_VISA_SENSORY        = "enable_visa_sensory";
     public static final String INTENT_E_RECEIPT_RECEIVER         = "receipt_receiver";
     public static final String INTENT_TWINT_ORIGINAL_REFERENCE   = "twint_original_reference";
     public static final String INTENT_APP_MAIN_COLOR             = "app_main_color";
-
+    public static final String INTENT_STORE_CARD                 = "store_card";
+    public static final String INTENT_AUTHORIZATION_ONLY         = "authorization_only";
+    public static final String INTENT_DCC_ENABLED                = "dcc_enabled";
+    public static final String INTENT_CARD_TIMEOUT               = "card_detection_timeout";
+    public static final String INTENT_HIDE_AMOUNT               = "hide_amount";
+    public static final String INTENT_HIDE_CANCEL               = "hide_cancel";
     /**
      * Code used for completing a preauthorization transaction
      */
@@ -157,6 +173,18 @@ public class MyPOSUtil {
      */
     public static final int TRANSACTION_TYPE_GIFTCARD_BALANCE_CHECK     = 109;
 
+    public static final int TRANSACTION_TYPE_COMPLETE_TX                = 110;
+
+    public static final int TRANSACTION_TYPE_CANCEL_TX                  = 111;
+
+    public static final int TRANSACTION_TYPE_PAYMENT_REQUEST            = 112;
+
+    public static final int TRANSACTION_TYPE_ACTIVATION                 = 113;
+
+    public static final int TRANSACTION_TYPE_DEACTIVATION               = 114;
+
+    public static final int TRANSACTION_TYPE_TWINT_PAYMENT              = 115;
+
     // SAM Card
     public static final String INTENT_SAM_CARD                      = "com.mypos.action.SAM_CARD";
     public static final String SAM_CARD_RESPONSE_BROADCAST          = "com.mypos.broadcast.SAM_CARD";
@@ -175,7 +203,7 @@ public class MyPOSUtil {
     }
 
     public static boolean isBasicLatin(String text) {
-        byte[] bytes = text.getBytes(Charset.forName("UTF-8"));
+        byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         for (byte b : bytes) {
             if (b < 32) {
                 return false;
@@ -187,8 +215,7 @@ public class MyPOSUtil {
     public static boolean isEmailValid(String email) {
         if (!isBasicLatin(email)) return false;
         if (email.length() > 50) return false;
-        if (!Pattern.matches("[_a-z0-9A-Z-]+(\\.[_a-z0-9A-Z-]+)*@[_a-z0-9A-Z-]+(\\.[_a-z0-9A-Z-]+)*(\\.[a-zA-Z]+)", email)) return false;
-        return true;
+        return Pattern.matches("[_a-z0-9A-Z-]+(\\.[_a-z0-9A-Z-]+)*@[_a-z0-9A-Z-]+(\\.[_a-z0-9A-Z-]+)*(\\.[a-zA-Z]+)", email);
         //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 

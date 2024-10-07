@@ -27,7 +27,7 @@ public enum Language {
     SPANISH("ES"),
     SWEDISH("SE");
 
-    private String lang;
+    private final String lang;
 
     Language(String lang) {
         this.lang = lang;
@@ -35,5 +35,14 @@ public enum Language {
 
     public String getLang() {
         return lang;
+    }
+
+    public static Language byTAG(String tag) {
+        for (Language language : Language.values()) {
+            if (language.getLang().equals(tag))
+                return language;
+        }
+
+        return null;
     }
 }

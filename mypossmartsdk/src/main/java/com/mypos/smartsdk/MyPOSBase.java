@@ -1,10 +1,12 @@
 package com.mypos.smartsdk;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public class MyPOSBase<D extends MyPOSBase> implements Serializable {
 
     private String      foreignTransactionId;
+    private Locale      language;
     private int         printMerchantReceipt;
     private int         printCustomerReceipt;
     private int         baseColor;
@@ -15,6 +17,15 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
 
     public D setForeignTransactionId(String foreignTransactionId) {
         this.foreignTransactionId = foreignTransactionId;
+        return (D) this;
+    }
+
+    public Locale getLanguage() {
+        return language;
+    }
+
+    public D seLanguage(Locale language) {
+        this.language = language;
         return (D) this;
     }
 
@@ -49,6 +60,7 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
         this.printMerchantReceipt = builder.printMerchantReceipt;
         this.printCustomerReceipt = builder.printCustomerReceipt;
         this.foreignTransactionId = builder.foreignTransactionId;
+        this.language = builder.language;
         this.baseColor = builder.baseColor;
     }
 
@@ -59,6 +71,7 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
     public static class BaseBuilder<T extends BaseBuilder<T>> implements Serializable {
 
         private String foreignTransactionId;
+        private Locale language;
         private int    printMerchantReceipt;
         private int    printCustomerReceipt;
         private int    baseColor;
@@ -80,6 +93,11 @@ public class MyPOSBase<D extends MyPOSBase> implements Serializable {
 
         public T foreignTransactionId(String foreignTransactionId) {
             this.foreignTransactionId = foreignTransactionId;
+            return (T) this;
+        }
+
+        public T language(Locale language) {
+            this.language = language;
             return (T) this;
         }
 
