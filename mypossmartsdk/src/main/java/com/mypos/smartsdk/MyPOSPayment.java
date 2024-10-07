@@ -25,12 +25,11 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
     private String      referenceNumber;
     private int         referenceType;
     private String      motoPassword;
-    private String      motoPAN;
-    private String      motoExpDate;
     private boolean     fixedPinpad;
     private boolean     mastercardSonicBranding;
     private boolean     visaSensoryBranding;
     private String      eReceiptReceiver;
+
 
     MyPOSPayment(Builder builder) {
         super(builder);
@@ -44,8 +43,6 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         this.referenceNumber = builder.referenceNumber;
         this.referenceType = builder.referenceType;
         this.motoPassword = builder.motoPassword;
-        this.motoPAN = builder.motoPAN;
-        this.motoExpDate = builder.motoExpDate;
         this.fixedPinpad = builder.fixedPinpad;
         this.mastercardSonicBranding = builder.mastercardSonicBranding;
         this.visaSensoryBranding = builder.visaSensoryBranding;
@@ -129,24 +126,6 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         return this;
     }
 
-    public String getMotoPAN() {
-        return motoPAN;
-    }
-
-    public MyPOSPayment setMotoPAN(String motoPAN) {
-        this.motoPAN = motoPAN;
-        return this;
-    }
-
-    public String getMotoExpDate() {
-        return motoExpDate;
-    }
-
-    public MyPOSPayment setMotoExpDate(String motoExpDate) {
-        this.motoExpDate = motoExpDate;
-        return this;
-    }
-
     public boolean getFixedPinpad() {
         return fixedPinpad;
     }
@@ -155,7 +134,7 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         this.fixedPinpad = fixedPinpad;
         return this;
     }
-
+        
     public boolean mastercardSonicBranding() {
         return mastercardSonicBranding;
     }
@@ -208,8 +187,6 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
         private String      referenceNumber;
         private int         referenceType;
         private String      motoPassword;
-        private String      motoPAN;
-        private String      motoExpDate;
         private boolean     fixedPinpad = true;
         private boolean     mastercardSonicBranding = true;
         private boolean     visaSensoryBranding = true;
@@ -254,17 +231,6 @@ public class MyPOSPayment extends MyPOSBase<MyPOSPayment> {
             this.motoPassword = motoPassword;
             return this;
         }
-
-        public Builder motoPAN(String motoPAN) {
-            this.motoPAN = motoPAN;
-            return this;
-        }
-
-        public Builder motoExpDate(String motoExpDate) {
-            this.motoExpDate = motoExpDate;
-            return this;
-        }
-
         public Builder mastercardSonicBranding(boolean mastercardSonicBranding) {
             this.mastercardSonicBranding = mastercardSonicBranding;
             return this;

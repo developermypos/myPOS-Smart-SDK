@@ -18,7 +18,7 @@ public enum ReceiptPrintMode {
      */
     NO_CUSTOMER_RECEIPT(2);
 
-    private final int value;
+    private int value;
 
     ReceiptPrintMode(int value) {
         this.value = value;

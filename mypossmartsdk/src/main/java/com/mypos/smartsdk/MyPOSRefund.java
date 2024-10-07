@@ -16,10 +16,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
     private boolean             giftCardTransaction;
     private Currency            currency;
     private String              motoPassword;
-    private String              motoPAN;
-    private final String        motoExpDate;
     private boolean             fixedPinpad;
-    private boolean             isOnlyAuthorization;
     private String              eReceiptReceiver;
 
     private MyPOSRefund(Builder builder) {
@@ -29,10 +26,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         this.motoTransaction = builder.motoTransaction;
         this.giftCardTransaction = builder.giftCardTransaction;
         this.motoPassword = builder.motoPassword;
-        this.motoPAN = builder.motoPAN;
-        this.motoExpDate = builder.motoExpDate;
         this.fixedPinpad = builder.fixedPinpad;
-        this.isOnlyAuthorization = builder.isOnlyAuthorization;
         this.eReceiptReceiver = builder.eReceiptReceiver;
     }
 
@@ -86,19 +80,6 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         return this;
     }
 
-    public String getMotoPAN() {
-        return motoPAN;
-    }
-
-    public MyPOSRefund setMotoPAN(String motoPAN) {
-        this.motoPAN = motoPAN;
-        return this;
-    }
-
-    public String getMotoExpDate() {
-        return motoExpDate;
-    }
-
     public boolean getFixedPinpad() {
         return fixedPinpad;
     }
@@ -106,15 +87,6 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
     public MyPOSRefund setFixedPinpad(boolean fixedPinpad) {
         this.fixedPinpad = fixedPinpad;
         return this;
-    }
-
-    public MyPOSRefund setOnlyAuthorization(boolean isOnlyAuthorization) {
-        this.isOnlyAuthorization = isOnlyAuthorization;
-        return this;
-    }
-
-    public boolean isOnlyAuthorization() {
-        return isOnlyAuthorization;
     }
 
     public String getEReceiptReceiver() {
@@ -132,10 +104,7 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
         private Double          refundAmount;
         private Currency        currency;
         private String          motoPassword;
-        private String          motoPAN;
-        private String          motoExpDate;
         private boolean         fixedPinpad = true;
-        private boolean         isOnlyAuthorization;
         private String          eReceiptReceiver;
 
         public Builder refundAmount(Double productAmount) {
@@ -162,28 +131,10 @@ public class MyPOSRefund extends MyPOSBase<MyPOSRefund> {
             this.motoPassword = motoPassword;
             return this;
         }
-
-        public Builder motoPAN(String motoPAN) {
-            this.motoPAN = motoPAN;
-            return this;
-        }
-
-        public Builder motoExpDate(String motoExpDate) {
-            this.motoExpDate = motoExpDate;
-            return this;
-        }
-
         public Builder fixedPinpad(boolean fixedPinpad) {
             this.fixedPinpad = fixedPinpad;
             return this;
         }
-
-
-        public MyPOSRefund.Builder isOnlyAuthorization(boolean isOnlyAuthorization) {
-            this.isOnlyAuthorization = isOnlyAuthorization;
-            return this;
-        }
-
 
         public Builder eReceiptReceiver(String eReceiptReceiver) {
             this.eReceiptReceiver = eReceiptReceiver;

@@ -17,7 +17,6 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
     private String      foreignTransactionId;
     private Currency    currency;
     private boolean     fixedPinpad;
-    private boolean     isOnlyAuthorization;
 
 
     MyPOSGiftCardActivation(Builder builder) {
@@ -26,7 +25,6 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
         this.foreignTransactionId = builder.foreignTransactionId;
         this.currency = builder.currency;
         this.fixedPinpad = builder.fixedPinpad;
-        this.isOnlyAuthorization = builder.isOnlyAuthorization;
     }
 
 
@@ -70,22 +68,11 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
         return this;
     }
 
-    public MyPOSGiftCardActivation setOnlyAuthorization(boolean isOnlyAuthorization) {
-        this.isOnlyAuthorization = isOnlyAuthorization;
-        return this;
-    }
-
-    public boolean isOnlyAuthorization() {
-        return isOnlyAuthorization;
-    }
-
-
     public static class Builder extends MyPOSBase.BaseBuilder<Builder> {
         private Double      productAmount;
         private String      foreignTransactionId;
         private Currency    currency;
         private boolean     fixedPinpad = true;
-        private boolean     isOnlyAuthorization;
 
         public Builder productAmount(Double productAmount) {
             this.productAmount = productAmount;
@@ -104,11 +91,6 @@ public class MyPOSGiftCardActivation extends MyPOSBase<MyPOSGiftCardActivation> 
 
         public Builder fixedPinpad(boolean fixedPinpad) {
             this.fixedPinpad = fixedPinpad;
-            return this;
-        }
-
-        public Builder isOnlyAuthorization(boolean isOnlyAuthorization) {
-            this.isOnlyAuthorization = isOnlyAuthorization;
             return this;
         }
 

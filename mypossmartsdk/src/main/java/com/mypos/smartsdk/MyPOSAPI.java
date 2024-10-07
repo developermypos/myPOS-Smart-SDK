@@ -16,7 +16,6 @@ import com.mypos.smartsdk.data.POSInfo;
 import com.mypos.smartsdk.exceptions.FunctionalityNotSupportedException;
 
 import java.util.List;
-import java.util.Locale;
 
 
 public class MyPOSAPI {
@@ -154,19 +153,6 @@ public class MyPOSAPI {
         if (payment.getBaseColor() != 0)
             myposIntent.putExtra(MyPOSUtil.INTENT_APP_MAIN_COLOR, payment.getBaseColor());
 
-        startActivityForResult(activity, myposIntent, requestCode);
-    }
-
-    /**
-     * Takes care of building the intent and opening the vending payment activity
-     *
-     * @param activity               the activity whose context will be used to start the payment activity
-     * @param vendingPayment         a {@link MyPOSVendingPayment} object with payment-related data
-     * @param requestCode            the request code used later to distinguish
-     * @param skipConfirmationScreen if true, the transaction will complete without the confirmation screen showing
-     */
-    public static void openVendingPaymentActivity(Activity activity, MyPOSVendingPayment vendingPayment, int requestCode, boolean skipConfirmationScreen) throws FunctionalityNotSupportedException {
-        Intent myposIntent = MyPOSIntents.getVendingPaymentIntent(vendingPayment, skipConfirmationScreen);
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -451,7 +437,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      */
     public static void openGiftCardDeactivationActivity(Activity activity, MyPOSBase<?> base, int requestCode) throws FunctionalityNotSupportedException {
-        Intent myposIntent =MyPOSIntents.getGiftCardDeactivationIntent(base, true);
+        Intent myposIntent =MyPOSIntents.getGiftCardDeactivationIntent(base);
 
         startActivityForResult(activity, myposIntent, requestCode);
     }
@@ -475,7 +461,7 @@ public class MyPOSAPI {
      * @param requestCode            the request code used later to distinguish
      */
     public static void openGiftCardCheckBalanceActivity(Activity activity, MyPOSBase<?> base, int requestCode) throws FunctionalityNotSupportedException {
-        Intent myposIntent = MyPOSIntents.getGiftCardBalanceCheckIntent(base, true);
+        Intent myposIntent = MyPOSIntents.getGiftCardBalanceCheckIntent(base);
         startActivityForResult(activity, myposIntent, requestCode);
     }
 
@@ -486,8 +472,8 @@ public class MyPOSAPI {
 
     }
 
-    public static void openTwintPaymentActivity(Activity activity, double amount, Currency currency, Locale language, int requestCode) throws FunctionalityNotSupportedException {
-        Intent myposIntent = MyPOSIntents.getTwintPaymentIntent(amount, currency, language);
+    public static void openTwintPaymentActivity(Activity activity, double amount, Currency currency, int requestCode) throws FunctionalityNotSupportedException {
+        Intent myposIntent = MyPOSIntents.getTwintPaymentIntent(amount, currency);
 
         startActivityForResult(activity, myposIntent, requestCode);
 
@@ -502,20 +488,6 @@ public class MyPOSAPI {
 
     public static void openTwintVoidActivity(Activity activity, double amount, Currency currency, String originalReference, int requestCode) throws FunctionalityNotSupportedException {
         Intent myposIntent = MyPOSIntents.getTwintVoidIntent(amount, currency, originalReference);
-
-        startActivityForResult(activity, myposIntent, requestCode);
-
-    }
-
-    public static void openCompleteTxActivity(Activity activity, Double partialAmount, String credential, String foreignTransactionId, Locale language,boolean skipConfirmationScreen, int requestCode) throws FunctionalityNotSupportedException {
-        Intent myposIntent = MyPOSIntents.getCompleteTxIntent(partialAmount, credential, foreignTransactionId, language, skipConfirmationScreen);
-
-        startActivityForResult(activity, myposIntent, requestCode);
-
-    }
-
-    public static void openCancelTxActivity(Activity activity, String foreignTransactionId, Locale language, boolean skipConfirmationScreen, int requestCode) throws FunctionalityNotSupportedException {
-        Intent myposIntent = MyPOSIntents.getCancelTxIntent(foreignTransactionId, language, skipConfirmationScreen);
 
         startActivityForResult(activity, myposIntent, requestCode);
 

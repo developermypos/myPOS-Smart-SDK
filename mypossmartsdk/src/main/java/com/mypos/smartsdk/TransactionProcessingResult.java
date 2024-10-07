@@ -33,10 +33,4 @@ public class TransactionProcessingResult {
      * When the amount is greater than the allowed maximum or less than the allowed minimum.
      */
     public static final int INVALID_AMOUNT       = 7;
-
-    public static final int COMMUNICATION_ERROR = 8;
-
-    public static final int INVALID_E_RECEIPT_CREDENTIAL = 9;
-
-    public static final int COMPLETE_TRANSACTION_PENDING = 10;
 }
