@@ -2,6 +2,7 @@ package com.mypos.smartsdk;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +11,11 @@ public class WorkerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+            | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+            | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         if (getIntent().hasExtra(MyPOSUtil.INTENT_PAYMENT)) {
             try {
